@@ -23,7 +23,7 @@ class MaterialesController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'nombre';
-	public $listing_cols = ['id', 'nombre', 'cantidad'];
+	public $listing_cols = ['id', 'estante', 'anaquel', 'codigo', 'marca', 'descripcion', 'cantidad'];
 	
 	public function __construct() {
 		// Field Access of Listing Columns

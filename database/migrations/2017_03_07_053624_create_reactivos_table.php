@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Dwij\Laraadmin\Models\Module;
 
-class CreateMaterialesTable extends Migration
+class CreateReactivosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -17,13 +17,10 @@ class CreateMaterialesTable extends Migration
      */
     public function up()
     {
-        Module::generate("Materiales", 'materiales', 'nombre', 'fa-cube', [
-            ["estante", "Número de Estante", "Integer", false, "", 1, 11, true],
-            ["anaquel", "Número de Anaquel", "Integer", false, "", 1, 11, true],
-            ["codigo", "Código", "Name", false, "", 3, 256, true],
-            ["marca", "Marca", "Name", false, "", 3, 256, true],
-            ["descripcion", "Descripción", "Name", true, "", 3, 256, true],
-            ["cantidad", "Cantidad", "Integer", false, "", 0, 11, true],
+        Module::generate("Reactivos", 'reactivos', 'nombre', 'fa-cube', [
+            ["unidad", "Unidad de Medida", "Dropdown", false, "", 0, 0, false, ["kg","g","l","ml","cajas","paquetes"]],
+            ["cantidad", "Cantidad", "Integer", false, "0", 0, 11, true],
+            ["nombre", "Nombre", "Name", false, "", 3, 256, true],
         ]);
 		
 		/*
@@ -69,8 +66,8 @@ class CreateMaterialesTable extends Migration
      */
     public function down()
     {
-        if (Schema::hasTable('materiales')) {
-            Schema::drop('materiales');
+        if (Schema::hasTable('reactivos')) {
+            Schema::drop('reactivos');
         }
     }
 }
