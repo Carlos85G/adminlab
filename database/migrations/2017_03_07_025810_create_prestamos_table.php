@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Dwij\Laraadmin\Models\Module;
 
-class CreateReservacionesTable extends Migration
+class CreatePrestamosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -17,7 +17,7 @@ class CreateReservacionesTable extends Migration
      */
     public function up()
     {
-        Module::generate("Reservaciones", 'reservaciones', 'fecha_inicio', 'fa-cube', [
+        Module::generate("Prestamos", 'prestamos', 'fecha_inicio', 'fa-cube', [
             ["fecha_inicio", "Fecha de Inicio", "Datetime", false, "", 0, 0, true],
             ["fecha_fin", "Fecha de Fin", "Datetime", false, "", 0, 0, true],
         ]);
@@ -65,8 +65,8 @@ class CreateReservacionesTable extends Migration
      */
     public function down()
     {
-        if (Schema::hasTable('reservaciones')) {
-            Schema::drop('reservaciones');
+        if (Schema::hasTable('prestamos')) {
+            Schema::drop('prestamos');
         }
     }
 }
