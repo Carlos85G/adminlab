@@ -33,7 +33,11 @@
 					@la_form($module)
 					
 					{{--
-					@la_input($module, 'nombre')
+					@la_input($module, 'estante')
+					@la_input($module, 'anaquel')
+					@la_input($module, 'codigo')
+					@la_input($module, 'marca')
+					@la_input($module, 'descripcion')
 					@la_input($module, 'cantidad')
 					--}}
                     <br>
