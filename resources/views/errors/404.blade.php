@@ -51,15 +51,17 @@
                 @if(isset($record_name) && isset($record_id))
 					<div class="title">{{ $record_name }} with id {{ $record_id }} not found</div>
 				@else
-					<div class="title">Page not found</div>
+					<div class="title">Página no encontrada</div>
 				@endif
-				
-				@if(Auth::guest())
-					<a href="{{ url('/') }}">Homepage</a> | 
-					<a href="javascript:history.back()">Go Back</a>
-				@else
-					<a href="{{ url(config('laraadmin.adminRoute')) }}">Dashboard.</a> | 
-					<a href="javascript:history.back()">Go Back</a>
+
+
+
+@if(Auth::guest())
+  <a href="{{ url('/') }}">Regresar al Home</a> |
+  <a href="javascript:history.back()">Ir atrás</a>
+@else
+  <a href="{{ url(config('laraadmin.adminRoute')) }}">Home.</a> |
+  <a href="javascript:history.back()">Ir atrás</a>
 				@endif
             </div>
         </div>

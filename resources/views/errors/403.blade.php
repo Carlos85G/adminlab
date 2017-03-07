@@ -48,13 +48,13 @@
         <div class="container">
             <div class="content">
 				<i class="fa fa-ban" style="font-size:120px;color:#FF5959;margin-bottom:30px;"></i>
-                <div class="title">Unauthorized access</div>
+                <div class="title">Parece que no tienes permiso de estar aquí….</div>
 				@if(Auth::guest())
-					<a href="{{ url('/') }}">Homepage</a> | 
-					<a href="javascript:history.back()">Go Back</a>
+					<a href="{{ url('/') }}">Regresar al Home</a> |
+					<a href="javascript:history.back()">Ir atrás</a>
 				@else
-					<a href="{{ url(config('laraadmin.adminRoute')) }}">Dashboard.</a> | 
-					<a href="javascript:history.back()">Go Back</a>
+					<a href="{{ url(config('laraadmin.adminRoute')) }}">Home.</a> |
+					<a href="javascript:history.back()">Ir atrás</a>
 				@endif
             </div>
         </div>

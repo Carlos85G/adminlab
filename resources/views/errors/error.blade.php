@@ -57,11 +57,11 @@
                 <div class="title">{{ $title }}</div>
 				<p>{!! $message !!}</p>
 				@if(Auth::guest())
-					<a href="{{ url('/') }}">Homepage</a> | 
-					<a href="javascript:history.back()">Go Back</a>
-				@else
-					<a href="{{ url(config('laraadmin.adminRoute')) }}">Dashboard.</a> | 
-					<a href="javascript:history.back()">Go Back</a>
+        <a href="{{ url('/') }}">Regresar al Home</a> |
+        <a href="javascript:history.back()">Ir atrás</a>
+      @else
+        <a href="{{ url(config('laraadmin.adminRoute')) }}">Home.</a> |
+        <a href="javascript:history.back()">Ir atrás</a>
 				@endif
             </div>
         </div>
