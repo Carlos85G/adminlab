@@ -5,6 +5,7 @@ SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
+DROP DATABASE IF EXISTS `adminlab`;
 CREATE DATABASE `adminlab` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `adminlab`;
 
@@ -67,6 +68,33 @@ CREATE TABLE `employees` (
 INSERT INTO `employees` (`id`, `name`, `designation`, `gender`, `mobile`, `mobile2`, `email`, `dept`, `city`, `address`, `about`, `date_birth`, `date_hire`, `date_left`, `salary_cur`, `deleted_at`, `created_at`, `updated_at`) VALUES
 (1,	'Administrador',	'Super Admin',	'Male',	'8888888888',	'',	'administrador@adminlab.com',	1,	'Pune',	'Karve nagar, Pune 411030',	'About user / biography',	'2017-03-06',	'2017-03-06',	'2017-03-06',	0.000,	NULL,	'2017-03-07 04:23:44',	'2017-03-07 04:23:44');
 
+DROP TABLE IF EXISTS `equipos`;
+CREATE TABLE `equipos` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `descripcion` varchar(256) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `marca` varchar(256) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `codigo` varchar(256) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `anaquel` int(10) unsigned NOT NULL DEFAULT '0',
+  `estante` int(10) unsigned NOT NULL DEFAULT '0',
+  `cantidad` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+DROP TABLE IF EXISTS `laboratorios`;
+CREATE TABLE `laboratorios` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `nombre` varchar(256) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
 DROP TABLE IF EXISTS `la_configs`;
 CREATE TABLE `la_configs` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -79,19 +107,19 @@ CREATE TABLE `la_configs` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `la_configs` (`id`, `key`, `section`, `value`, `created_at`, `updated_at`) VALUES
-(1,	'sitename',	'',	'LaraAdmin 1.0',	'2017-03-07 04:21:33',	'2017-03-07 04:21:33'),
-(2,	'sitename_part1',	'',	'Lara',	'2017-03-07 04:21:33',	'2017-03-07 04:21:33'),
-(3,	'sitename_part2',	'',	'Admin 1.0',	'2017-03-07 04:21:33',	'2017-03-07 04:21:33'),
-(4,	'sitename_short',	'',	'LA',	'2017-03-07 04:21:33',	'2017-03-07 04:21:33'),
-(5,	'site_description',	'',	'LaraAdmin is a open-source Laravel Admin Panel for quick-start Admin based applications and boilerplate for CRM or CMS systems.',	'2017-03-07 04:21:33',	'2017-03-07 04:21:33'),
-(6,	'sidebar_search',	'',	'1',	'2017-03-07 04:21:33',	'2017-03-07 04:21:33'),
-(7,	'show_messages',	'',	'1',	'2017-03-07 04:21:33',	'2017-03-07 04:21:33'),
-(8,	'show_notifications',	'',	'1',	'2017-03-07 04:21:33',	'2017-03-07 04:21:33'),
-(9,	'show_tasks',	'',	'1',	'2017-03-07 04:21:33',	'2017-03-07 04:21:33'),
-(10,	'show_rightsidebar',	'',	'1',	'2017-03-07 04:21:33',	'2017-03-07 04:21:33'),
-(11,	'skin',	'',	'skin-white',	'2017-03-07 04:21:33',	'2017-03-07 04:21:33'),
-(12,	'layout',	'',	'fixed',	'2017-03-07 04:21:33',	'2017-03-07 04:21:33'),
-(13,	'default_email',	'',	'test@example.com',	'2017-03-07 04:21:33',	'2017-03-07 04:21:33');
+(1,	'sitename',	'',	'AdminLab',	'2017-03-07 04:21:33',	'2017-03-07 08:39:17'),
+(2,	'sitename_part1',	'',	'Admin',	'2017-03-07 04:21:33',	'2017-03-07 08:39:17'),
+(3,	'sitename_part2',	'',	'Lab',	'2017-03-07 04:21:33',	'2017-03-07 08:39:17'),
+(4,	'sitename_short',	'',	'AL',	'2017-03-07 04:21:33',	'2017-03-07 08:39:17'),
+(5,	'site_description',	'',	'Administración de Laboratorios y Suministros',	'2017-03-07 04:21:33',	'2017-03-07 08:39:17'),
+(6,	'sidebar_search',	'',	'0',	'2017-03-07 04:21:33',	'2017-03-07 08:39:17'),
+(7,	'show_messages',	'',	'0',	'2017-03-07 04:21:33',	'2017-03-07 08:39:17'),
+(8,	'show_notifications',	'',	'0',	'2017-03-07 04:21:33',	'2017-03-07 08:39:17'),
+(9,	'show_tasks',	'',	'0',	'2017-03-07 04:21:33',	'2017-03-07 08:39:17'),
+(10,	'show_rightsidebar',	'',	'0',	'2017-03-07 04:21:33',	'2017-03-07 08:39:17'),
+(11,	'skin',	'',	'skin-blue',	'2017-03-07 04:21:33',	'2017-03-07 08:39:17'),
+(12,	'layout',	'',	'layout-boxed',	'2017-03-07 04:21:33',	'2017-03-07 08:39:17'),
+(13,	'default_email',	'',	'administrador@laraadmin.com',	'2017-03-07 04:21:33',	'2017-03-07 08:39:17');
 
 DROP TABLE IF EXISTS `la_menus`;
 CREATE TABLE `la_menus` (
@@ -115,7 +143,25 @@ INSERT INTO `la_menus` (`id`, `name`, `url`, `icon`, `type`, `parent`, `hierarch
 (5,	'Employees',	'employees',	'fa-group',	'module',	1,	0,	'2017-03-07 04:21:33',	'2017-03-07 04:21:33'),
 (6,	'Roles',	'roles',	'fa-user-plus',	'module',	1,	0,	'2017-03-07 04:21:33',	'2017-03-07 04:21:33'),
 (7,	'Organizations',	'organizations',	'fa-university',	'module',	0,	0,	'2017-03-07 04:21:33',	'2017-03-07 04:21:33'),
-(8,	'Permissions',	'permissions',	'fa-magic',	'module',	1,	0,	'2017-03-07 04:21:33',	'2017-03-07 04:21:33');
+(8,	'Permissions',	'permissions',	'fa-magic',	'module',	1,	0,	'2017-03-07 04:21:33',	'2017-03-07 04:21:33'),
+(9,	'Prestamos',	'prestamos',	'fa fa-cube',	'module',	0,	0,	'2017-03-07 08:50:08',	'2017-03-07 08:50:08'),
+(10,	'Reservaciones',	'reservaciones',	'fa fa-cube',	'module',	0,	0,	'2017-03-07 09:09:21',	'2017-03-07 09:09:21'),
+(11,	'Laboratorios',	'laboratorios',	'fa fa-cube',	'module',	0,	0,	'2017-03-07 09:31:27',	'2017-03-07 09:31:27'),
+(12,	'Practicas',	'practicas',	'fa fa-cube',	'module',	0,	0,	'2017-03-07 09:41:34',	'2017-03-07 09:41:34'),
+(13,	'Materiales',	'materiales',	'fa fa-cube',	'module',	0,	0,	'2017-03-07 10:08:11',	'2017-03-07 10:08:11'),
+(14,	'Equipos',	'equipos',	'fa fa-cube',	'module',	0,	0,	'2017-03-07 10:16:44',	'2017-03-07 10:16:44');
+
+DROP TABLE IF EXISTS `materiales`;
+CREATE TABLE `materiales` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `nombre` varchar(256) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `cantidad` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 
 DROP TABLE IF EXISTS `migrations`;
 CREATE TABLE `migrations` (
@@ -141,7 +187,8 @@ INSERT INTO `migrations` (`migration`, `batch`) VALUES
 ('2016_09_10_163520_create_permission_role_table',	1),
 ('2016_09_22_105958_role_module_fields_table',	1),
 ('2016_09_22_110008_role_module_table',	1),
-('2016_10_06_115413_create_la_configs_table',	1);
+('2016_10_06_115413_create_la_configs_table',	1),
+('2017_03_07_024902_create_reservaciones_table',	2);
 
 DROP TABLE IF EXISTS `modules`;
 CREATE TABLE `modules` (
@@ -167,7 +214,13 @@ INSERT INTO `modules` (`id`, `name`, `label`, `name_db`, `view_col`, `model`, `c
 (5,	'Roles',	'Roles',	'roles',	'name',	'Role',	'RolesController',	'fa-user-plus',	1,	'2017-03-07 04:21:31',	'2017-03-07 04:21:33'),
 (6,	'Organizations',	'Organizations',	'organizations',	'name',	'Organization',	'OrganizationsController',	'fa-university',	1,	'2017-03-07 04:21:31',	'2017-03-07 04:21:33'),
 (7,	'Backups',	'Backups',	'backups',	'name',	'Backup',	'BackupsController',	'fa-hdd-o',	1,	'2017-03-07 04:21:31',	'2017-03-07 04:21:33'),
-(8,	'Permissions',	'Permissions',	'permissions',	'name',	'Permission',	'PermissionsController',	'fa-magic',	1,	'2017-03-07 04:21:32',	'2017-03-07 04:21:33');
+(8,	'Permissions',	'Permissions',	'permissions',	'name',	'Permission',	'PermissionsController',	'fa-magic',	1,	'2017-03-07 04:21:32',	'2017-03-07 04:21:33'),
+(9,	'Prestamos',	'Prestamos',	'prestamos',	'fecha_inicio',	'Prestamo',	'PrestamosController',	'fa-cube',	1,	'2017-03-07 08:42:35',	'2017-03-07 08:50:18'),
+(10,	'Reservaciones',	'Reservaciones',	'reservaciones',	'fecha_inicio',	'Reservacione',	'ReservacionesController',	'fa-cube',	1,	'2017-03-07 09:04:24',	'2017-03-07 09:09:21'),
+(11,	'Laboratorios',	'Laboratorios',	'laboratorios',	'nombre',	'Laboratorio',	'LaboratoriosController',	'fa-cube',	1,	'2017-03-07 09:30:31',	'2017-03-07 09:31:27'),
+(12,	'Practicas',	'Practicas',	'practicas',	'nombre',	'Practica',	'PracticasController',	'fa-cube',	1,	'2017-03-07 09:32:28',	'2017-03-07 09:41:34'),
+(13,	'Materiales',	'Materiales',	'materiales',	'nombre',	'Materiale',	'MaterialesController',	'fa-cube',	1,	'2017-03-07 09:48:17',	'2017-03-07 10:08:11'),
+(14,	'Equipos',	'Equipos',	'equipos',	'descripcion',	'Equipo',	'EquiposController',	'fa-cube',	1,	'2017-03-07 10:12:54',	'2017-03-07 10:16:44');
 
 DROP TABLE IF EXISTS `module_fields`;
 CREATE TABLE `module_fields` (
@@ -241,7 +294,26 @@ INSERT INTO `module_fields` (`id`, `colname`, `label`, `module`, `field_type`, `
 (48,	'backup_size',	'File Size',	7,	19,	0,	'0',	0,	10,	1,	'',	0,	'2017-03-07 04:21:31',	'2017-03-07 04:21:31'),
 (49,	'name',	'Name',	8,	16,	1,	'',	1,	250,	1,	'',	0,	'2017-03-07 04:21:32',	'2017-03-07 04:21:32'),
 (50,	'display_name',	'Display Name',	8,	19,	0,	'',	0,	250,	1,	'',	0,	'2017-03-07 04:21:32',	'2017-03-07 04:21:32'),
-(51,	'description',	'Description',	8,	21,	0,	'',	0,	1000,	0,	'',	0,	'2017-03-07 04:21:32',	'2017-03-07 04:21:32');
+(51,	'description',	'Description',	8,	21,	0,	'',	0,	1000,	0,	'',	0,	'2017-03-07 04:21:32',	'2017-03-07 04:21:32'),
+(52,	'fecha_inicio',	'Fecha de Inicio',	9,	5,	0,	'',	0,	0,	1,	'',	0,	'2017-03-07 08:47:11',	'2017-03-07 08:47:11'),
+(53,	'fecha_fin',	'Fecha de Fin',	9,	5,	0,	'',	0,	0,	1,	'',	0,	'2017-03-07 08:47:31',	'2017-03-07 08:47:31'),
+(54,	'fecha_inicio',	'Fecha de Inicio',	10,	5,	0,	'',	0,	0,	1,	'',	0,	'2017-03-07 09:04:24',	'2017-03-07 09:07:55'),
+(55,	'fecha_fin',	'Fecha de Fin',	10,	5,	0,	'',	0,	0,	1,	'',	0,	'2017-03-07 09:04:24',	'2017-03-07 09:09:37'),
+(56,	'nombre',	'Nombre',	11,	16,	1,	'',	3,	256,	1,	'',	0,	'2017-03-07 09:31:16',	'2017-03-07 09:31:16'),
+(57,	'nombre',	'Nombre',	12,	16,	1,	'',	3,	256,	1,	'',	0,	'2017-03-07 09:32:49',	'2017-03-07 09:32:49'),
+(58,	'objetivo',	'Objetivo',	12,	22,	0,	'',	3,	256,	1,	'',	0,	'2017-03-07 09:33:23',	'2017-03-07 09:33:23'),
+(59,	'introduccion',	'Introducción',	12,	22,	0,	'',	3,	256,	1,	'',	0,	'2017-03-07 09:35:05',	'2017-03-07 09:35:05'),
+(60,	'bibliografia',	'Bibliografia',	12,	22,	0,	'',	3,	256,	1,	'',	0,	'2017-03-07 09:37:41',	'2017-03-07 09:37:41'),
+(61,	'procedimiento',	'Procedimiento',	12,	22,	0,	'',	3,	256,	1,	'',	0,	'2017-03-07 09:38:08',	'2017-03-07 09:38:08'),
+(62,	'preguntas',	'Preguntas',	12,	22,	0,	'',	3,	256,	1,	'',	0,	'2017-03-07 09:41:22',	'2017-03-07 09:41:22'),
+(63,	'nombre',	'Nombre',	13,	16,	1,	'',	3,	256,	1,	'',	0,	'2017-03-07 09:48:40',	'2017-03-07 09:48:40'),
+(64,	'descripcion',	'Descripción',	14,	16,	0,	'',	3,	256,	1,	'',	0,	'2017-03-07 10:14:15',	'2017-03-07 10:14:15'),
+(65,	'marca',	'Marca',	14,	16,	0,	'',	3,	256,	1,	'',	0,	'2017-03-07 10:14:37',	'2017-03-07 10:14:37'),
+(66,	'codigo',	'Código',	14,	16,	0,	'',	3,	256,	1,	'',	0,	'2017-03-07 10:15:19',	'2017-03-07 10:15:19'),
+(67,	'anaquel',	'Número de Anaquel',	14,	13,	0,	'',	1,	11,	1,	'',	0,	'2017-03-07 10:16:03',	'2017-03-07 10:16:03'),
+(68,	'estante',	'Número de Estante',	14,	13,	0,	'',	1,	11,	1,	'',	0,	'2017-03-07 10:16:30',	'2017-03-07 10:16:30'),
+(69,	'cantidad',	'Cantidad',	14,	13,	0,	'',	0,	11,	1,	'',	0,	'2017-03-07 10:28:08',	'2017-03-07 10:28:08'),
+(70,	'cantidad',	'Cantidad',	13,	13,	0,	'',	0,	11,	1,	'',	0,	'2017-03-07 10:28:41',	'2017-03-07 10:28:41');
 
 DROP TABLE IF EXISTS `module_field_types`;
 CREATE TABLE `module_field_types` (
@@ -339,6 +411,46 @@ CREATE TABLE `permission_role` (
 INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES
 (1,	1);
 
+DROP TABLE IF EXISTS `practicas`;
+CREATE TABLE `practicas` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `nombre` varchar(256) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `objetivo` varchar(256) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `introduccion` varchar(256) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `bibliografia` varchar(256) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `procedimiento` varchar(256) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `preguntas` varchar(256) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+DROP TABLE IF EXISTS `prestamos`;
+CREATE TABLE `prestamos` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `fecha_inicio` timestamp NOT NULL DEFAULT '1970-01-01 07:01:01',
+  `fecha_fin` timestamp NOT NULL DEFAULT '1970-01-01 07:01:01',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+DROP TABLE IF EXISTS `reservaciones`;
+CREATE TABLE `reservaciones` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `fecha_inicio` timestamp NOT NULL DEFAULT '1970-01-01 07:01:01',
+  `fecha_fin` timestamp NOT NULL DEFAULT '1970-01-01 07:01:01',
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
 DROP TABLE IF EXISTS `roles`;
 CREATE TABLE `roles` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -383,7 +495,13 @@ INSERT INTO `role_module` (`id`, `role_id`, `module_id`, `acc_view`, `acc_create
 (5,	1,	5,	1,	1,	1,	1,	'2017-03-07 04:21:33',	'2017-03-07 04:21:33'),
 (6,	1,	6,	1,	1,	1,	1,	'2017-03-07 04:21:33',	'2017-03-07 04:21:33'),
 (7,	1,	7,	1,	1,	1,	1,	'2017-03-07 04:21:33',	'2017-03-07 04:21:33'),
-(8,	1,	8,	1,	1,	1,	1,	'2017-03-07 04:21:33',	'2017-03-07 04:21:33');
+(8,	1,	8,	1,	1,	1,	1,	'2017-03-07 04:21:33',	'2017-03-07 04:21:33'),
+(9,	1,	9,	1,	1,	1,	1,	'2017-03-07 08:50:08',	'2017-03-07 08:50:08'),
+(10,	1,	10,	1,	1,	1,	1,	'2017-03-07 09:09:21',	'2017-03-07 09:09:21'),
+(11,	1,	11,	1,	1,	1,	1,	'2017-03-07 09:31:27',	'2017-03-07 09:31:27'),
+(12,	1,	12,	1,	1,	1,	1,	'2017-03-07 09:41:34',	'2017-03-07 09:41:34'),
+(13,	1,	13,	1,	1,	1,	1,	'2017-03-07 10:08:11',	'2017-03-07 10:08:11'),
+(14,	1,	14,	1,	1,	1,	1,	'2017-03-07 10:16:44',	'2017-03-07 10:16:44');
 
 DROP TABLE IF EXISTS `role_module_fields`;
 CREATE TABLE `role_module_fields` (
@@ -449,7 +567,26 @@ INSERT INTO `role_module_fields` (`id`, `role_id`, `field_id`, `access`, `create
 (48,	1,	48,	'write',	'2017-03-07 04:21:33',	'2017-03-07 04:21:33'),
 (49,	1,	49,	'write',	'2017-03-07 04:21:33',	'2017-03-07 04:21:33'),
 (50,	1,	50,	'write',	'2017-03-07 04:21:33',	'2017-03-07 04:21:33'),
-(51,	1,	51,	'write',	'2017-03-07 04:21:33',	'2017-03-07 04:21:33');
+(51,	1,	51,	'write',	'2017-03-07 04:21:33',	'2017-03-07 04:21:33'),
+(52,	1,	52,	'write',	'2017-03-07 08:47:11',	'2017-03-07 08:47:11'),
+(53,	1,	53,	'write',	'2017-03-07 08:47:31',	'2017-03-07 08:47:31'),
+(54,	1,	54,	'write',	'2017-03-07 09:09:21',	'2017-03-07 09:09:21'),
+(55,	1,	55,	'write',	'2017-03-07 09:09:21',	'2017-03-07 09:09:21'),
+(56,	1,	56,	'write',	'2017-03-07 09:31:16',	'2017-03-07 09:31:16'),
+(57,	1,	57,	'write',	'2017-03-07 09:32:49',	'2017-03-07 09:32:49'),
+(58,	1,	58,	'write',	'2017-03-07 09:33:23',	'2017-03-07 09:33:23'),
+(59,	1,	59,	'write',	'2017-03-07 09:35:05',	'2017-03-07 09:35:05'),
+(60,	1,	60,	'write',	'2017-03-07 09:37:42',	'2017-03-07 09:37:42'),
+(61,	1,	61,	'write',	'2017-03-07 09:38:08',	'2017-03-07 09:38:08'),
+(62,	1,	62,	'write',	'2017-03-07 09:41:23',	'2017-03-07 09:41:23'),
+(63,	1,	63,	'write',	'2017-03-07 09:48:40',	'2017-03-07 09:48:40'),
+(64,	1,	64,	'write',	'2017-03-07 10:14:15',	'2017-03-07 10:14:15'),
+(65,	1,	65,	'write',	'2017-03-07 10:14:37',	'2017-03-07 10:14:37'),
+(66,	1,	66,	'write',	'2017-03-07 10:15:19',	'2017-03-07 10:15:19'),
+(67,	1,	67,	'write',	'2017-03-07 10:16:03',	'2017-03-07 10:16:03'),
+(68,	1,	68,	'write',	'2017-03-07 10:16:30',	'2017-03-07 10:16:30'),
+(69,	1,	69,	'write',	'2017-03-07 10:28:08',	'2017-03-07 10:28:08'),
+(70,	1,	70,	'write',	'2017-03-07 10:28:41',	'2017-03-07 10:28:41');
 
 DROP TABLE IF EXISTS `role_user`;
 CREATE TABLE `role_user` (
@@ -501,6 +638,6 @@ CREATE TABLE `users` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `users` (`id`, `name`, `context_id`, `email`, `password`, `type`, `remember_token`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1,	'Administrador',	1,	'administrador@adminlab.com',	'$2y$10$XExy.c2H9bi/IGipM.NrKuRY2aRs.7.V06PhIJj/PBUOpY/2eaO..',	'Employee',	NULL,	NULL,	'2017-03-07 04:23:44',	'2017-03-07 04:23:44');
+(1,	'Administrador',	1,	'administrador@adminlab.com',	'$2y$10$XExy.c2H9bi/IGipM.NrKuRY2aRs.7.V06PhIJj/PBUOpY/2eaO..',	'Employee',	'Grir54XDYcjSdoGsoUipN1rcir5aCY8Q8cvcL6On9Ujps88pYrRuyMWqbk5L',	NULL,	'2017-03-07 04:23:44',	'2017-03-07 09:04:55');
 
--- 2017-03-06 22:35:55
+-- 2017-03-07 04:31:10
