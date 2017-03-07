@@ -86,4 +86,12 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== Practicas ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/practicas', 'LA\PracticasController');
 	Route::get(config('laraadmin.adminRoute') . '/practica_dt_ajax', 'LA\PracticasController@dtajax');
+
+	/* ================== Materiales ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/materiales', 'LA\MaterialesController');
+	Route::get(config('laraadmin.adminRoute') . '/materiale_dt_ajax', 'LA\MaterialesController@dtajax');
+
+	/* ================== Equipos ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/equipos', 'LA\EquiposController');
+	Route::get(config('laraadmin.adminRoute') . '/equipo_dt_ajax', 'LA\EquiposController@dtajax');
 });
