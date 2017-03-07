@@ -147,11 +147,11 @@
         <div class="col-lg-5">
             <h3>Contáctanos</h3><br>
             <p>
-				Maestria en Ingenieria de Software,<br/>
+				Maestría en Ingeniería de Software,<br/>
 				Desarrollado por <br/>
                 Ing. Rogelio Jiménez Meza<br/>
                 Ing. Carlos Eduardo González López<br/>
-                Ing. Jesus Adrian Arroyo Ceja
+                Ing. Jesús Adrián Arroyo Ceja<br/>
               Centro Universitario de los Valles
             </p>
 			<div class="contact-link"><i class="fa fa-envelope-o"></i> <a href="mailto:rogelio.jimenez@alumno.udg.mx">rogelio.jimenez@alumno.udg.mx</a></div>
@@ -160,16 +160,16 @@
         </div>
 
         <div class="col-lg-7">
-            <h3>Te gusto o tienes problemas con este sistema? Dejanos un mensaje</h3>
+            <h3>¿Te gustó o tienes problemas con este sistema? Déjanos un mensaje</h3>
             <br>
             <form role="form" action="#" method="post" enctype="plain">
                 <div class="form-group">
                     <label for="name1">Nombre</label>
-                    <input type="name" name="Name" class="form-control" id="name1" placeholder="Your Name">
+                    <input type="name" name="Name" class="form-control" id="name1" placeholder="Tu nombre">
                 </div>
                 <div class="form-group">
                     <label for="email1">Correo</label>
-                    <input type="email" name="Mail" class="form-control" id="email1" placeholder="Enter email">
+                    <input type="email" name="Mail" class="form-control" id="email1" placeholder="Introduce un email">
                 </div>
                 <div class="form-group">
                     <label>Mensaje</label>
@@ -184,7 +184,7 @@
 <div id="c">
     <div class="container">
         <p>
-            <strong>Copyright &copy; 2017. Powered by <a href="MISCUVALLES.com"><b>Maestria en Ingenieria de Software</b></a>
+            <strong>Copyright &copy; 2017. Powered by <a href="MISCUVALLES.com"><b>Maestría en Ingeniería de Software</b></a>
         </p>
     </div>
 </div>
