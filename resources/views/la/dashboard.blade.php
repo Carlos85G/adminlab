@@ -131,24 +131,4 @@
 <script src="{{ asset('la-assets/plugins/fastclick/fastclick.js') }}"></script>
 <!-- dashboard -->
 <script src="{{ asset('la-assets/js/pages/dashboard.js') }}"></script>
-<<<<<<< HEAD
 @endpush
-=======
-@endpush
-
-@push('scripts')
-<script>
-(function($) {
-	$('body').pgNotification({
-		style: 'circle',
-		title: 'LaraAdmin',
-		message: "Welcome to LaraAdmin...",
-		position: "top-right",
-		timeout: 0,
-		type: "success",
-		thumbnail: '<img width="40" height="40" style="display: inline-block;" src="{{ Gravatar::fallback(asset('la-assets/img/user2-160x160.jpg'))->get(Auth::user()->email, 'default') }}" data-src="assets/img/profiles/avatar.jpg" data-src-retina="assets/img/profiles/avatar2x.jpg" alt="">'
-	}).show();
-})(window.jQuery);
-</script>
-@endpush
->>>>>>> bd97c6a8f84e758c776a2cf678432f4b61fe40bf
