@@ -1,14 +1,14 @@
 @extends("la.layouts.app")
 
-@section("contentheader_title", "Practicas")
-@section("contentheader_description", "Practicas listing")
-@section("section", "Practicas")
-@section("sub_section", "Listing")
-@section("htmlheader_title", "Practicas Listing")
+@section("contentheader_title", "Pr&aacute;cticas")
+@section("contentheader_description", "Listado de Pr&aacute;cticas")
+@section("section", "Pr&aacute;cticas")
+@section("sub_section", "Listado")
+@section("htmlheader_title", "Listado de Pr&aacute;cticas")
 
 @section("headerElems")
 @la_access("Practicas", "create")
-	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">Add Practica</button>
+	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">A&ntilde;adir Pr&aacute;ctica</button>
 @endla_access
 @endsection
 
@@ -34,12 +34,12 @@
 			<th>{{ $module->fields[$col]['label'] or ucfirst($col) }}</th>
 			@endforeach
 			@if($show_actions)
-			<th>Actions</th>
+			<th>Acciones</th>
 			@endif
 		</tr>
 		</thead>
 		<tbody>
-			
+
 		</tbody>
 		</table>
 	</div>
@@ -51,13 +51,13 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">Add Practica</h4>
+				<h4 class="modal-title" id="myModalLabel">A&ntilde;adir Pr&aacute;ctica</h4>
 			</div>
 			{!! Form::open(['action' => 'LA\PracticasController@store', 'id' => 'practica-add-form']) !!}
 			<div class="modal-body">
 				<div class="box-body">
                     @la_form($module)
-					
+
 					{{--
 					@la_input($module, 'nombre')
 					@la_input($module, 'objetivo')
@@ -69,8 +69,8 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				{!! Form::submit( 'Submit', ['class'=>'btn btn-success']) !!}
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+				{!! Form::submit( 'Enviar', ['class'=>'btn btn-success']) !!}
 			</div>
 			{!! Form::close() !!}
 		</div>
@@ -95,14 +95,14 @@ $(function () {
 		language: {
 			lengthMenu: "_MENU_",
 			search: "_INPUT_",
-			searchPlaceholder: "Search"
+			searchPlaceholder: "Buscar"
 		},
 		@if($show_actions)
 		columnDefs: [ { orderable: false, targets: [-1] }],
 		@endif
 	});
 	$("#practica-add-form").validate({
-		
+
 	});
 });
 </script>

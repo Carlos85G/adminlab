@@ -1,14 +1,14 @@
 @extends("la.layouts.app")
 
 @section("contentheader_title", "Laboratorios")
-@section("contentheader_description", "Laboratorios listing")
+@section("contentheader_description", "Lista de Laboratorios")
 @section("section", "Laboratorios")
-@section("sub_section", "Listing")
-@section("htmlheader_title", "Laboratorios Listing")
+@section("sub_section", "Listado")
+@section("htmlheader_title", "Lista de Laboratorios")
 
 @section("headerElems")
 @la_access("Laboratorios", "create")
-	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">Add Laboratorio</button>
+	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">A&ntilde;adir Laboratorio</button>
 @endla_access
 @endsection
 
@@ -34,12 +34,12 @@
 			<th>{{ $module->fields[$col]['label'] or ucfirst($col) }}</th>
 			@endforeach
 			@if($show_actions)
-			<th>Actions</th>
+			<th>Acciones</th>
 			@endif
 		</tr>
 		</thead>
 		<tbody>
-			
+
 		</tbody>
 		</table>
 	</div>
@@ -51,21 +51,21 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">Add Laboratorio</h4>
+				<h4 class="modal-title" id="myModalLabel">A&ntilde;adir Laboratorio</h4>
 			</div>
 			{!! Form::open(['action' => 'LA\LaboratoriosController@store', 'id' => 'laboratorio-add-form']) !!}
 			<div class="modal-body">
 				<div class="box-body">
                     @la_form($module)
-					
+
 					{{--
 					@la_input($module, 'nombre')
 					--}}
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				{!! Form::submit( 'Submit', ['class'=>'btn btn-success']) !!}
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+				{!! Form::submit( 'Enviar', ['class'=>'btn btn-success']) !!}
 			</div>
 			{!! Form::close() !!}
 		</div>
@@ -90,14 +90,14 @@ $(function () {
 		language: {
 			lengthMenu: "_MENU_",
 			search: "_INPUT_",
-			searchPlaceholder: "Search"
+			searchPlaceholder: "Buscar"
 		},
 		@if($show_actions)
 		columnDefs: [ { orderable: false, targets: [-1] }],
 		@endif
 	});
 	$("#laboratorio-add-form").validate({
-		
+
 	});
 });
 </script>

@@ -3,12 +3,12 @@
 @section("contentheader_title")
 	<a href="{{ url(config('laraadmin.adminRoute') . '/reservaciones') }}">Reservacione</a> :
 @endsection
-@section("contentheader_description", $reservacione->$view_col)
+@section("contentheader_description", $reservacion->$view_col)
 @section("section", "Reservaciones")
 @section("section_url", url(config('laraadmin.adminRoute') . '/reservaciones'))
 @section("sub_section", "Edit")
 
-@section("htmlheader_title", "Reservaciones Edit : ".$reservacione->$view_col)
+@section("htmlheader_title", "Reservaciones Edit : ".$reservacion->$view_col)
 
 @section("main-content")
 
@@ -29,7 +29,7 @@
 	<div class="box-body">
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
-				{!! Form::model($reservacione, ['route' => [config('laraadmin.adminRoute') . '.reservaciones.update', $reservacione->id ], 'method'=>'PUT', 'id' => 'reservacione-edit-form']) !!}
+				{!! Form::model($reservacion, ['route' => [config('laraadmin.adminRoute') . '.reservaciones.update', $reservacion->id ], 'method'=>'PUT', 'id' => 'reservacione-edit-form']) !!}
 					@la_form($module)
 					
 					{{--

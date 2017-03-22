@@ -19,11 +19,11 @@ class CreatePracticasTable extends Migration
     {
         Module::generate("Practicas", 'practicas', 'nombre', 'fa-cube', [
             ["nombre", "Nombre", "Name", true, "", 3, 256, true],
-            ["objetivo", "Objetivo", "TextField", false, "", 3, 256, true],
-            ["introduccion", "Introducción", "TextField", false, "", 3, 256, true],
-            ["bibliografia", "Bibliografia", "TextField", false, "", 3, 256, true],
-            ["procedimiento", "Procedimiento", "TextField", false, "", 3, 256, true],
-            ["preguntas", "Preguntas", "TextField", false, "", 3, 256, true],
+            ["objetivo", "Objetivo", "Textarea", false, "", 3, 256, true],
+            ["introduccion", "Introducción", "HTML", false, "", 3, 256, true],
+            ["bibliografia", "Bibliografia", "Textarea", false, "", 3, 256, true],
+            ["procedimiento", "Procedimiento", "Textarea", false, "", 0, 0, true],
+            ["preguntas", "Preguntas", "Textarea", false, "", 3, 256, true],
         ]);
 		
 		/*

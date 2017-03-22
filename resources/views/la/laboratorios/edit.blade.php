@@ -8,7 +8,7 @@
 @section("section_url", url(config('laraadmin.adminRoute') . '/laboratorios'))
 @section("sub_section", "Edit")
 
-@section("htmlheader_title", "Laboratorios Edit : ".$laboratorio->$view_col)
+@section("htmlheader_title", "Editar Laboratorios : ".$laboratorio->$view_col)
 
 @section("main-content")
 
@@ -24,20 +24,20 @@
 
 <div class="box">
 	<div class="box-header">
-		
+
 	</div>
 	<div class="box-body">
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
 				{!! Form::model($laboratorio, ['route' => [config('laraadmin.adminRoute') . '.laboratorios.update', $laboratorio->id ], 'method'=>'PUT', 'id' => 'laboratorio-edit-form']) !!}
 					@la_form($module)
-					
+
 					{{--
 					@la_input($module, 'nombre')
 					--}}
                     <br>
 					<div class="form-group">
-						{!! Form::submit( 'Update', ['class'=>'btn btn-success']) !!} <button class="btn btn-default pull-right"><a href="{{ url(config('laraadmin.adminRoute') . '/laboratorios') }}">Cancel</a></button>
+						{!! Form::submit( 'Actualizar', ['class'=>'btn btn-success']) !!} <button class="btn btn-default pull-right"><a href="{{ url(config('laraadmin.adminRoute') . '/laboratorios') }}">Cancelar</a></button>
 					</div>
 				{!! Form::close() !!}
 			</div>
@@ -51,7 +51,7 @@
 <script>
 $(function () {
 	$("#laboratorio-edit-form").validate({
-		
+
 	});
 });
 </script>

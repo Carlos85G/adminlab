@@ -104,17 +104,17 @@ class ReservacionesController extends Controller
 	{
 		if(Module::hasAccess("Reservaciones", "view")) {
 			
-			$reservacione = Reservacione::find($id);
-			if(isset($reservacione->id)) {
+			$reservacion = Reservacione::find($id);
+			if(isset($reservacion->id)) {
 				$module = Module::get('Reservaciones');
-				$module->row = $reservacione;
+				$module->row = $reservacion;
 				
 				return view('la.reservaciones.show', [
 					'module' => $module,
 					'view_col' => $this->view_col,
 					'no_header' => true,
 					'no_padding' => "no-padding"
-				])->with('reservacione', $reservacione);
+				])->with('reservacione', $reservacion);
 			} else {
 				return view('errors.404', [
 					'record_id' => $id,
@@ -135,16 +135,16 @@ class ReservacionesController extends Controller
 	public function edit($id)
 	{
 		if(Module::hasAccess("Reservaciones", "edit")) {			
-			$reservacione = Reservacione::find($id);
-			if(isset($reservacione->id)) {	
+			$reservacion = Reservacione::find($id);
+			if(isset($reservacion->id)) {	
 				$module = Module::get('Reservaciones');
 				
-				$module->row = $reservacione;
+				$module->row = $reservacion;
 				
 				return view('la.reservaciones.edit', [
 					'module' => $module,
 					'view_col' => $this->view_col,
-				])->with('reservacione', $reservacione);
+				])->with('reservacione', $reservacion);
 			} else {
 				return view('errors.404', [
 					'record_id' => $id,

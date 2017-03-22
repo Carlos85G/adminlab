@@ -17,7 +17,7 @@ use Collective\Html\FormFacade as Form;
 use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
 
-use App\Models\Materiale;
+use App\Models\Material;
 
 class MaterialesController extends Controller
 {
@@ -104,17 +104,17 @@ class MaterialesController extends Controller
 	{
 		if(Module::hasAccess("Materiales", "view")) {
 			
-			$materiale = Materiale::find($id);
-			if(isset($materiale->id)) {
+			$material = Material::find($id);
+			if(isset($material->id)) {
 				$module = Module::get('Materiales');
-				$module->row = $materiale;
+				$module->row = $material;
 				
 				return view('la.materiales.show', [
 					'module' => $module,
 					'view_col' => $this->view_col,
 					'no_header' => true,
 					'no_padding' => "no-padding"
-				])->with('materiale', $materiale);
+				])->with('materiale', $material);
 			} else {
 				return view('errors.404', [
 					'record_id' => $id,
@@ -135,16 +135,16 @@ class MaterialesController extends Controller
 	public function edit($id)
 	{
 		if(Module::hasAccess("Materiales", "edit")) {			
-			$materiale = Materiale::find($id);
-			if(isset($materiale->id)) {	
+			$material = Material::find($id);
+			if(isset($material->id)) {	
 				$module = Module::get('Materiales');
 				
-				$module->row = $materiale;
+				$module->row = $material;
 				
 				return view('la.materiales.edit', [
 					'module' => $module,
 					'view_col' => $this->view_col,
-				])->with('materiale', $materiale);
+				])->with('materiale', $material);
 			} else {
 				return view('errors.404', [
 					'record_id' => $id,
@@ -193,7 +193,7 @@ class MaterialesController extends Controller
 	public function destroy($id)
 	{
 		if(Module::hasAccess("Materiales", "delete")) {
-			Materiale::find($id)->delete();
+			Material::find($id)->delete();
 			
 			// Redirecting to index() method
 			return redirect()->route(config('laraadmin.adminRoute') . '.materiales.index');
