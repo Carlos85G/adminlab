@@ -84,7 +84,7 @@
 			@la_access("Users", "edit")
 				<a href="{{ url(config('laraadmin.adminRoute') . '/users/'.$user->id.'/edit') }}" class="btn btn-xs btn-edit btn-default"><i class="fa fa-pencil"></i></a><br>
 			@endla_access
-			
+
 			@la_access("Users", "delete")
 				{{ Form::open(['route' => [config('laraadmin.adminRoute') . '.users.destroy', $user->id], 'method' => 'delete', 'style'=>'display:inline']) }}
 					<button class="btn btn-default btn-delete btn-xs" type="submit"><i class="fa fa-times"></i></button>
@@ -95,8 +95,8 @@
 
 	<ul data-toggle="ajax-tab" class="nav nav-tabs profile" role="tablist">
 		<li class=""><a href="{{ url(config('laraadmin.adminRoute') . '/users') }}" data-toggle="tooltip" data-placement="right" title="Back to Users"><i class="fa fa-chevron-left"></i></a></li>
-		<li class="active"><a role="tab" data-toggle="tab" class="active" href="#tab-general-info" data-target="#tab-info"><i class="fa fa-bars"></i> General Info</a></li>
-		<li class=""><a role="tab" data-toggle="tab" href="#tab-timeline" data-target="#tab-timeline"><i class="fa fa-clock-o"></i> Timeline</a></li>
+		<li class="active"><a role="tab" data-toggle="tab" class="active" href="#tab-general-info" data-target="#tab-info"><i class="fa fa-bars"></i> Informaci&oacute;n general</a></li>
+		<li class=""><a role="tab" data-toggle="tab" href="#tab-timeline" data-target="#tab-timeline"><i class="fa fa-clock-o"></i> L&iacute;nea de tiempo</a></li>
 	</ul>
 
 	<div class="tab-content">
@@ -104,7 +104,7 @@
 			<div class="tab-content">
 				<div class="panel infolist">
 					<div class="panel-default panel-heading">
-						<h4>General Info</h4>
+						<h4>Informaci&oacute;n general</h4>
 					</div>
 					<div class="panel-body">
 						@la_display($module, 'nombre')
@@ -141,8 +141,8 @@
 					quora plaxo ideeli hulu weebly balihoo...
 					</div>
 					<div class="timeline-footer">
-					<a class="btn btn-primary btn-xs">Read more</a>
-					<a class="btn btn-danger btn-xs">Delete</a>
+					<a class="btn btn-primary btn-xs">Leer m&aacute;s</a>
+					<a class="btn btn-danger btn-xs">Borrar</a>
 					</div>
 				</div>
 				</li>
@@ -210,7 +210,7 @@
 			</ul>
 			<!--<div class="text-center p30"><i class="fa fa-list-alt" style="font-size: 100px;"></i> <br> No posts to show</div>-->
 		</div>
-		
+
 	</div>
 	</div>
 	</div>

@@ -1,10 +1,10 @@
-Dear {{ $user->name }},<br><br>
+Estimado {{ $user->name }},<br><br>
 
-Your login credentials are changed:<br><br>
+Tus credenciales de inicio de sesi&oacute;n han cambiado:<br><br>
 
-Username: {{ $user->email }}<br>
-password: {{ $password }}<br><br>
+Nombre de usuario: {{ $user->email }}<br>
+Contrase&ntilde;a: {{ $password }}<br><br>
 
-You can login on <a href="{{ url('/login') }}">{{ str_replace("http://", "", url('/login')) }}</a>.<br><br>
+Puedes iniciar sesi&oacute;n desde <a href="{{ url('/login') }}">{{ str_replace("http://", "", url('/login')) }}</a>.<br><br>
 
-Best Regards,
+Atentamente,

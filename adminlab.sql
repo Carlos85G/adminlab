@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-03-2017 a las 18:41:09
+-- Tiempo de generación: 04-04-2017 a las 02:30:58
 -- Versión del servidor: 5.7.14
 -- Versión de PHP: 5.6.25
 
@@ -112,14 +112,13 @@ CREATE TABLE IF NOT EXISTS `la_menus` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `la_menus`
 --
 
 INSERT INTO `la_menus` (`id`, `name`, `url`, `icon`, `type`, `parent`, `hierarchy`, `created_at`, `updated_at`) VALUES
-(1, 'Team', '#', 'fa-group', 'custom', 0, 4, '2017-03-07 04:21:33', '2017-03-07 11:37:06'),
 (2, 'Users', 'users', 'fa-group', 'module', 1, 1, '2017-03-07 04:21:33', '2017-03-07 11:15:08'),
 (6, 'Roles', 'roles', 'fa-user-plus', 'module', 1, 2, '2017-03-07 04:21:33', '2017-03-07 11:15:08'),
 (8, 'Permissions', 'permissions', 'fa-magic', 'module', 1, 3, '2017-03-07 04:21:33', '2017-03-07 11:15:08'),
@@ -128,8 +127,7 @@ INSERT INTO `la_menus` (`id`, `name`, `url`, `icon`, `type`, `parent`, `hierarch
 (11, 'Laboratorios', 'laboratorios', 'fa fa-cube', 'module', 10, 2, '2017-03-07 09:31:27', '2017-03-07 11:37:24'),
 (12, 'Prácticas', 'practicas', 'fa fa-cube', 'module', 10, 1, '2017-03-07 09:41:34', '2017-03-07 11:37:20'),
 (13, 'Materiales', 'materiales', 'fa fa-cube', 'module', 10, 3, '2017-03-07 10:08:11', '2017-03-07 11:37:27'),
-(16, 'Reactivos', 'reactivos', 'fa fa-cube', 'module', 10, 4, '2017-03-07 11:36:24', '2017-03-07 11:37:34'),
-(15, 'Uploads', 'uploads', 'fa-files-o', 'module', 0, 1, '2017-03-07 11:15:26', '2017-03-07 11:16:10');
+(16, 'Reactivos', 'reactivos', 'fa fa-cube', 'module', 10, 4, '2017-03-07 11:36:24', '2017-03-07 11:37:34');
 
 -- --------------------------------------------------------
 
@@ -429,7 +427,15 @@ CREATE TABLE IF NOT EXISTS `practicas` (
   `preguntas` varchar(256) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `procedimiento` text COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `practicas`
+--
+
+INSERT INTO `practicas` (`id`, `deleted_at`, `created_at`, `updated_at`, `nombre`, `objetivo`, `introduccion`, `bibliografia`, `preguntas`, `procedimiento`) VALUES
+(1, '2017-03-29 02:15:17', '2017-03-29 01:05:13', '2017-03-29 02:15:17', 'Práctica de prueba', 'Objetivos de prueba', 'Introducción de prueba', 'Bibliografía de prueba', 'Preguntas de prueba', 'Procedimiento de prueba'),
+(2, '2017-03-29 03:30:57', '2017-03-29 03:11:52', '2017-03-29 03:30:57', 'Práctica de prueba.', 'Objetivo de prueba.', 'Introducción de prueba.', 'Bibliografía de prueba.', 'Preguntas de prueba.', 'Procedimiento de prueba.');
 
 -- --------------------------------------------------------
 
@@ -732,7 +738,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `nombre`, `contexto_id`, `email`, `password`, `tipo`, `remember_token`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 'Administrador', 1, 'administrador@adminlab.com', '$2y$10$.EpR/BnPbdzHLIE8Bb1ok.GSvCVr4N/9R8lzQFSYjknlZJ4CFUgOq', 'Administrador', 'DzWDRMAJ5WQUQ7oBrTPS9N1LmPdxrlXXatvXboAk1zX27nTvbLmPRRzS3Yzh', NULL, '2017-03-07 04:23:44', '2017-03-22 23:48:09');
+(1, 'Administrador', 1, 'administrador@adminlab.com', '$2y$10$.EpR/BnPbdzHLIE8Bb1ok.GSvCVr4N/9R8lzQFSYjknlZJ4CFUgOq', 'Administrador', 'KfRFUkkKgeFMCrcqJMaYBd63KJRWr3JbQfy5m5tkTYMNO5uej0jZj0nRrdfs', NULL, '2017-03-07 04:23:44', '2017-04-04 05:56:04');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

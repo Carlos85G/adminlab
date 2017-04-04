@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +12,7 @@
 
     <meta property="og:url" content="http://laraadmin.com/" />
     <meta property="og:sitename" content="laraAdmin" />
-	<meta property="og:image" content="http://demo.adminlte.acacha.org/img/LaraAdmin-600x600.jpg" />
+	  <meta property="og:image" content="http://demo.adminlte.acacha.org/img/LaraAdmin-600x600.jpg" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@laraadmin" />
@@ -53,13 +53,17 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#home" class="smoothScroll">Accede</a></li>
-                <!-- <li><a href="#about" class="smoothScroll">Avisos</a></li> -->
-                <li><a href="#contact" class="smoothScroll">Contáctanos</a></li>
+                <?php
+                  // <li><a href="#about" class="smoothScroll">Avisos</a></li>
+                ?>
+                <li><a href="#contact" class="smoothScroll">Cont&aacute;ctanos</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 @if (Auth::guest())
                     <li><a href="{{ url('/login') }}">Login</a></li>
-                    <!--<li><a href="{{ url('/register') }}">Register</a></li>-->
+                    <?php
+                      // <li><a href="{{ url('/register') }}">Register</a></li>
+                    ?>
                 @else
                     <li><a href="{{ url(config('laraadmin.adminRoute')) }}">{{ Auth::user()->name }}</a></li>
                 @endif
@@ -74,22 +78,26 @@
     <div class="container">
         <div class="row centered">
             <div class="col-lg-2">
-                <h5>Ya Reservaste tu Lab </h5>
+                <h5>&iquest;Ya reservaste tu <i>lab</i>?</h5>
                 <p>Acceso para Laboratorios</p>
                 <img class="hidden-xs hidden-sm hidden-md" src="{{ asset('/la-assets/img/arrow1.png') }}">
             </div>
             <div class="col-lg-8">
-                <iframe src="https://calendar.google.com/calendar/embed?src=5hcsj2u0h68bir3qn00tus8u38%40group.calendar.google.com&ctz=America/Mexico_City" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe></div>
+                <iframe src="https://calendar.google.com/calendar/embed?src=5hcsj2u0h68bir3qn00tus8u38%40group.calendar.google.com&ctz=America/Mexico_City" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+            </div>
             <div class="col-lg-12">
                 <h1>{{ LAConfigs::getByKey('sitename_part1') }} <b><a>{{ LAConfigs::getByKey('sitename_part2') }}</a></b></h1>
                 <h3>{{ LAConfigs::getByKey('site_description') }}</h3>
-                <h3><a href="{{ url('/login') }}" class="btn btn-lg btn-success">Inicia sesión</a></h3><br>
+                <h3><a href="{{ url('/login') }}" class="btn btn-lg btn-success">Inicia sesi&oacute;n</a></h3>
+                <br />
             </div>
             <div class="col-lg-2">
-                <!-- <br>
-                <img class="hidden-xs hidden-sm hidden-md" src="{{ asset('/la-assets/img/arrow2.png') }}">
-                <h5>Completely Packaged...</h5>
-                <p>for Future expantion of Modules</p> -->
+                <?php
+                // <!-- <br>
+                // <img class="hidden-xs hidden-sm hidden-md" src="{{ asset('/la-assets/img/arrow2.png') }}">
+                // <h5>Completely Packaged...</h5>
+                // <p>for Future expantion of Modules</p> -->
+                ?>
             </div>
         </div>
     </div> <!--/ .container -->
@@ -101,9 +109,11 @@
 <div id="intro">
     <div class="container">
       <div class="panel panel-default">
-<div class="panel-heading">Boletín de noticias</div>
+<div class="panel-heading">Bolet&iacute;n de noticias</div>
 <div class="panel-body">
-  Información sobre llave tel: 322-800-05-21
+  Información sobre llave:
+  <br />
+  Tel: 322-800-05-21
 </div>
 </div>
         <br>
@@ -111,8 +121,10 @@
     </div> <!--/ .container -->
 </div><!--/ #introwrap -->
 
+<?php
+/*
 <!-- FEATURES WRAP -->
-<!-- <div id="features">
+<div id="features">
     <div class="container">
         <div class="row">
             <div class="col-lg-5 centered">
@@ -139,37 +151,48 @@
             </div>
         </div>
     </div><!--/ .container -->
-</div><!--/ #features --> -->
+</div><!--/ #features -->
+*/
+?>
 
 <section id="contact" name="contact"></section>
 <div id="footerwrap">
     <div class="container">
         <div class="col-lg-5">
-            <h3>Contáctanos</h3><br>
+            <h3>Cont&aacute;ctanos</h3><br>
             <p>
-				Maestria en Ingenieria de Software,<br/>
-				Desarrollado por <br/>
-                Ing. Rogelio Jiménez Meza<br/>
-                Ing. Carlos Eduardo González López<br/>
-                Ing. Jesus Adrian Arroyo Ceja
-              Centro Universitario de los Valles
+      				Maestr&iacute;a en Ingenier&iacute;a de Software,
+              <br />
+      				Desarrollado por:
+                <br />
+                Ing. Rogelio Jim&eacute;nez Meza
+                <br />
+                Ing. Carlos Eduardo Gonz&aacute;lez L&oacute;pez
+                <br />
+                Ing. Jes&uacute;s Adri&aacute;n Arroyo Ceja
+                <br />
+                Centro Universitario de los Valles
             </p>
 			<div class="contact-link"><i class="fa fa-envelope-o"></i> <a href="mailto:rogelio.jimenez@alumno.udg.mx">rogelio.jimenez@alumno.udg.mx</a></div>
-			<!-- <div class="contact-link"><i class="fa fa-cube"></i> <a href="http://laraadmin.com">laraadmin.com</a></div>
-			<div class="contact-link"><i class="fa fa-building"></i> <a href="http://dwijitsolutions.com">dwijitsolutions.com</a></div> -->
+      <?php
+			/*
+      <div class="contact-link"><i class="fa fa-cube"></i> <a href="http://laraadmin.com">laraadmin.com</a></div>
+			<div class="contact-link"><i class="fa fa-building"></i> <a href="http://dwijitsolutions.com">dwijitsolutions.com</a></div>
+      */
+      ?>
         </div>
 
         <div class="col-lg-7">
-            <h3>Te gusto o tienes problemas con este sistema? Dejanos un mensaje</h3>
+            <h3>&iquest;Te gust&oacute; o tienes problemas con este sistema? D&eacute;janos un mensaje</h3>
             <br>
             <form role="form" action="#" method="post" enctype="plain">
                 <div class="form-group">
                     <label for="name1">Nombre</label>
-                    <input type="name" name="Name" class="form-control" id="name1" placeholder="Your Name">
+                    <input type="name" name="Name" class="form-control" id="name1" placeholder="Tu nombre">
                 </div>
                 <div class="form-group">
-                    <label for="email1">Correo</label>
-                    <input type="email" name="Mail" class="form-control" id="email1" placeholder="Enter email">
+                    <label for="email1">Correo Electr&oacute;onico</label>
+                    <input type="email" name="Mail" class="form-control" id="email1" placeholder="Escribe tu correo electr&oacute;nico">
                 </div>
                 <div class="form-group">
                     <label>Mensaje</label>
@@ -184,7 +207,7 @@
 <div id="c">
     <div class="container">
         <p>
-            <strong>Copyright &copy; 2017. Powered by <a href="MISCUVALLES.com"><b>Maestria en Ingenieria de Software</b></a>
+            <strong>Copyright &copy; 2017. Powered by <a href="MISCUVALLES.com"><b>Maestr&iacute;a en Ingenier&iacute;a de Software</b></a>
         </p>
     </div>
 </div>

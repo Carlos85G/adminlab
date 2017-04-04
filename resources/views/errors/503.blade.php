@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Be right back.</title>
+        <title>En un momento regresamos.</title>
 
         <link href="https://fonts.googleapis.com/css?family=Roboto:200,400" rel="stylesheet" type="text/css">
 		<link href="{{ asset('la-assets/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />
@@ -50,11 +50,11 @@
 				<i class="fa fa-wrench" style="font-size:120px;color:#666;margin-bottom:30px;"></i>
                 <div class="title">Regresamos en unos minutos</div>
 				@if(Auth::guest())
-        <a href="{{ url('/') }}">Regresar al Home</a> |
-        <a href="javascript:history.back()">Ir atrás</a>
-      @else
-        <a href="{{ url(config('laraadmin.adminRoute')) }}">Home.</a> |
-        <a href="javascript:history.back()">Ir atrás</a>
+          <a href="{{ url('/') }}">Regresar al Inicio</a> |
+          <a href="javascript:history.back()">Ir atr&aacute;s</a>
+        @else
+          <a href="{{ url(config('laraadmin.adminRoute')) }}">Inicio.</a> |
+          <a href="javascript:history.back()">Ir atr&aacute;s</a>
 				@endif
             </div>
         </div>

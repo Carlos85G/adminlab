@@ -21,10 +21,10 @@
                     <div class="btn-group">
                       <button class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bars"></i></button>
                       <ul class="dropdown-menu pull-right" role="menu">
-                        <li><a href="#">Add new event</a></li>
-                        <li><a href="#">Clear events</a></li>
+                        <li><a href="#">A&ntilde;adir nuevo evento</a></li>
+                        <li><a href="#">Limpiar eventos</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">View calendar</a></li>
+                        <li><a href="#">Ver calendario</a></li>
                       </ul>
                     </div>
                     <button class="btn btn-success btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -38,7 +38,7 @@
                 <div class="box-footer text-black">
                   <div class="row">
                     <div class="col-sm-6"> <!-- Espacio abajo-->
-                      
+
                     </div><!-- /.col -->
                   </div><!-- /.row -->
                 </div>

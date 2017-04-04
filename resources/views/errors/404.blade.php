@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Page / Record not found.</title>
+        <title>P&aacute;gina / Registro no encontrado.</title>
 
         <link href="https://fonts.googleapis.com/css?family=Roboto:200,400" rel="stylesheet" type="text/css">
 		<link href="{{ asset('la-assets/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />
@@ -49,19 +49,19 @@
             <div class="content">
 				<i class="fa fa-search" style="font-size:120px;color:#FF5959;margin-bottom:30px;"></i>
                 @if(isset($record_name) && isset($record_id))
-					<div class="title">{{ $record_name }} with id {{ $record_id }} not found</div>
+					<div class="title">El {{ $record_name }} con el id {{ $record_id }} no fue encontrado</div>
 				@else
-					<div class="title">Página no encontrada</div>
+					<div class="title">P&aacute;gina no encontrada</div>
 				@endif
 
 
 
-@if(Auth::guest())
-  <a href="{{ url('/') }}">Regresar al Home</a> |
-  <a href="javascript:history.back()">Ir atrás</a>
-@else
-  <a href="{{ url(config('laraadmin.adminRoute')) }}">Home.</a> |
-  <a href="javascript:history.back()">Ir atrás</a>
+        @if(Auth::guest())
+          <a href="{{ url('/') }}">Regresar al Inicio</a> |
+          <a href="javascript:history.back()">Ir atr&aacute;s</a>
+        @else
+          <a href="{{ url(config('laraadmin.adminRoute')) }}">Inicio.</a> |
+          <a href="javascript:history.back()">Ir atr&aacute;s</a>
 				@endif
             </div>
         </div>

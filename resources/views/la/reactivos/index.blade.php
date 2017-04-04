@@ -39,7 +39,7 @@
 		</tr>
 		</thead>
 		<tbody>
-			
+
 		</tbody>
 		</table>
 	</div>
@@ -57,7 +57,7 @@
 			<div class="modal-body">
 				<div class="box-body">
                     @la_form($module)
-					
+
 					{{--
 					@la_input($module, 'unidad')
 					@la_input($module, 'cantidad')
@@ -90,16 +90,36 @@ $(function () {
         serverSide: true,
         ajax: "{{ url(config('laraadmin.adminRoute') . '/reactivo_dt_ajax') }}",
 		language: {
-			lengthMenu: "_MENU_",
-			search: "_INPUT_",
-			searchPlaceholder: "Search"
+				lengthMenu: "_MENU_",
+				search: "_INPUT_",
+				searchPlaceholder: "Buscar",
+				emptyTable: "No hay registros",
+				info: "Mostrando desde _START_ hasta _END_ de _TOTAL_ registros",
+				infoEmpty: "Mostrando desde 0 hasta 0 de 0 registros",
+				infoFiltered: "(filtrado de un total de _MAX_ registros)",
+				infoPostFix: "",
+				thousands: ",",
+				lengthMenu: "Mostrar los _MENU_ registros",
+				loadingRecords: "Cargando...",
+				processing: "Procesando...",
+				zeroRecords: "No se encontraron coincidencias",
+				paginate: {
+						first: "Primero",
+						last: "&Uacute;ltimo",
+						next: "Siguiente",
+						previous: "Anterior"
+				},
+				aria: {
+						sortAscending: ": activar para ordenar la columna de manera ascendente",
+						sortDescending: ": activar para ordenar la columna de manera descendente"
+				}
 		},
 		@if($show_actions)
 		columnDefs: [ { orderable: false, targets: [-1] }],
 		@endif
 	});
 	$("#reactivo-add-form").validate({
-		
+
 	});
 });
 </script>

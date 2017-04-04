@@ -1,14 +1,14 @@
 @extends("la.layouts.app")
 
-@section("contentheader_title", "Backups")
-@section("contentheader_description", "backups listing")
-@section("section", "Backups")
-@section("sub_section", "Listing")
-@section("htmlheader_title", "Backups Listing")
+@section("contentheader_title", "Respaldos")
+@section("contentheader_description", "Listado de respaldos")
+@section("section", "Respaldos")
+@section("sub_section", "Listado")
+@section("htmlheader_title", "Listado de Respaldos")
 
 @section("headerElems")
 @la_access("Backups", "create")
-	<button class="btn btn-success btn-sm pull-right" id="CreateBackup">Create Backup</button>
+	<button class="btn btn-success btn-sm pull-right" id="CreateBackup">Crear Respaldo</button>
 @endla_access
 @endsection
 
@@ -39,7 +39,7 @@
 		</tr>
 		</thead>
 		<tbody>
-			
+
 		</tbody>
 		</table>
 	</div>
@@ -62,29 +62,29 @@ $(function () {
 		language: {
 			lengthMenu: "_MENU_",
 			search: "_INPUT_",
-			searchPlaceholder: "Search"
+			searchPlaceholder: "Buscar"
 		},
 		@if($show_actions)
 		columnDefs: [ { orderable: false, targets: [-1] }],
 		@endif
 	});
-	
+
 	$("#CreateBackup").on("click", function() {
 		$.ajax({
 			url: "{{ url(config('laraadmin.adminRoute') . '/create_backup_ajax') }}",
 			method: 'POST',
 			beforeSend: function() {
-				$("#CreateBackup").html('<i class="fa fa-refresh fa-spin"></i> Creating Backup...');
+				$("#CreateBackup").html('<i class="fa fa-refresh fa-spin"></i> Creando Respaldo...');
 			},
 			headers: {
 		    	'X-CSRF-Token': $('input[name="_token"]').val()
     		},
 			success: function( data ) {
 				if(data.status == "success") {
-					$("#CreateBackup").html('<i class="fa fa-check"></i> Backup Created');
+					$("#CreateBackup").html('<i class="fa fa-check"></i> Respaldo Creado');
 					$('body').pgNotification({
 						style: 'circle',
-						title: 'Backup Creation',
+						title: 'Creaci&oacute;n de Respaldo',
 						message: data.message,
 						position: "top-right",
 						timeout: 0,
@@ -98,7 +98,7 @@ $(function () {
 					$("#CreateBackup").html('Create Backup');
 					$('body').pgNotification({
 						style: 'circle',
-						title: 'Backup creation failed',
+						title: 'Creaci&oacute;n de Respaldo fall&oacute;',
 						message: data.message,
 						position: "top-right",
 						timeout: 0,

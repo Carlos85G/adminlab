@@ -1,12 +1,12 @@
-Dear {{ $user->name }},<br><br>
+Estimado {{ $user->name }},<br><br>
 
-You have been registered on {{ url('/') }}.<br><br>
+Has sido registrado en {{ url('/') }}.<br><br>
 
-Your login credentials for the same are as below:<br><br>
+Tus credenciales de inicio de sesi&oacute;n son descritas a continuaci&oacute;n:<br><br>
 
-Username: {{ $user->email }}<br>
-password: {{ $password }}<br><br>
+Nombre de usuario: {{ $user->email }}<br>
+Contrase&ntilde;a: {{ $password }}<br><br>
 
-You can login on <a href="{{ url('/login') }}">{{ str_replace("http://", "", url('/login')) }}</a>.<br><br>
+Puedes iniciar sesi&oacute;n desde <a href="{{ url('/login') }}">{{ str_replace("http://", "", url('/login')) }}</a>.<br><br>
 
-Best Regards,
+Atentamente,
