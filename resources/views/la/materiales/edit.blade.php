@@ -3,12 +3,12 @@
 @section("contentheader_title")
 	<a href="{{ url(config('laraadmin.adminRoute') . '/materiales') }}">Material</a> :
 @endsection
-@section("contentheader_description", $material->$view_col)
+@section("contentheader_description", $materiale->$view_col)
 @section("section", "Materiales")
 @section("section_url", url(config('laraadmin.adminRoute') . '/materiales'))
 @section("sub_section", "Editar")
 
-@section("htmlheader_title", "Materiales Edit : ".$material->$view_col)
+@section("htmlheader_title", "Edici&oacute;n de Material : ".$materiale->$view_col)
 
 @section("main-content")
 
@@ -29,7 +29,7 @@
 	<div class="box-body">
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
-				{!! Form::model($material, ['route' => [config('laraadmin.adminRoute') . '.materiales.update', $material->id ], 'method'=>'PUT', 'id' => 'materiale-edit-form']) !!}
+				{!! Form::model($materiale, ['route' => [config('laraadmin.adminRoute') . '.materiales.update', $materiale->id ], 'method'=>'PUT', 'id' => 'materiale-edit-form']) !!}
 					@la_form($module)
 
 					{{--

@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "adminlab-cuvalles",
+  "private_key_id": "8919e3b6f07855cf00029d85702636911a95433d",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDIdtWfiN78yd1C\nIo+Ybh55MhT0NO5rV4jq3jj0IIlwCf9q35a9st0qpReqszvYmGJKBqHLN0RttC0c\neVe4mmInG6h3RCqsUrEuKFVnuQxHoS0K8VbIc3u0GnvWp1eaetNAz1zlC69iLUU8\npGaMOVgWBOV+GnZ42fgLUDQJsttZztTLTgCAjmVzp8BpVRwXVxax+oJ0rqqTX1Xc\nKQvTMIVhFgPHo0Nwlnj/yCYQq4o+qGMvchJlDJcLKABUnPLDl1XQkB9E0LknedPL\n0hlwWaYeaD9MXOfJnduOMLx+XOYfho5c0BqJQsDdZhar6FW7rZ8qotPP7ZQ+k88X\nSH7aB9GZAgMBAAECggEAdZegAJGdnNQdgqobaeNO5PFH8WkLYtRacMwixLJBbQOw\nXNUD7At8SYPGuk+hj5D0N1BkoHyvG1tSCx3zI0sMwLwsuqm2DpgDb3whfVLDrVES\nxxSDP9reeev/MQ/BB9F9EsuRRprwKrs7njMiJKeO0HvW035aeNID+z71B6tvmOH8\nU/lfPGgorqVmV8VFhtNtKOBijEv+bxeuI3YI6KoIpdJxgBX50+gJSgXcuCQ7OTt7\nb5+brbLuLSNr7NZIqytvh50IQm6sOl+92KYjbpKje/Yq4RM22bT4HATWv3m26Z2q\nnmsKen88zy6N4yfr2u/k8m61LLkmViTqRityQyBLwQKBgQD5joJEY6G1EmuhRyQr\ngXgMsonHyjDGLi19F37ZNcrOoJu2ar74XUo9DOvTmV/5AQRMqTL1IzLUGS55Etzd\n0rtVlyY77nz7BuJA0NjQXZKm02WKnI0f1+dCwvRymg9fc3E25oaC9ABXLDL0agDS\njjIGVgT8+0GfAi7qEkIp2NGi7QKBgQDNo9b7BAYXtZqzMjO6WoUCTEZ88gvRaOjh\n1InwWk7THs1pVzHzlvl3u60ayHnP2kUm/dKTnpthZzdlo+qcFT5gd41QoP7PFmrS\n7l/+byNAS2YsQu+O9p2Sy08g7F7ZrMWlDXaTGRH+MwB9y2NZtnljEDQz7YjN88n5\n2u2cX1p33QKBgQDy4qGkwDd9zWzVrjDk6wCVkxsISaCI8h6x1jFOZM17p9OFioVN\nozaDDtVjv64p4rR1jGQdNGHfDpctnY87kkNj/VVoFSitBTkmDl5HBhuapLr6Wn38\nFR1u2+IgvBLkOq5g2aLnR2YhcdIyEg204FKN2iDGvCBVC0Hv7U9Z/T2jzQKBgHBH\nX88IgGcbog7rfzDl0a/Sg74eznMVS+paCMKyHE3LiK5WjJCKw0UrtLVl9pSVgaJr\nfjlZpU8Gc0nMuQFl2/wB6qe2b8oUXFk1DDa46c9mG7BZD8HIR3rqBRdd1+AUJIod\nErv4OUnJASCuF13Zcuey5j3gGQ0SahpA/fGeYqAFAoGBALbgMIeTHWt/I9NIPZPt\n9zwRBmxIZbP7MOCPAi1fx9o82vOgjj/hbsDsi/iLZwYw7lYmWfcQACNwGBznz9ra\nJA9QY2lw5ZDk8xIXsSALZCPKf5vXG+kFasfwpujAvGCiHNxUTdKPaH1yrUbtvSWS\nCOOW6kQOhGOkUPLb4cNUeiDb\n-----END PRIVATE KEY-----\n",
+  "client_email": "adminlab-cuvalles@adminlab-cuvalles.iam.gserviceaccount.com",
+  "client_id": "105609485998312748864",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/adminlab-cuvalles%40adminlab-cuvalles.iam.gserviceaccount.com"
+}

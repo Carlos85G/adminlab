@@ -12,11 +12,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Materiale extends Model
 {
     use SoftDeletes;
-	
+
 	protected $table = 'materiales';
-	
+
 	protected $hidden = [
-        
+
     ];
 
 	protected $guarded = [];

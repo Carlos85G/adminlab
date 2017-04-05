@@ -15,7 +15,7 @@
 					<div class="profile-icon text-primary"><i class="fa {{ $module->fa_icon }}"></i></div>
 				</div>
 				<div class="col-md-9">
-					<h4 class="name">{{ $reservacion->$view_col }}</h4>
+					<h4 class="name">{{ $reservacione->$view_col }}</h4>
 					<div class="row stats">
 						<div class="col-md-4"><i class="fa fa-facebook"></i> 234</div>
 						<div class="col-md-4"><i class="fa fa-twitter"></i> 12</div>
@@ -84,9 +84,9 @@
 			@la_access("Reservaciones", "edit")
 				<a href="{{ url(config('laraadmin.adminRoute') . '/reservaciones/'.$reservacion->id.'/edit') }}" class="btn btn-xs btn-edit btn-default"><i class="fa fa-pencil"></i></a><br>
 			@endla_access
-			
+
 			@la_access("Reservaciones", "delete")
-				{{ Form::open(['route' => [config('laraadmin.adminRoute') . '.reservaciones.destroy', $reservacion->id], 'method' => 'delete', 'style'=>'display:inline']) }}
+				{{ Form::open(['route' => [config('laraadmin.adminRoute') . '.reservaciones.destroy', $reservacione->id], 'method' => 'delete', 'style'=>'display:inline']) }}
 					<button class="btn btn-default btn-delete btn-xs" type="submit"><i class="fa fa-times"></i></button>
 				{{ Form::close() }}
 			@endla_access
@@ -207,7 +207,7 @@
 			</ul>
 			<!--<div class="text-center p30"><i class="fa fa-list-alt" style="font-size: 100px;"></i> <br> No posts to show</div>-->
 		</div>
-		
+
 	</div>
 	</div>
 	</div>

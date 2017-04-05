@@ -22,7 +22,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        
+
     }
 
     /**
@@ -32,6 +32,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+
         $roleCount = \App\Role::count();
 		if($roleCount != 0) {
 			if($roleCount != 0) {

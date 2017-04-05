@@ -12,11 +12,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Reservacione extends Model
 {
     use SoftDeletes;
-	
+
 	protected $table = 'reservaciones';
-	
+
 	protected $hidden = [
-        
+
     ];
 
 	protected $guarded = [];

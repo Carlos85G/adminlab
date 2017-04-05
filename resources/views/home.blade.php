@@ -4,8 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{{ LAConfigs::getByKey('site_description') }}">
-    <meta name="author" content="Dwij IT Solutions">
+    <meta name="author" content="Maestr&iacute;a en Ingenier&iacute;a de Software">
 
+    <?php
+    /*
     <meta property="og:title" content="{{ LAConfigs::getByKey('sitename') }}" />
     <meta property="og:type" content="website" />
     <meta property="og:description" content="{{ LAConfigs::getByKey('site_description') }}" />
@@ -17,6 +19,8 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@laraadmin" />
     <meta name="twitter:creator" content="@laraadmin" />
+    */
+    ?>
 
     <title>{{ LAConfigs::getByKey('sitename') }}</title>
 
@@ -60,7 +64,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 @if (Auth::guest())
-                    <li><a href="{{ url('/login') }}">Login</a></li>
+                    <li><a href="{{ url('/login') }}">Iniciar sesi&oacute;n</a></li>
                     <?php
                       // <li><a href="{{ url('/register') }}">Register</a></li>
                     ?>
@@ -83,7 +87,7 @@
                 <img class="hidden-xs hidden-sm hidden-md" src="{{ asset('/la-assets/img/arrow1.png') }}">
             </div>
             <div class="col-lg-8">
-                <iframe src="https://calendar.google.com/calendar/embed?src=5hcsj2u0h68bir3qn00tus8u38%40group.calendar.google.com&ctz=America/Mexico_City" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+                <iframe src="https://calendar.google.com/calendar/embed?src=admlab.cuvalles%40gmail.com&ctz=America/Mexico_City" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
             </div>
             <div class="col-lg-12">
                 <h1>{{ LAConfigs::getByKey('sitename_part1') }} <b><a>{{ LAConfigs::getByKey('sitename_part2') }}</a></b></h1>
@@ -111,7 +115,7 @@
       <div class="panel panel-default">
 <div class="panel-heading">Bolet&iacute;n de noticias</div>
 <div class="panel-body">
-  Información sobre llave:
+  Informaci&oacute;n sobre llave:
   <br />
   Tel: 322-800-05-21
 </div>

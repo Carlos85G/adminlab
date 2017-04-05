@@ -24,7 +24,7 @@ class ReservacionesController extends Controller
 	public $show_action = true;
 	public $view_col = 'fecha_inicio';
 	public $listing_cols = ['id', 'fecha_inicio', 'fecha_fin'];
-	
+
 	public function __construct() {
 		// Field Access of Listing Columns
 		if(\Dwij\Laraadmin\Helpers\LAHelper::laravel_ver() == 5.3) {
@@ -36,7 +36,7 @@ class ReservacionesController extends Controller
 			$this->listing_cols = ModuleFields::listingColumnAccessScan('Reservaciones', $this->listing_cols);
 		}
 	}
-	
+
 	/**
 	 * Display a listing of the Reservaciones.
 	 *
@@ -45,7 +45,7 @@ class ReservacionesController extends Controller
 	public function index()
 	{
 		$module = Module::get('Reservaciones');
-		
+
 		if(Module::hasAccess($module->id)) {
 			return View('la.reservaciones.index', [
 				'show_actions' => $this->show_action,
@@ -76,19 +76,19 @@ class ReservacionesController extends Controller
 	public function store(Request $request)
 	{
 		if(Module::hasAccess("Reservaciones", "create")) {
-		
+
 			$rules = Module::validateRules("Reservaciones", $request);
-			
+
 			$validator = Validator::make($request->all(), $rules);
-			
+
 			if ($validator->fails()) {
 				return redirect()->back()->withErrors($validator)->withInput();
 			}
-			
+
 			$insert_id = Module::insert("Reservaciones", $request);
-			
+
 			return redirect()->route(config('laraadmin.adminRoute') . '.reservaciones.index');
-			
+
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
 		}
@@ -103,22 +103,22 @@ class ReservacionesController extends Controller
 	public function show($id)
 	{
 		if(Module::hasAccess("Reservaciones", "view")) {
-			
-			$reservacion = Reservacione::find($id);
-			if(isset($reservacion->id)) {
+
+			$reservacione = Reservacione::find($id);
+			if(isset($reservacione->id)) {
 				$module = Module::get('Reservaciones');
-				$module->row = $reservacion;
-				
+				$module->row = $reservacione;
+
 				return view('la.reservaciones.show', [
 					'module' => $module,
 					'view_col' => $this->view_col,
 					'no_header' => true,
 					'no_padding' => "no-padding"
-				])->with('reservacione', $reservacion);
+				])->with('reservacione', $reservacione);
 			} else {
 				return view('errors.404', [
 					'record_id' => $id,
-					'record_name' => ucfirst("reservacione"),
+					'record_name' => ucfirst("reservaci&oacute;n"),
 				]);
 			}
 		} else {
@@ -134,21 +134,21 @@ class ReservacionesController extends Controller
 	 */
 	public function edit($id)
 	{
-		if(Module::hasAccess("Reservaciones", "edit")) {			
-			$reservacion = Reservacione::find($id);
-			if(isset($reservacion->id)) {	
+		if(Module::hasAccess("Reservaciones", "edit")) {
+			$reservacione = Reservacione::find($id);
+			if(isset($reservacione->id)) {
 				$module = Module::get('Reservaciones');
-				
-				$module->row = $reservacion;
-				
+
+				$module->row = $reservacione;
+
 				return view('la.reservaciones.edit', [
 					'module' => $module,
 					'view_col' => $this->view_col,
-				])->with('reservacione', $reservacion);
+				])->with('reservacione', $reservacione);
 			} else {
 				return view('errors.404', [
 					'record_id' => $id,
-					'record_name' => ucfirst("reservacione"),
+					'record_name' => ucfirst("reservaci&oacute;n"),
 				]);
 			}
 		} else {
@@ -166,19 +166,19 @@ class ReservacionesController extends Controller
 	public function update(Request $request, $id)
 	{
 		if(Module::hasAccess("Reservaciones", "edit")) {
-			
+
 			$rules = Module::validateRules("Reservaciones", $request, true);
-			
+
 			$validator = Validator::make($request->all(), $rules);
-			
+
 			if ($validator->fails()) {
 				return redirect()->back()->withErrors($validator)->withInput();;
 			}
-			
+
 			$insert_id = Module::updateRow("Reservaciones", $request, $id);
-			
+
 			return redirect()->route(config('laraadmin.adminRoute') . '.reservaciones.index');
-			
+
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
 		}
@@ -194,14 +194,14 @@ class ReservacionesController extends Controller
 	{
 		if(Module::hasAccess("Reservaciones", "delete")) {
 			Reservacione::find($id)->delete();
-			
+
 			// Redirecting to index() method
 			return redirect()->route(config('laraadmin.adminRoute') . '.reservaciones.index');
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
 		}
 	}
-	
+
 	/**
 	 * Datatable Ajax fetch
 	 *
@@ -214,9 +214,9 @@ class ReservacionesController extends Controller
 		$data = $out->getData();
 
 		$fields_popup = ModuleFields::getModuleFields('Reservaciones');
-		
+
 		for($i=0; $i < count($data->data); $i++) {
-			for ($j=0; $j < count($this->listing_cols); $j++) { 
+			for ($j=0; $j < count($this->listing_cols); $j++) {
 				$col = $this->listing_cols[$j];
 				if($fields_popup[$col] != null && starts_with($fields_popup[$col]->popup_vals, "@")) {
 					$data->data[$i][$j] = ModuleFields::getFieldValue($fields_popup[$col], $data->data[$i][$j]);
@@ -228,13 +228,13 @@ class ReservacionesController extends Controller
 				//    $data->data[$i][$j];
 				// }
 			}
-			
+
 			if($this->show_action) {
 				$output = '';
 				if(Module::hasAccess("Reservaciones", "edit")) {
 					$output .= '<a href="'.url(config('laraadmin.adminRoute') . '/reservaciones/'.$data->data[$i][0].'/edit').'" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>';
 				}
-				
+
 				if(Module::hasAccess("Reservaciones", "delete")) {
 					$output .= Form::open(['route' => [config('laraadmin.adminRoute') . '.reservaciones.destroy', $data->data[$i][0]], 'method' => 'delete', 'style'=>'display:inline']);
 					$output .= ' <button class="btn btn-danger btn-xs" type="submit"><i class="fa fa-times"></i></button>';

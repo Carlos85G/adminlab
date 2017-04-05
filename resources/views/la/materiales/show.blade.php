@@ -15,7 +15,7 @@
 					<div class="profile-icon text-primary"><i class="fa {{ $module->fa_icon }}"></i></div>
 				</div>
 				<div class="col-md-9">
-					<h4 class="name">{{ $material->$view_col }}</h4>
+					<h4 class="name">{{ $materiale->$view_col }}</h4>
 					<div class="row stats">
 						<div class="col-md-4"><i class="fa fa-facebook"></i> 234</div>
 						<div class="col-md-4"><i class="fa fa-twitter"></i> 12</div>
@@ -82,11 +82,11 @@
 		</div>
 		<div class="col-md-1 actions">
 			@la_access("Materiales", "edit")
-				<a href="{{ url(config('laraadmin.adminRoute') . '/materiales/'.$material->id.'/edit') }}" class="btn btn-xs btn-edit btn-default"><i class="fa fa-pencil"></i></a><br>
+				<a href="{{ url(config('laraadmin.adminRoute') . '/materiales/'.$materiale->id.'/edit') }}" class="btn btn-xs btn-edit btn-default"><i class="fa fa-pencil"></i></a><br>
 			@endla_access
 
 			@la_access("Materiales", "delete")
-				{{ Form::open(['route' => [config('laraadmin.adminRoute') . '.materiales.destroy', $material->id], 'method' => 'delete', 'style'=>'display:inline']) }}
+				{{ Form::open(['route' => [config('laraadmin.adminRoute') . '.materiales.destroy', $materiale->id], 'method' => 'delete', 'style'=>'display:inline']) }}
 					<button class="btn btn-default btn-delete btn-xs" type="submit"><i class="fa fa-times"></i></button>
 				{{ Form::close() }}
 			@endla_access

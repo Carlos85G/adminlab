@@ -24,7 +24,7 @@ class MaterialesController extends Controller
 	public $show_action = true;
 	public $view_col = 'nombre';
 	public $listing_cols = ['id', 'descripcion', 'anaquel', 'estante', 'marca', 'codigo', 'cantidad'];
-	
+
 	public function __construct() {
 		// Field Access of Listing Columns
 		if(\Dwij\Laraadmin\Helpers\LAHelper::laravel_ver() == 5.3) {
@@ -36,7 +36,7 @@ class MaterialesController extends Controller
 			$this->listing_cols = ModuleFields::listingColumnAccessScan('Materiales', $this->listing_cols);
 		}
 	}
-	
+
 	/**
 	 * Display a listing of the Materiales.
 	 *
@@ -45,7 +45,7 @@ class MaterialesController extends Controller
 	public function index()
 	{
 		$module = Module::get('Materiales');
-		
+
 		if(Module::hasAccess($module->id)) {
 			return View('la.materiales.index', [
 				'show_actions' => $this->show_action,
@@ -58,7 +58,7 @@ class MaterialesController extends Controller
 	}
 
 	/**
-	 * Show the form for creating a new materiale.
+	 * Show the form for creating a new material.
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
@@ -68,7 +68,7 @@ class MaterialesController extends Controller
 	}
 
 	/**
-	 * Store a newly created materiale in database.
+	 * Store a newly created material in database.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\Response
@@ -76,26 +76,26 @@ class MaterialesController extends Controller
 	public function store(Request $request)
 	{
 		if(Module::hasAccess("Materiales", "create")) {
-		
+
 			$rules = Module::validateRules("Materiales", $request);
-			
+
 			$validator = Validator::make($request->all(), $rules);
-			
+
 			if ($validator->fails()) {
 				return redirect()->back()->withErrors($validator)->withInput();
 			}
-			
+
 			$insert_id = Module::insert("Materiales", $request);
-			
+
 			return redirect()->route(config('laraadmin.adminRoute') . '.materiales.index');
-			
+
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
 		}
 	}
 
 	/**
-	 * Display the specified materiale.
+	 * Display the specified material.
 	 *
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
@@ -103,12 +103,12 @@ class MaterialesController extends Controller
 	public function show($id)
 	{
 		if(Module::hasAccess("Materiales", "view")) {
-			
+
 			$materiale = Materiale::find($id);
 			if(isset($materiale->id)) {
 				$module = Module::get('Materiales');
 				$module->row = $materiale;
-				
+
 				return view('la.materiales.show', [
 					'module' => $module,
 					'view_col' => $this->view_col,
@@ -118,7 +118,7 @@ class MaterialesController extends Controller
 			} else {
 				return view('errors.404', [
 					'record_id' => $id,
-					'record_name' => ucfirst("materiale"),
+					'record_name' => ucfirst("material"),
 				]);
 			}
 		} else {
@@ -127,20 +127,20 @@ class MaterialesController extends Controller
 	}
 
 	/**
-	 * Show the form for editing the specified materiale.
+	 * Show the form for editing the specified material.
 	 *
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
 	public function edit($id)
 	{
-		if(Module::hasAccess("Materiales", "edit")) {			
+		if(Module::hasAccess("Materiales", "edit")) {
 			$materiale = Materiale::find($id);
-			if(isset($materiale->id)) {	
+			if(isset($materiale->id)) {
 				$module = Module::get('Materiales');
-				
+
 				$module->row = $materiale;
-				
+
 				return view('la.materiales.edit', [
 					'module' => $module,
 					'view_col' => $this->view_col,
@@ -148,7 +148,7 @@ class MaterialesController extends Controller
 			} else {
 				return view('errors.404', [
 					'record_id' => $id,
-					'record_name' => ucfirst("materiale"),
+					'record_name' => ucfirst("material"),
 				]);
 			}
 		} else {
@@ -157,7 +157,7 @@ class MaterialesController extends Controller
 	}
 
 	/**
-	 * Update the specified materiale in storage.
+	 * Update the specified material in storage.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
 	 * @param  int  $id
@@ -166,26 +166,26 @@ class MaterialesController extends Controller
 	public function update(Request $request, $id)
 	{
 		if(Module::hasAccess("Materiales", "edit")) {
-			
+
 			$rules = Module::validateRules("Materiales", $request, true);
-			
+
 			$validator = Validator::make($request->all(), $rules);
-			
+
 			if ($validator->fails()) {
 				return redirect()->back()->withErrors($validator)->withInput();;
 			}
-			
+
 			$insert_id = Module::updateRow("Materiales", $request, $id);
-			
+
 			return redirect()->route(config('laraadmin.adminRoute') . '.materiales.index');
-			
+
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
 		}
 	}
 
 	/**
-	 * Remove the specified materiale from storage.
+	 * Remove the specified material from storage.
 	 *
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
@@ -194,14 +194,14 @@ class MaterialesController extends Controller
 	{
 		if(Module::hasAccess("Materiales", "delete")) {
 			Materiale::find($id)->delete();
-			
+
 			// Redirecting to index() method
 			return redirect()->route(config('laraadmin.adminRoute') . '.materiales.index');
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
 		}
 	}
-	
+
 	/**
 	 * Datatable Ajax fetch
 	 *
@@ -214,9 +214,9 @@ class MaterialesController extends Controller
 		$data = $out->getData();
 
 		$fields_popup = ModuleFields::getModuleFields('Materiales');
-		
+
 		for($i=0; $i < count($data->data); $i++) {
-			for ($j=0; $j < count($this->listing_cols); $j++) { 
+			for ($j=0; $j < count($this->listing_cols); $j++) {
 				$col = $this->listing_cols[$j];
 				if($fields_popup[$col] != null && starts_with($fields_popup[$col]->popup_vals, "@")) {
 					$data->data[$i][$j] = ModuleFields::getFieldValue($fields_popup[$col], $data->data[$i][$j]);
@@ -228,13 +228,13 @@ class MaterialesController extends Controller
 				//    $data->data[$i][$j];
 				// }
 			}
-			
+
 			if($this->show_action) {
 				$output = '';
 				if(Module::hasAccess("Materiales", "edit")) {
 					$output .= '<a href="'.url(config('laraadmin.adminRoute') . '/materiales/'.$data->data[$i][0].'/edit').'" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>';
 				}
-				
+
 				if(Module::hasAccess("Materiales", "delete")) {
 					$output .= Form::open(['route' => [config('laraadmin.adminRoute') . '.materiales.destroy', $data->data[$i][0]], 'method' => 'delete', 'style'=>'display:inline']);
 					$output .= ' <button class="btn btn-danger btn-xs" type="submit"><i class="fa fa-times"></i></button>';

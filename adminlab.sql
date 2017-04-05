@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-04-2017 a las 03:11:50
+-- Tiempo de generación: 05-04-2017 a las 05:03:32
 -- Versión del servidor: 5.7.14
 -- Versión de PHP: 5.6.25
 
@@ -320,10 +320,10 @@ INSERT INTO `modules` (`id`, `name`, `label`, `name_db`, `view_col`, `model`, `c
 (7, 'Backups', 'Backups', 'backups', 'name', 'Backup', 'BackupsController', 'fa-hdd-o', 1, '2017-03-07 04:21:31', '2017-03-07 04:21:33'),
 (8, 'Permissions', 'Permissions', 'permissions', 'name', 'Permission', 'PermissionsController', 'fa-magic', 1, '2017-03-07 04:21:32', '2017-03-07 04:21:33'),
 (9, 'Prestamos', 'Préstamos', 'prestamos', 'fecha_inicio', 'Prestamo', 'PrestamosController', 'fa-cube', 1, '2017-03-07 08:42:35', '2017-03-07 08:50:18'),
-(10, 'Reservaciones', 'Reservaciones', 'reservaciones', 'fecha_inicio', 'Reservacion', 'ReservacionesController', 'fa-cube', 1, '2017-03-07 09:04:24', '2017-03-07 09:09:21'),
+(10, 'Reservaciones', 'Reservaciones', 'reservaciones', 'fecha_inicio', 'Reservacione', 'ReservacionesController', 'fa-cube', 1, '2017-03-07 09:04:24', '2017-03-07 09:09:21'),
 (11, 'Laboratorios', 'Laboratorios', 'laboratorios', 'nombre', 'Laboratorio', 'LaboratoriosController', 'fa-cube', 1, '2017-03-07 09:30:31', '2017-03-07 09:31:27'),
 (12, 'Practicas', 'Prácticas', 'practicas', 'practiva_reactivos', 'Practica', 'PracticasController', 'fa-cube', 1, '2017-03-07 09:32:28', '2017-04-05 05:11:58'),
-(13, 'Materiales', 'Materiales', 'materiales', 'nombre', 'Material', 'MaterialesController', 'fa-cube', 1, '2017-03-07 09:48:17', '2017-03-07 10:08:11'),
+(13, 'Materiales', 'Materiales', 'materiales', 'nombre', 'Materiale', 'MaterialesController', 'fa-cube', 1, '2017-03-07 09:48:17', '2017-03-07 10:08:11'),
 (15, 'Reactivos', 'Reactivos', 'reactivos', 'nombre', 'Reactivo', 'ReactivosController', 'fa-cube', 1, '2017-03-07 11:29:31', '2017-04-05 05:26:49');
 
 -- --------------------------------------------------------
