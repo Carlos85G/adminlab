@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-04-2017 a las 02:30:58
+-- Tiempo de generación: 05-04-2017 a las 03:11:50
 -- Versión del servidor: 5.7.14
 -- Versión de PHP: 5.6.25
 
@@ -45,6 +45,91 @@ CREATE TABLE IF NOT EXISTS `backups` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `departments`
+--
+
+DROP TABLE IF EXISTS `departments`;
+CREATE TABLE IF NOT EXISTS `departments` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` varchar(250) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `tags` varchar(1000) COLLATE utf8_unicode_ci NOT NULL DEFAULT '[]',
+  `color` varchar(50) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `departments_name_unique` (`name`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `departments`
+--
+
+INSERT INTO `departments` (`id`, `name`, `tags`, `color`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, 'Administration', '[]', '#000', NULL, '2017-03-07 04:21:33', '2017-03-07 04:21:33');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `employees`
+--
+
+DROP TABLE IF EXISTS `employees`;
+CREATE TABLE IF NOT EXISTS `employees` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` varchar(250) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `designation` varchar(50) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `gender` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Male',
+  `mobile` varchar(20) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `mobile2` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(250) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `dept` int(10) UNSIGNED NOT NULL DEFAULT '1',
+  `city` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `address` varchar(1000) COLLATE utf8_unicode_ci NOT NULL,
+  `about` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `date_birth` date NOT NULL DEFAULT '1990-01-01',
+  `date_hire` date NOT NULL,
+  `date_left` date NOT NULL DEFAULT '1990-01-01',
+  `salary_cur` decimal(15,3) NOT NULL DEFAULT '0.000',
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `employees_email_unique` (`email`),
+  KEY `employees_dept_foreign` (`dept`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `employees`
+--
+
+INSERT INTO `employees` (`id`, `name`, `designation`, `gender`, `mobile`, `mobile2`, `email`, `dept`, `city`, `address`, `about`, `date_birth`, `date_hire`, `date_left`, `salary_cur`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, 'Administrador', 'Super Admin', 'Male', '8888888888', '', 'administrador@adminlab.com', 1, 'Pune', 'Karve nagar, Pune 411030', 'About user / biography', '2017-03-06', '2017-03-06', '2017-03-06', '0.000', NULL, '2017-03-07 04:23:44', '2017-03-07 04:23:44');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `equipos`
+--
+
+DROP TABLE IF EXISTS `equipos`;
+CREATE TABLE IF NOT EXISTS `equipos` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `descripcion` varchar(256) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `marca` varchar(256) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `codigo` varchar(256) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `anaquel` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `estante` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `cantidad` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `laboratorios`
 --
 
@@ -56,7 +141,14 @@ CREATE TABLE IF NOT EXISTS `laboratorios` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `nombre` varchar(256) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `laboratorios`
+--
+
+INSERT INTO `laboratorios` (`id`, `deleted_at`, `created_at`, `updated_at`, `nombre`) VALUES
+(1, NULL, '2017-04-05 05:11:08', '2017-04-05 05:11:08', 'Laboratorio 1 ');
 
 -- --------------------------------------------------------
 
@@ -148,7 +240,15 @@ CREATE TABLE IF NOT EXISTS `materiales` (
   `anaquel` int(10) UNSIGNED NOT NULL DEFAULT '0',
   `estante` int(10) UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `materiales`
+--
+
+INSERT INTO `materiales` (`id`, `deleted_at`, `created_at`, `updated_at`, `descripcion`, `cantidad`, `marca`, `codigo`, `anaquel`, `estante`) VALUES
+(1, NULL, '2017-04-05 05:22:01', '2017-04-05 05:35:08', 'LABQUEST', 4, 'Vernier Software & Technologi', '9221425', 1, 4),
+(2, NULL, '2017-04-05 05:37:18', '2017-04-05 05:37:18', 'EKG Sensor', 12, 'Vernier Software & Technology', 'EKG-BTA', 1, 3);
 
 -- --------------------------------------------------------
 
@@ -222,9 +322,9 @@ INSERT INTO `modules` (`id`, `name`, `label`, `name_db`, `view_col`, `model`, `c
 (9, 'Prestamos', 'Préstamos', 'prestamos', 'fecha_inicio', 'Prestamo', 'PrestamosController', 'fa-cube', 1, '2017-03-07 08:42:35', '2017-03-07 08:50:18'),
 (10, 'Reservaciones', 'Reservaciones', 'reservaciones', 'fecha_inicio', 'Reservacion', 'ReservacionesController', 'fa-cube', 1, '2017-03-07 09:04:24', '2017-03-07 09:09:21'),
 (11, 'Laboratorios', 'Laboratorios', 'laboratorios', 'nombre', 'Laboratorio', 'LaboratoriosController', 'fa-cube', 1, '2017-03-07 09:30:31', '2017-03-07 09:31:27'),
-(12, 'Practicas', 'Prácticas', 'practicas', 'nombre', 'Practica', 'PracticasController', 'fa-cube', 1, '2017-03-07 09:32:28', '2017-03-07 09:41:34'),
+(12, 'Practicas', 'Prácticas', 'practicas', 'practiva_reactivos', 'Practica', 'PracticasController', 'fa-cube', 1, '2017-03-07 09:32:28', '2017-04-05 05:11:58'),
 (13, 'Materiales', 'Materiales', 'materiales', 'nombre', 'Material', 'MaterialesController', 'fa-cube', 1, '2017-03-07 09:48:17', '2017-03-07 10:08:11'),
-(15, 'Reactivos', 'Reactivos', 'reactivos', 'nombre', 'Reactivo', 'ReactivosController', 'fa-cube', 1, '2017-03-07 11:29:31', '2017-03-07 11:36:24');
+(15, 'Reactivos', 'Reactivos', 'reactivos', 'nombre', 'Reactivo', 'ReactivosController', 'fa-cube', 1, '2017-03-07 11:29:31', '2017-04-05 05:26:49');
 
 -- --------------------------------------------------------
 
@@ -251,7 +351,7 @@ CREATE TABLE IF NOT EXISTS `module_fields` (
   PRIMARY KEY (`id`),
   KEY `module_fields_module_foreign` (`module`),
   KEY `module_fields_field_type_foreign` (`field_type`)
-) ENGINE=MyISAM AUTO_INCREMENT=79 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=85 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `module_fields`
@@ -274,10 +374,10 @@ INSERT INTO `module_fields` (`id`, `colname`, `label`, `module`, `field_type`, `
 (31, 'display_name', 'Display Name', 5, 19, 0, '', 0, 250, 1, '', 0, '2017-03-07 04:21:31', '2017-03-07 04:21:31'),
 (32, 'description', 'Description', 5, 21, 0, '', 0, 1000, 0, '', 0, '2017-03-07 04:21:31', '2017-03-07 04:21:31'),
 (33, 'parent', 'Parent Role', 5, 7, 0, '1', 0, 0, 0, '@roles', 0, '2017-03-07 04:21:31', '2017-03-07 04:21:31'),
-(74, 'estante', 'Número de Estante', 13, 13, 0, '', 1, 11, 1, '', 0, '2017-03-07 11:28:21', '2017-03-07 11:28:21'),
-(73, 'anaquel', 'Número de Anaquel', 13, 13, 0, '', 1, 11, 1, '', 0, '2017-03-07 11:27:47', '2017-03-07 11:27:47'),
-(72, 'codigo', 'Código', 13, 16, 0, '', 3, 256, 1, '', 0, '2017-03-07 11:27:17', '2017-03-07 11:27:17'),
-(71, 'marca', 'Marca', 13, 16, 0, '', 3, 256, 1, '', 0, '2017-03-07 11:26:40', '2017-03-07 11:26:40'),
+(74, 'estante', 'Número de Estante', 13, 13, 0, '', 1, 11, 1, '', 3, '2017-03-07 11:28:21', '2017-03-07 11:28:21'),
+(73, 'anaquel', 'Número de Anaquel', 13, 13, 0, '', 1, 11, 1, '', 2, '2017-03-07 11:27:47', '2017-03-07 11:27:47'),
+(72, 'codigo', 'Código', 13, 16, 0, '', 3, 256, 1, '', 5, '2017-03-07 11:27:17', '2017-03-07 11:27:17'),
+(71, 'marca', 'Marca', 13, 16, 0, '', 3, 256, 1, '', 4, '2017-03-07 11:26:40', '2017-03-07 11:26:40'),
 (46, 'name', 'Name', 7, 16, 1, '', 0, 250, 1, '', 0, '2017-03-07 04:21:31', '2017-03-07 04:21:31'),
 (47, 'file_name', 'File Name', 7, 19, 1, '', 0, 250, 1, '', 0, '2017-03-07 04:21:31', '2017-03-07 04:21:31'),
 (48, 'backup_size', 'File Size', 7, 19, 0, '0', 0, 10, 1, '', 0, '2017-03-07 04:21:31', '2017-03-07 04:21:31'),
@@ -289,17 +389,18 @@ INSERT INTO `module_fields` (`id`, `colname`, `label`, `module`, `field_type`, `
 (54, 'fecha_inicio', 'Fecha de Inicio', 10, 5, 0, '', 0, 0, 1, '', 0, '2017-03-07 09:04:24', '2017-03-07 09:07:55'),
 (55, 'fecha_fin', 'Fecha de Fin', 10, 5, 0, '', 0, 0, 1, '', 0, '2017-03-07 09:04:24', '2017-03-07 09:09:37'),
 (56, 'nombre', 'Nombre', 11, 16, 1, '', 3, 256, 1, '', 0, '2017-03-07 09:31:16', '2017-03-07 09:31:16'),
-(57, 'nombre', 'Nombre', 12, 16, 1, '', 3, 256, 1, '', 0, '2017-03-07 09:32:49', '2017-03-07 09:32:49'),
-(58, 'objetivo', 'Objetivo', 12, 21, 0, '', 3, 256, 1, '', 0, '2017-03-07 09:33:23', '2017-03-08 22:47:51'),
-(59, 'introduccion', 'Introducción', 12, 21, 0, '', 3, 256, 1, '', 0, '2017-03-07 09:35:05', '2017-03-22 10:09:39'),
-(60, 'bibliografia', 'Bibliografia', 12, 21, 0, '', 3, 256, 1, '', 0, '2017-03-07 09:37:41', '2017-03-08 22:48:12'),
-(78, 'procedimiento', 'Procedimiento', 12, 21, 0, '', 0, 0, 1, '', 0, '2017-03-08 22:51:26', '2017-03-08 22:55:01'),
-(62, 'preguntas', 'Preguntas', 12, 21, 0, '', 3, 256, 1, '', 0, '2017-03-07 09:41:22', '2017-03-08 22:48:31'),
-(63, 'descripcion', 'Descripción', 13, 16, 1, '', 3, 256, 1, '', 0, '2017-03-07 09:48:40', '2017-03-07 11:26:16'),
+(57, 'nombre', 'Nombre', 12, 16, 1, '', 3, 256, 1, '', 1, '2017-03-07 09:32:49', '2017-03-07 09:32:49'),
+(58, 'objetivo', 'Objetivo', 12, 21, 0, '', 3, 256, 1, '', 2, '2017-03-07 09:33:23', '2017-03-08 22:47:51'),
+(81, 'practica_materiales', 'Materiales', 12, 15, 0, '', 0, 0, 1, '@materiales', 3, '2017-04-05 05:08:21', '2017-04-05 05:50:31'),
+(80, 'duracion', 'Duración ', 12, 13, 0, '3600', 0, 11, 1, '', 5, '2017-04-05 05:02:51', '2017-04-05 05:02:51'),
+(79, 'practica_pdf', 'Subir práctica ', 12, 9, 0, '', 0, 0, 1, '', 6, '2017-04-05 04:57:34', '2017-04-05 04:57:34'),
+(63, 'descripcion', 'Descripción', 13, 16, 1, '', 3, 256, 1, '', 1, '2017-03-07 09:48:40', '2017-03-07 11:26:16'),
 (77, 'unidad', 'Unidad de Medida', 15, 7, 0, '', 0, 0, 0, '["kg","g","l","ml","cajas","paquetes"]', 0, '2017-03-07 11:36:13', '2017-03-07 11:36:13'),
 (76, 'cantidad', 'Cantidad', 15, 13, 0, '0', 0, 11, 1, '', 0, '2017-03-07 11:31:42', '2017-03-07 11:31:42'),
 (75, 'nombre', 'Nombre', 15, 16, 0, '', 3, 256, 1, '', 0, '2017-03-07 11:31:08', '2017-03-07 11:31:08'),
-(70, 'cantidad', 'Cantidad', 13, 13, 0, '', 0, 11, 1, '', 0, '2017-03-07 10:28:41', '2017-03-07 10:28:41');
+(70, 'cantidad', 'Cantidad', 13, 13, 0, '', 0, 11, 1, '', 6, '2017-03-07 10:28:41', '2017-03-07 10:28:41'),
+(82, 'practica_reactivos', 'Reactivos', 12, 15, 0, '', 0, 0, 0, '@reactivos', 4, '2017-04-05 05:09:09', '2017-04-05 05:50:39'),
+(83, 'practica_laboratorio', 'Laboratorio', 12, 15, 0, '', 0, 0, 1, '["Laboratorio 1","Laboratorio 2"]', 0, '2017-04-05 05:50:22', '2017-04-05 08:02:13');
 
 -- --------------------------------------------------------
 
@@ -345,6 +446,35 @@ INSERT INTO `module_field_types` (`id`, `name`, `created_at`, `updated_at`) VALU
 (22, 'TextField', '2017-03-07 04:21:30', '2017-03-07 04:21:30'),
 (23, 'URL', '2017-03-07 04:21:30', '2017-03-07 04:21:30'),
 (24, 'Files', '2017-03-07 04:21:30', '2017-03-07 04:21:30');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `organizations`
+--
+
+DROP TABLE IF EXISTS `organizations`;
+CREATE TABLE IF NOT EXISTS `organizations` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` varchar(250) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `email` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
+  `phone` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `website` varchar(250) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'http://',
+  `assigned_to` int(10) UNSIGNED NOT NULL DEFAULT '1',
+  `connect_since` date NOT NULL,
+  `address` varchar(1000) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `city` varchar(250) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `description` varchar(1000) COLLATE utf8_unicode_ci NOT NULL,
+  `profile_image` int(11) NOT NULL,
+  `profile` int(11) NOT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `organizations_name_unique` (`name`),
+  UNIQUE KEY `organizations_email_unique` (`email`),
+  KEY `organizations_assigned_to_foreign` (`assigned_to`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -422,20 +552,20 @@ CREATE TABLE IF NOT EXISTS `practicas` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `nombre` varchar(256) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `objetivo` varchar(256) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `introduccion` varchar(256) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `bibliografia` varchar(256) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `preguntas` varchar(256) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `procedimiento` text COLLATE utf8_unicode_ci NOT NULL,
+  `practica_pdf` int(11) NOT NULL DEFAULT '0',
+  `duracion` int(10) UNSIGNED NOT NULL DEFAULT '3600',
+  `practica_materiales` varchar(256) COLLATE utf8_unicode_ci NOT NULL DEFAULT '[]',
+  `practica_reactivos` varchar(256) COLLATE utf8_unicode_ci NOT NULL DEFAULT '[]',
+  `practica_laboratorio` varchar(256) COLLATE utf8_unicode_ci NOT NULL DEFAULT '[]',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `practicas`
 --
 
-INSERT INTO `practicas` (`id`, `deleted_at`, `created_at`, `updated_at`, `nombre`, `objetivo`, `introduccion`, `bibliografia`, `preguntas`, `procedimiento`) VALUES
-(1, '2017-03-29 02:15:17', '2017-03-29 01:05:13', '2017-03-29 02:15:17', 'Práctica de prueba', 'Objetivos de prueba', 'Introducción de prueba', 'Bibliografía de prueba', 'Preguntas de prueba', 'Procedimiento de prueba'),
-(2, '2017-03-29 03:30:57', '2017-03-29 03:11:52', '2017-03-29 03:30:57', 'Práctica de prueba.', 'Objetivo de prueba.', 'Introducción de prueba.', 'Bibliografía de prueba.', 'Preguntas de prueba.', 'Procedimiento de prueba.');
+INSERT INTO `practicas` (`id`, `deleted_at`, `created_at`, `updated_at`, `nombre`, `objetivo`, `practica_pdf`, `duracion`, `practica_materiales`, `practica_reactivos`, `practica_laboratorio`) VALUES
+(3, NULL, '2017-04-05 05:31:02', '2017-04-05 08:02:38', 'Práctica 1. Conocimiento del equipo de interfaz independiente Labquest ', 'Conocerá las partes que conforman el equipo de Labquest marca vernier así como las mediciones que se pueden llevar a cabo con sensores que a él se le pueden integrar. ', 1, 3600, '["1","2"]', '["1"]', '["Laboratorio 1","Laboratorio 2"]');
 
 -- --------------------------------------------------------
 
@@ -470,7 +600,14 @@ CREATE TABLE IF NOT EXISTS `reactivos` (
   `cantidad` int(10) UNSIGNED NOT NULL DEFAULT '0',
   `unidad` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `reactivos`
+--
+
+INSERT INTO `reactivos` (`id`, `deleted_at`, `created_at`, `updated_at`, `nombre`, `cantidad`, `unidad`) VALUES
+(1, NULL, '2017-04-05 05:28:08', '2017-04-05 05:28:08', 'test', 1, 'kg');
 
 -- --------------------------------------------------------
 
@@ -577,7 +714,7 @@ CREATE TABLE IF NOT EXISTS `role_module_fields` (
   PRIMARY KEY (`id`),
   KEY `role_module_fields_role_id_foreign` (`role_id`),
   KEY `role_module_fields_field_id_foreign` (`field_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=79 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=85 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `role_module_fields`
@@ -661,7 +798,13 @@ INSERT INTO `role_module_fields` (`id`, `role_id`, `field_id`, `access`, `create
 (75, 1, 75, 'write', '2017-03-07 11:31:08', '2017-03-07 11:31:08'),
 (76, 1, 76, 'write', '2017-03-07 11:31:42', '2017-03-07 11:31:42'),
 (77, 1, 77, 'write', '2017-03-07 11:36:13', '2017-03-07 11:36:13'),
-(78, 1, 78, 'write', '2017-03-08 22:51:26', '2017-03-08 22:51:26');
+(78, 1, 78, 'write', '2017-03-08 22:51:26', '2017-03-08 22:51:26'),
+(79, 1, 79, 'write', '2017-04-05 04:57:34', '2017-04-05 04:57:34'),
+(80, 1, 80, 'write', '2017-04-05 05:02:51', '2017-04-05 05:02:51'),
+(81, 1, 81, 'write', '2017-04-05 05:08:21', '2017-04-05 05:08:21'),
+(82, 1, 82, 'write', '2017-04-05 05:09:09', '2017-04-05 05:09:09'),
+(83, 1, 83, 'write', '2017-04-05 05:50:22', '2017-04-05 05:50:22'),
+(84, 1, 84, 'write', '2017-04-05 06:30:51', '2017-04-05 06:30:51');
 
 -- --------------------------------------------------------
 
@@ -709,7 +852,14 @@ CREATE TABLE IF NOT EXISTS `uploads` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `uploads_user_id_foreign` (`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `uploads`
+--
+
+INSERT INTO `uploads` (`id`, `name`, `path`, `extension`, `caption`, `user_id`, `hash`, `public`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, 'INTRODUCCIÓN de prácticas.pdf', 'C:\\wamp640\\www\\Lab\\new\\adminlab\\storage\\uploads\\2017-04-05-001544-INTRODUCCIÓN de prácticas.pdf', 'pdf', '', 1, '9zlvcvrc408aqhwizir7', 0, NULL, '2017-04-05 05:15:44', '2017-04-05 05:15:44');
 
 -- --------------------------------------------------------
 
@@ -738,7 +888,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `nombre`, `contexto_id`, `email`, `password`, `tipo`, `remember_token`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 'Administrador', 1, 'administrador@adminlab.com', '$2y$10$.EpR/BnPbdzHLIE8Bb1ok.GSvCVr4N/9R8lzQFSYjknlZJ4CFUgOq', 'Administrador', 'KfRFUkkKgeFMCrcqJMaYBd63KJRWr3JbQfy5m5tkTYMNO5uej0jZj0nRrdfs', NULL, '2017-03-07 04:23:44', '2017-04-04 05:56:04');
+(1, 'Administrador', 1, 'administrador@adminlab.com', '$2y$10$.EpR/BnPbdzHLIE8Bb1ok.GSvCVr4N/9R8lzQFSYjknlZJ4CFUgOq', 'Administrador', 'xlBm6rj8T14twoU56BfpawgUSn63JNYpAwHQX0RwpQSc9i38xkGD29ers8LB', NULL, '2017-03-07 04:23:44', '2017-04-05 05:27:38');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

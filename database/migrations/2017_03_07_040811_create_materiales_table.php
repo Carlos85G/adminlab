@@ -18,11 +18,11 @@ class CreateMaterialesTable extends Migration
     public function up()
     {
         Module::generate("Materiales", 'materiales', 'nombre', 'fa-cube', [
-            ["estante", "Número de Estante", "Integer", false, "", 1, 11, true],
-            ["anaquel", "Número de Anaquel", "Integer", false, "", 1, 11, true],
-            ["codigo", "Código", "Name", false, "", 3, 256, true],
-            ["marca", "Marca", "Name", false, "", 3, 256, true],
             ["descripcion", "Descripción", "Name", true, "", 3, 256, true],
+            ["anaquel", "Número de Anaquel", "Integer", false, "", 1, 11, true],
+            ["estante", "Número de Estante", "Integer", false, "", 1, 11, true],
+            ["marca", "Marca", "Name", false, "", 3, 256, true],
+            ["codigo", "Código", "Name", false, "", 3, 256, true],
             ["cantidad", "Cantidad", "Integer", false, "", 0, 11, true],
         ]);
 		

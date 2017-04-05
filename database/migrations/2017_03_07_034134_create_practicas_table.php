@@ -17,13 +17,14 @@ class CreatePracticasTable extends Migration
      */
     public function up()
     {
-        Module::generate("Practicas", 'practicas', 'nombre', 'fa-cube', [
+        Module::generate("Practicas", 'practicas', 'practiva_reactivos', 'fa-cube', [
+            ["practica_laboratorio", "Laboratorio", "Multiselect", false, "", 0, 0, true, "@laboratorios"],
             ["nombre", "Nombre", "Name", true, "", 3, 256, true],
             ["objetivo", "Objetivo", "Textarea", false, "", 3, 256, true],
-            ["introduccion", "Introducción", "HTML", false, "", 3, 256, true],
-            ["bibliografia", "Bibliografia", "Textarea", false, "", 3, 256, true],
-            ["procedimiento", "Procedimiento", "Textarea", false, "", 0, 0, true],
-            ["preguntas", "Preguntas", "Textarea", false, "", 3, 256, true],
+            ["practica_materiales", "Materiales", "Multiselect", false, "", 0, 0, true, "@materiales"],
+            ["practica_reactivos", "Reactivos", "Multiselect", false, "", 0, 0, false, "@reactivos"],
+            ["duracion", "Duración ", "Integer", false, "3600", 0, 11, true],
+            ["practica_pdf", "Subir práctica ", "File", false, "", 0, 0, true],
         ]);
 		
 		/*

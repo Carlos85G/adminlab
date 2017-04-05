@@ -17,13 +17,13 @@ use Collective\Html\FormFacade as Form;
 use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
 
-use App\Models\Material;
+use App\Models\Materiale;
 
 class MaterialesController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'nombre';
-	public $listing_cols = ['id', 'estante', 'anaquel', 'codigo', 'marca', 'descripcion', 'cantidad'];
+	public $listing_cols = ['id', 'descripcion', 'anaquel', 'estante', 'marca', 'codigo', 'cantidad'];
 	
 	public function __construct() {
 		// Field Access of Listing Columns
@@ -104,17 +104,17 @@ class MaterialesController extends Controller
 	{
 		if(Module::hasAccess("Materiales", "view")) {
 			
-			$material = Material::find($id);
-			if(isset($material->id)) {
+			$materiale = Materiale::find($id);
+			if(isset($materiale->id)) {
 				$module = Module::get('Materiales');
-				$module->row = $material;
+				$module->row = $materiale;
 				
 				return view('la.materiales.show', [
 					'module' => $module,
 					'view_col' => $this->view_col,
 					'no_header' => true,
 					'no_padding' => "no-padding"
-				])->with('materiale', $material);
+				])->with('materiale', $materiale);
 			} else {
 				return view('errors.404', [
 					'record_id' => $id,
@@ -135,16 +135,16 @@ class MaterialesController extends Controller
 	public function edit($id)
 	{
 		if(Module::hasAccess("Materiales", "edit")) {			
-			$material = Material::find($id);
-			if(isset($material->id)) {	
+			$materiale = Materiale::find($id);
+			if(isset($materiale->id)) {	
 				$module = Module::get('Materiales');
 				
-				$module->row = $material;
+				$module->row = $materiale;
 				
 				return view('la.materiales.edit', [
 					'module' => $module,
 					'view_col' => $this->view_col,
-				])->with('materiale', $material);
+				])->with('materiale', $materiale);
 			} else {
 				return view('errors.404', [
 					'record_id' => $id,
@@ -193,7 +193,7 @@ class MaterialesController extends Controller
 	public function destroy($id)
 	{
 		if(Module::hasAccess("Materiales", "delete")) {
-			Material::find($id)->delete();
+			Materiale::find($id)->delete();
 			
 			// Redirecting to index() method
 			return redirect()->route(config('laraadmin.adminRoute') . '.materiales.index');

@@ -22,9 +22,9 @@ use App\Models\Practica;
 class PracticasController extends Controller
 {
 	public $show_action = true;
-	public $view_col = 'nombre';
-	public $listing_cols = ['id', 'nombre', 'objetivo', 'introduccion', 'bibliografia', 'procedimiento', 'preguntas'];
-	
+	public $view_col = 'practiva_reactivos';
+	public $listing_cols = ['id', 'practica_laboratorio', 'nombre', 'objetivo', 'practica_materiales', 'practica_reactivos', 'duracion', 'practica_pdf'];
+
 	public function __construct() {
 		// Field Access of Listing Columns
 		if(\Dwij\Laraadmin\Helpers\LAHelper::laravel_ver() == 5.3) {
@@ -36,7 +36,7 @@ class PracticasController extends Controller
 			$this->listing_cols = ModuleFields::listingColumnAccessScan('Practicas', $this->listing_cols);
 		}
 	}
-	
+
 	/**
 	 * Display a listing of the Practicas.
 	 *
@@ -45,7 +45,7 @@ class PracticasController extends Controller
 	public function index()
 	{
 		$module = Module::get('Practicas');
-		
+
 		if(Module::hasAccess($module->id)) {
 			return View('la.practicas.index', [
 				'show_actions' => $this->show_action,
@@ -76,19 +76,19 @@ class PracticasController extends Controller
 	public function store(Request $request)
 	{
 		if(Module::hasAccess("Practicas", "create")) {
-		
+
 			$rules = Module::validateRules("Practicas", $request);
-			
+
 			$validator = Validator::make($request->all(), $rules);
-			
+
 			if ($validator->fails()) {
 				return redirect()->back()->withErrors($validator)->withInput();
 			}
-			
+
 			$insert_id = Module::insert("Practicas", $request);
-			
+
 			return redirect()->route(config('laraadmin.adminRoute') . '.practicas.index');
-			
+
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
 		}
@@ -103,12 +103,12 @@ class PracticasController extends Controller
 	public function show($id)
 	{
 		if(Module::hasAccess("Practicas", "view")) {
-			
+
 			$practica = Practica::find($id);
 			if(isset($practica->id)) {
 				$module = Module::get('Practicas');
 				$module->row = $practica;
-				
+
 				return view('la.practicas.show', [
 					'module' => $module,
 					'view_col' => $this->view_col,
@@ -134,13 +134,13 @@ class PracticasController extends Controller
 	 */
 	public function edit($id)
 	{
-		if(Module::hasAccess("Practicas", "edit")) {			
+		if(Module::hasAccess("Practicas", "edit")) {
 			$practica = Practica::find($id);
-			if(isset($practica->id)) {	
+			if(isset($practica->id)) {
 				$module = Module::get('Practicas');
-				
+
 				$module->row = $practica;
-				
+
 				return view('la.practicas.edit', [
 					'module' => $module,
 					'view_col' => $this->view_col,
@@ -166,19 +166,19 @@ class PracticasController extends Controller
 	public function update(Request $request, $id)
 	{
 		if(Module::hasAccess("Practicas", "edit")) {
-			
+
 			$rules = Module::validateRules("Practicas", $request, true);
-			
+
 			$validator = Validator::make($request->all(), $rules);
-			
+
 			if ($validator->fails()) {
 				return redirect()->back()->withErrors($validator)->withInput();;
 			}
-			
+
 			$insert_id = Module::updateRow("Practicas", $request, $id);
-			
+
 			return redirect()->route(config('laraadmin.adminRoute') . '.practicas.index');
-			
+
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
 		}
@@ -194,14 +194,14 @@ class PracticasController extends Controller
 	{
 		if(Module::hasAccess("Practicas", "delete")) {
 			Practica::find($id)->delete();
-			
+
 			// Redirecting to index() method
 			return redirect()->route(config('laraadmin.adminRoute') . '.practicas.index');
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
 		}
 	}
-	
+
 	/**
 	 * Datatable Ajax fetch
 	 *
@@ -214,9 +214,9 @@ class PracticasController extends Controller
 		$data = $out->getData();
 
 		$fields_popup = ModuleFields::getModuleFields('Practicas');
-		
+
 		for($i=0; $i < count($data->data); $i++) {
-			for ($j=0; $j < count($this->listing_cols); $j++) { 
+			for ($j=0; $j < count($this->listing_cols); $j++) {
 				$col = $this->listing_cols[$j];
 				if($fields_popup[$col] != null && starts_with($fields_popup[$col]->popup_vals, "@")) {
 					$data->data[$i][$j] = ModuleFields::getFieldValue($fields_popup[$col], $data->data[$i][$j]);
@@ -228,13 +228,13 @@ class PracticasController extends Controller
 				//    $data->data[$i][$j];
 				// }
 			}
-			
+
 			if($this->show_action) {
 				$output = '';
 				if(Module::hasAccess("Practicas", "edit")) {
 					$output .= '<a href="'.url(config('laraadmin.adminRoute') . '/practicas/'.$data->data[$i][0].'/edit').'" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>';
 				}
-				
+
 				if(Module::hasAccess("Practicas", "delete")) {
 					$output .= Form::open(['route' => [config('laraadmin.adminRoute') . '.practicas.destroy', $data->data[$i][0]], 'method' => 'delete', 'style'=>'display:inline']);
 					$output .= ' <button class="btn btn-danger btn-xs" type="submit"><i class="fa fa-times"></i></button>';
