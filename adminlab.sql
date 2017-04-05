@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-04-2017 a las 05:03:32
+-- Tiempo de generación: 05-04-2017 a las 05:09:37
 -- Versión del servidor: 5.7.14
 -- Versión de PHP: 5.6.25
 
@@ -204,7 +204,7 @@ CREATE TABLE IF NOT EXISTS `la_menus` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `la_menus`
@@ -214,12 +214,13 @@ INSERT INTO `la_menus` (`id`, `name`, `url`, `icon`, `type`, `parent`, `hierarch
 (2, 'Users', 'users', 'fa-group', 'module', 1, 1, '2017-03-07 04:21:33', '2017-03-07 11:15:08'),
 (6, 'Roles', 'roles', 'fa-user-plus', 'module', 1, 2, '2017-03-07 04:21:33', '2017-03-07 11:15:08'),
 (8, 'Permissions', 'permissions', 'fa-magic', 'module', 1, 3, '2017-03-07 04:21:33', '2017-03-07 11:15:08'),
-(9, 'Préstamos', 'prestamos', 'fa fa-cube', 'module', 0, 3, '2017-03-07 08:50:08', '2017-03-07 11:37:06'),
-(10, 'Reservaciones', 'reservaciones', 'fa fa-cube', 'module', 0, 2, '2017-03-07 09:09:21', '2017-03-07 11:37:06'),
+(9, 'Préstamos', 'prestamos', 'fa fa-cube', 'module', 0, 2, '2017-03-07 08:50:08', '2017-04-05 08:49:56'),
+(10, 'Reservaciones', 'reservaciones', 'fa fa-cube', 'module', 0, 1, '2017-03-07 09:09:21', '2017-04-05 08:49:56'),
 (11, 'Laboratorios', 'laboratorios', 'fa fa-cube', 'module', 10, 2, '2017-03-07 09:31:27', '2017-03-07 11:37:24'),
 (12, 'Prácticas', 'practicas', 'fa fa-cube', 'module', 10, 1, '2017-03-07 09:41:34', '2017-03-07 11:37:20'),
 (13, 'Materiales', 'materiales', 'fa fa-cube', 'module', 10, 3, '2017-03-07 10:08:11', '2017-03-07 11:37:27'),
-(16, 'Reactivos', 'reactivos', 'fa fa-cube', 'module', 10, 4, '2017-03-07 11:36:24', '2017-03-07 11:37:34');
+(16, 'Reactivos', 'reactivos', 'fa fa-cube', 'module', 10, 4, '2017-03-07 11:36:24', '2017-03-07 11:37:34'),
+(19, 'Users', 'users', 'fa-group', 'module', 0, 3, '2017-04-05 08:49:52', '2017-04-05 08:49:56');
 
 -- --------------------------------------------------------
 
@@ -362,7 +363,7 @@ INSERT INTO `module_fields` (`id`, `colname`, `label`, `module`, `field_type`, `
 (2, 'contexto_id', 'Contexto', 1, 13, 0, '0', 0, 11, 0, '', 0, '2017-03-07 04:21:30', '2017-03-07 10:50:31'),
 (3, 'email', 'Email', 1, 8, 1, '', 0, 250, 0, '', 0, '2017-03-07 04:21:30', '2017-03-07 04:21:30'),
 (4, 'password', 'Password', 1, 17, 0, '', 3, 250, 1, '', 0, '2017-03-07 04:21:30', '2017-03-07 11:19:48'),
-(5, 'tipo', 'Tipo de Usuario', 1, 7, 0, 'Asignatura', 0, 0, 1, '["Asignatura","Tiempo Completo","Investigador","Administrador"]', 0, '2017-03-07 04:21:30', '2017-03-07 11:19:11'),
+(5, 'tipo', 'Tipo de Usuario', 1, 7, 0, '', 0, 0, 1, '@roles', 0, '2017-03-07 04:21:30', '2017-04-05 08:49:29'),
 (6, 'name', 'Name', 2, 16, 0, '', 5, 250, 1, '', 0, '2017-03-07 04:21:30', '2017-03-07 04:21:30'),
 (7, 'path', 'Path', 2, 19, 0, '', 0, 250, 0, '', 0, '2017-03-07 04:21:30', '2017-03-07 04:21:30'),
 (8, 'extension', 'Extension', 2, 19, 0, '', 0, 20, 0, '', 0, '2017-03-07 04:21:30', '2017-03-07 04:21:30'),
@@ -645,14 +646,18 @@ CREATE TABLE IF NOT EXISTS `roles` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `roles_name_unique` (`name`),
   KEY `roles_parent_foreign` (`parent`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `roles`
 --
 
 INSERT INTO `roles` (`id`, `name`, `display_name`, `description`, `parent`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 'SUPER_ADMIN', 'Administrador Raíz', 'Administrador de sistema', 0, NULL, '2017-03-07 04:21:33', '2017-03-07 10:53:37');
+(1, 'SUPER_ADMIN', 'Administrador Raíz', 'Administrador de sistema', 0, NULL, '2017-03-07 04:21:33', '2017-03-07 10:53:37'),
+(2, 'LabAdmin', 'Lab Admin', 'Administrador del laboratorio.', 1, NULL, '2017-04-05 08:28:07', '2017-04-05 08:28:07'),
+(3, 'Asignatura', 'Asignatura', 'Profesor de asignatura.', 2, NULL, '2017-04-05 08:46:07', '2017-04-05 08:47:46'),
+(4, 'Tiempo completo', 'Tiempo completo', 'Profesor tiempo completo', 2, NULL, '2017-04-05 08:47:33', '2017-04-05 08:47:52'),
+(5, 'Investigador', 'investigador', 'Investigador de Cuvalles.', 2, NULL, '2017-04-05 08:48:31', '2017-04-05 08:48:31');
 
 -- --------------------------------------------------------
 
@@ -874,21 +879,23 @@ CREATE TABLE IF NOT EXISTS `users` (
   `contexto_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
   `email` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(250) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `tipo` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Asignatura',
+  `tipo` int(10) UNSIGNED NOT NULL DEFAULT '1',
   `remember_token` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  UNIQUE KEY `users_email_unique` (`email`),
+  KEY `users_tipo_foreign` (`tipo`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `users`
 --
 
 INSERT INTO `users` (`id`, `nombre`, `contexto_id`, `email`, `password`, `tipo`, `remember_token`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 'Administrador', 1, 'administrador@adminlab.com', '$2y$10$.EpR/BnPbdzHLIE8Bb1ok.GSvCVr4N/9R8lzQFSYjknlZJ4CFUgOq', 'Administrador', 'xlBm6rj8T14twoU56BfpawgUSn63JNYpAwHQX0RwpQSc9i38xkGD29ers8LB', NULL, '2017-03-07 04:23:44', '2017-04-05 05:27:38');
+(1, 'Administrador', 1, 'administrador@adminlab.com', '$2y$10$.EpR/BnPbdzHLIE8Bb1ok.GSvCVr4N/9R8lzQFSYjknlZJ4CFUgOq', 0, 'SHmOKZOX6FkcClMQtPj4rrmy2KzQpakCioBZgWgMgbT4Zj6VsWmFP3YdbX72', NULL, '2017-03-07 04:23:44', '2017-04-05 08:25:04'),
+(2, 'Rogelio Jimenez Meza', 1, 'rjmultimedia@gmail.com', '$2y$10$jpSQhUQ1RwfyDrvdUuM1KOvtfn.nSsbvM5eQvYOO1qyUw.1koz10y', 3, NULL, NULL, '2017-04-05 08:51:37', '2017-04-05 08:51:37');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
