@@ -27,7 +27,7 @@
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('/la-assets/css/bootstrap.css') }}" rel="stylesheet">
 
-	<link href="{{ asset('la-assets/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />
+	   <link href="{{ asset('la-assets/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />
 
     <!-- Custom styles for this template -->
     <link href="{{ asset('/la-assets/css/main.css') }}" rel="stylesheet">
@@ -37,6 +37,14 @@
 
     <script src="{{ asset('/la-assets/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
     <script src="{{ asset('/la-assets/js/smoothscroll.js') }}"></script>
+
+    <!-- Funciones de FullCalendar -->
+    <link href="{{ asset('/js/fullcalendar-3.3.1/lib/cupertino/jquery-ui.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('/js/fullcalendar-3.3.1/fullcalendar.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('/js/fullcalendar-3.3.1/fullcalendar.print.min.css') }}" rel="stylesheet" media="print" />
+    <script src="{{ asset('/js/moment-2.18.1/moment-with-locales.min.js') }}"></script>
+    <script src="{{ asset('/js/fullcalendar-3.3.1/fullcalendar.min.js') }}"></script>
+    <script src="{{ asset('/js/fullcalendar-3.3.1/locale-all.js') }}"></script>
 
 
 </head>
@@ -86,8 +94,9 @@
                 <p>Acceso para Laboratorios</p>
                 <img class="hidden-xs hidden-sm hidden-md" src="{{ asset('/la-assets/img/arrow1.png') }}">
             </div>
-            <div class="col-lg-8">
-                <iframe src="https://calendar.google.com/calendar/embed?src=admlab.cuvalles%40gmail.com&ctz=America/Mexico_City" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+            <div class="col-lg-8" id="calendario">
+                <div id="calendario"></div>
+                <!--<iframe src="https://calendar.google.com/calendar/embed?src=admlab.cuvalles%40gmail.com&ctz=America/Mexico_City" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>-->
             </div>
             <div class="col-lg-12">
                 <h1>{{ LAConfigs::getByKey('sitename_part1') }} <b><a>{{ LAConfigs::getByKey('sitename_part2') }}</a></b></h1>
@@ -169,11 +178,13 @@
               <br />
       				Desarrollado por:
                 <br />
-                Ing. Rogelio Jim&eacute;nez Meza
+                Ing. Jes&uacute;s Adri&aacute;n Arroyo Ceja
                 <br />
                 Ing. Carlos Eduardo Gonz&aacute;lez L&oacute;pez
                 <br />
-                Ing. Jes&uacute;s Adri&aacute;n Arroyo Ceja
+                Ing. Rogelio Jim&eacute;nez Meza
+                <br />
+                Lic. Lissette Ahumada Castellanos
                 <br />
                 Centro Universitario de los Valles
             </p>
@@ -195,7 +206,7 @@
                     <input type="name" name="Name" class="form-control" id="name1" placeholder="Tu nombre">
                 </div>
                 <div class="form-group">
-                    <label for="email1">Correo Electr&oacute;onico</label>
+                    <label for="email1">Correo Electr&oacute;nico</label>
                     <input type="email" name="Mail" class="form-control" id="email1" placeholder="Escribe tu correo electr&oacute;nico">
                 </div>
                 <div class="form-group">
@@ -211,7 +222,7 @@
 <div id="c">
     <div class="container">
         <p>
-            <strong>Copyright &copy; 2017. Powered by <a href="MISCUVALLES.com"><b>Maestr&iacute;a en Ingenier&iacute;a de Software</b></a>
+            <strong>Copyright &copy; 2017. Powered by </strong><a href="http://servermis.cuvalles.udg.mx"><b>Maestr&iacute;a en Ingenier&iacute;a de Software</b></a>
         </p>
     </div>
 </div>
@@ -222,9 +233,25 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="{{ asset('/la-assets/js/bootstrap.min.js') }}" type="text/javascript"></script>
 <script>
-    $('.carousel').carousel({
-        interval: 3500
-    })
+    $(document).ready(function(){
+        $('.carousel').carousel({
+            interval: 3500
+        });
+
+        $('#calendario').fullCalendar({
+            header: {
+      				left: 'prev,next today',
+      				center: 'title',
+      				right: 'month'
+      			},
+            theme: true,
+            locale: 'es-do',/* Para incluir el AM y PM */
+      			eventClick: function(event) {
+        				window.open(event.url, 'gcalevent', 'width=700,height=600');
+        				return false;
+      			}
+        });
+    });
 </script>
 </body>
 </html>
