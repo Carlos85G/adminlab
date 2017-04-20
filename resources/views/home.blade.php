@@ -44,7 +44,8 @@
     <link href="{{ asset('/js/fullcalendar-3.3.1/fullcalendar.print.min.css') }}" rel="stylesheet" media="print" />
     <script src="{{ asset('/js/moment-2.18.1/moment-with-locales.min.js') }}"></script>
     <script src="{{ asset('/js/fullcalendar-3.3.1/fullcalendar.min.js') }}"></script>
-    <script src="{{ asset('/js/fullcalendar-3.3.1/locale-all.js') }}"></script>
+    <!-- Cargar archivo de localización -->
+    <script src="{{ asset('/js/fullcalendar-3.3.1/locale/es-do.js') }}"></script>
 
 
 </head>
@@ -245,7 +246,6 @@
       				right: 'month'
       			},
             theme: true,
-            locale: 'es-do',/* Para incluir el AM y PM */
       			eventClick: function(event) {
         				window.open(event.url, 'gcalevent', 'width=700,height=600');
         				return false;
