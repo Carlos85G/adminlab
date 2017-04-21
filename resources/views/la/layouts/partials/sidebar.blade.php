@@ -11,7 +11,7 @@
                     <img src="{{ Gravatar::fallback(asset('la-assets/img/user2-160x160.jpg'))->get(Auth::user()->email) }}" class="img-circle" alt="User Image" />
                 </div>
                 <div class="pull-left info">
-                    <p>{{ Auth::user()->name }}</p>
+                    <p>{{ Auth::user()->nombre }}</p>
                     <!-- Status -->
                     <a href="#"><i class="fa fa-circle text-success"></i> En l&iacute;nea</a>
                 </div>

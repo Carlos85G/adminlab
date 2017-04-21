@@ -79,7 +79,7 @@
                       // <li><a href="{{ url('/register') }}">Register</a></li>
                     ?>
                 @else
-                    <li><a href="{{ url(config('laraadmin.adminRoute')) }}">{{ Auth::user()->name }}</a></li>
+                    <li><a href="{{ url(config('laraadmin.adminRoute')) }}">{{ Auth::user()->nombre }}</a></li>
                 @endif
             </ul>
         </div><!--/.nav-collapse -->
