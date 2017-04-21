@@ -69,4 +69,31 @@ class GoogleCalendar {
         $results = $this->service->calendars->get($calendarId);
         return $results;
     }
+
+    /**
+     * Función para obtener los eventos del calendario seleccionado GoogleCalendar
+     * @param string $calendarId: El id del calendario a obtener. El no añadirlo asumirá el calendario principal
+     * @param array $extras: Arreglo con configuraciones a pasar para la función
+     * @return array(Google_Service_Calendar_Event)
+     */
+    public function listEvents($calendarId = null, $extras = null)
+    {
+        $parametros = array(
+            'orderBy' => 'startTime',
+            'singleEvents' => TRUE,
+        );
+
+        if(!isset($calendarId)){
+            $calendarId = $this->calendarioPrincipal;
+        }
+
+        /*Agregar opciones extras, en caso que las haya*/
+        if(is_array($extras)){
+            $parametros = array_merge($parametros, $extras);
+        }
+
+        $results = $this->service->events->listEvents($calendarId, $parametros);
+
+        return $results->getItems();
+    }
 }

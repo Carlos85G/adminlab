@@ -33,10 +33,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $calendario = new GoogleCalendar();
-
-        $objetoCalendario = $calendario->get();
-
         $roleCount = \App\Role::count();
     		if($roleCount != 0) {
       			if($roleCount != 0) {

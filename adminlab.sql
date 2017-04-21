@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-04-2017 a las 05:09:37
+-- Tiempo de generación: 21-04-2017 a las 06:06:04
 -- Versión del servidor: 5.7.14
 -- Versión de PHP: 5.6.25
 
@@ -204,7 +204,7 @@ CREATE TABLE IF NOT EXISTS `la_menus` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `la_menus`
@@ -216,11 +216,13 @@ INSERT INTO `la_menus` (`id`, `name`, `url`, `icon`, `type`, `parent`, `hierarch
 (8, 'Permissions', 'permissions', 'fa-magic', 'module', 1, 3, '2017-03-07 04:21:33', '2017-03-07 11:15:08'),
 (9, 'Préstamos', 'prestamos', 'fa fa-cube', 'module', 0, 2, '2017-03-07 08:50:08', '2017-04-05 08:49:56'),
 (10, 'Reservaciones', 'reservaciones', 'fa fa-cube', 'module', 0, 1, '2017-03-07 09:09:21', '2017-04-05 08:49:56'),
-(11, 'Laboratorios', 'laboratorios', 'fa fa-cube', 'module', 10, 2, '2017-03-07 09:31:27', '2017-03-07 11:37:24'),
-(12, 'Prácticas', 'practicas', 'fa fa-cube', 'module', 10, 1, '2017-03-07 09:41:34', '2017-03-07 11:37:20'),
-(13, 'Materiales', 'materiales', 'fa fa-cube', 'module', 10, 3, '2017-03-07 10:08:11', '2017-03-07 11:37:27'),
-(16, 'Reactivos', 'reactivos', 'fa fa-cube', 'module', 10, 4, '2017-03-07 11:36:24', '2017-03-07 11:37:34'),
-(19, 'Users', 'users', 'fa-group', 'module', 0, 3, '2017-04-05 08:49:52', '2017-04-05 08:49:56');
+(11, 'Laboratorios', 'laboratorios', 'fa fa-cube', 'module', 20, 2, '2017-03-07 09:31:27', '2017-04-21 10:59:34'),
+(12, 'Prácticas', 'practicas', 'fa fa-cube', 'module', 20, 1, '2017-03-07 09:41:34', '2017-04-21 10:59:30'),
+(13, 'Materiales', 'materiales', 'fa fa-cube', 'module', 20, 3, '2017-03-07 10:08:11', '2017-04-21 10:59:40'),
+(16, 'Reactivos', 'reactivos', 'fa fa-cube', 'module', 20, 4, '2017-03-07 11:36:24', '2017-04-21 10:59:43'),
+(19, 'Users', 'users', 'fa-group', 'module', 21, 1, '2017-04-05 08:49:52', '2017-04-21 11:00:16'),
+(20, 'Configuración', '#', 'fa-cube', 'custom', 0, 3, '2017-04-21 10:59:12', '2017-04-21 11:00:16'),
+(21, 'Administración', '#', 'fa-cube', 'custom', 0, 4, '2017-04-21 11:00:00', '2017-04-21 11:00:16');
 
 -- --------------------------------------------------------
 
@@ -377,8 +379,8 @@ INSERT INTO `module_fields` (`id`, `colname`, `label`, `module`, `field_type`, `
 (33, 'parent', 'Parent Role', 5, 7, 0, '1', 0, 0, 0, '@roles', 0, '2017-03-07 04:21:31', '2017-03-07 04:21:31'),
 (74, 'estante', 'Número de Estante', 13, 13, 0, '', 1, 11, 1, '', 3, '2017-03-07 11:28:21', '2017-03-07 11:28:21'),
 (73, 'anaquel', 'Número de Anaquel', 13, 13, 0, '', 1, 11, 1, '', 2, '2017-03-07 11:27:47', '2017-03-07 11:27:47'),
-(72, 'codigo', 'Código', 13, 16, 0, '', 3, 256, 1, '', 5, '2017-03-07 11:27:17', '2017-03-07 11:27:17'),
-(71, 'marca', 'Marca', 13, 16, 0, '', 3, 256, 1, '', 4, '2017-03-07 11:26:40', '2017-03-07 11:26:40'),
+(72, 'codigo', 'Código', 13, 22, 0, '', 3, 256, 1, '', 5, '2017-03-07 11:27:17', '2017-04-05 20:55:28'),
+(71, 'marca', 'Marca', 13, 22, 0, '', 3, 256, 1, '', 4, '2017-03-07 11:26:40', '2017-04-05 20:55:45'),
 (46, 'name', 'Name', 7, 16, 1, '', 0, 250, 1, '', 0, '2017-03-07 04:21:31', '2017-03-07 04:21:31'),
 (47, 'file_name', 'File Name', 7, 19, 1, '', 0, 250, 1, '', 0, '2017-03-07 04:21:31', '2017-03-07 04:21:31'),
 (48, 'backup_size', 'File Size', 7, 19, 0, '0', 0, 10, 1, '', 0, '2017-03-07 04:21:31', '2017-03-07 04:21:31'),
@@ -392,7 +394,7 @@ INSERT INTO `module_fields` (`id`, `colname`, `label`, `module`, `field_type`, `
 (56, 'nombre', 'Nombre', 11, 16, 1, '', 3, 256, 1, '', 0, '2017-03-07 09:31:16', '2017-03-07 09:31:16'),
 (57, 'nombre', 'Nombre', 12, 16, 1, '', 3, 256, 1, '', 1, '2017-03-07 09:32:49', '2017-03-07 09:32:49'),
 (58, 'objetivo', 'Objetivo', 12, 21, 0, '', 3, 256, 1, '', 2, '2017-03-07 09:33:23', '2017-03-08 22:47:51'),
-(81, 'practica_materiales', 'Materiales', 12, 15, 0, '', 0, 0, 1, '@materiales', 3, '2017-04-05 05:08:21', '2017-04-05 05:50:31'),
+(81, 'practica_materiales', 'Materiales', 12, 15, 0, '', 0, 0, 1, '@materiales', 3, '2017-04-05 05:08:21', '2017-04-05 21:05:11'),
 (80, 'duracion', 'Duración ', 12, 13, 0, '3600', 0, 11, 1, '', 5, '2017-04-05 05:02:51', '2017-04-05 05:02:51'),
 (79, 'practica_pdf', 'Subir práctica ', 12, 9, 0, '', 0, 0, 1, '', 6, '2017-04-05 04:57:34', '2017-04-05 04:57:34'),
 (63, 'descripcion', 'Descripción', 13, 16, 1, '', 3, 256, 1, '', 1, '2017-03-07 09:48:40', '2017-03-07 11:26:16'),
@@ -894,7 +896,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `nombre`, `contexto_id`, `email`, `password`, `tipo`, `remember_token`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 'Administrador', 1, 'administrador@adminlab.com', '$2y$10$.EpR/BnPbdzHLIE8Bb1ok.GSvCVr4N/9R8lzQFSYjknlZJ4CFUgOq', 0, 'SHmOKZOX6FkcClMQtPj4rrmy2KzQpakCioBZgWgMgbT4Zj6VsWmFP3YdbX72', NULL, '2017-03-07 04:23:44', '2017-04-05 08:25:04'),
+(1, 'Administrador', 1, 'administrador@adminlab.com', '$2y$10$.EpR/BnPbdzHLIE8Bb1ok.GSvCVr4N/9R8lzQFSYjknlZJ4CFUgOq', 0, '1rR7RKiP8PscoyHYcmyDh5wDsYDM655jGonzkfy3XwRwzj7YTtse7QbrcPyS', NULL, '2017-03-07 04:23:44', '2017-04-20 13:10:37'),
 (2, 'Rogelio Jimenez Meza', 1, 'rjmultimedia@gmail.com', '$2y$10$jpSQhUQ1RwfyDrvdUuM1KOvtfn.nSsbvM5eQvYOO1qyUw.1koz10y', 3, NULL, NULL, '2017-04-05 08:51:37', '2017-04-05 08:51:37');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

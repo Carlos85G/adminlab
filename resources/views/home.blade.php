@@ -247,6 +247,7 @@
       				right: 'month'
       			},
             theme: true,
+            events: '{{ route("api_calendario_eventos") }}',
       			eventClick: function(event) {
         				window.open(event.url, 'gcalevent', 'width=700,height=600');
         				return false;

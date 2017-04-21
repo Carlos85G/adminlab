@@ -15,6 +15,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/api/calendario/eventos/', [
+    'as' => 'api_calendario_eventos',
+    'uses' => 'GoogleCalendarController@index'
+]);
+
+Route::get('/api/calendario/eventos/tabla/', [
+    'as' => 'api_calendario_eventos_tabla',
+    'uses' => 'GoogleCalendarController@getMostRecent'
+]);
+
 /* ================== Homepage + Admin Routes ================== */
 
 require __DIR__.'/admin_routes.php';

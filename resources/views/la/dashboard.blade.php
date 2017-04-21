@@ -9,82 +9,38 @@
         <section class="content">
           <!-- Main row -->
           <div class="row">
-            <div class="coll-lg-7 col-xs-7">
-              <!-- Calendar -->
-              <div class="box box-solid bg-green-gradient">
+            <!-- Left col -->
+            <section class="col-lg-7 connectedSortable">
+              <!-- Calendario -->
+              <div class="box box-success">
                 <div class="box-header">
                   <i class="fa fa-calendar"></i>
                   <h3 class="box-title">Calendario de reservaciones</h3>
-                  <!-- tools box -->
-                  <div class="pull-right box-tools">
-                    <!-- button with a dropdown -->
-                    <div class="btn-group">
-                      <button class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bars"></i></button>
-                      <ul class="dropdown-menu pull-right" role="menu">
-                        <li><a href="#">A&ntilde;adir nuevo evento</a></li>
-                        <li><a href="#">Limpiar eventos</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Ver calendario</a></li>
-                      </ul>
-                    </div>
-                    <button class="btn btn-success btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                    <button class="btn btn-success btn-sm" data-widget="remove"><i class="fa fa-times"></i></button>
-                  </div><!-- /. tools -->
-                </div><!-- /.box-header -->
-                <div class="box-body no-padding">
-                  <!--The calendar -->
-                  <div id="calendar" style="width: 100%"></div>
+                </div>
+                <div class="box-body" id="calendario">
+                  <!--item -->
+                  <!--<div class="item" ></div>--><!-- /.item -->
+                </div><!-- /.calendario -->
+                <div class="box-footer"></div>
+              </div><!-- /.box (chat box) -->
+            </section><!-- /.Left col -->
+            <!-- right col (We are only adding the ID to make the widgets sortable)-->
+            <section class="col-lg-5 connectedSortable">
+              <!-- Listado de eventos -->
+              <div class="box box-success">
+                <div class="box-body">
+              		<table id="eventos" class="table table-bordered">
+              		<thead>
+              		<tr class="success">
+              			<th>ID</th>
+              			<th>Evento</th>
+              		</tr>
+              		</thead>
+              		<tbody></tbody>
+              		</table>
                 </div><!-- /.box-body -->
-                <div class="box-footer text-black">
-                  <div class="row">
-                    <div class="col-sm-6"> <!-- Espacio abajo-->
-
-                    </div><!-- /.col -->
-                  </div><!-- /.row -->
-                </div>
               </div><!-- /.box -->
-            </div>
-            <!-- Tabla de algo-->
-            <div class="coll-lg-5 col-xs-5">
-              <div class="panel panel-default">
-                <!-- Default panel contents -->
-                <div class="panel-heading">Evento</div>
-                <!-- List group -->
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>Evento</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>Holi</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">2</th>
-                        <td>Holi de nuevo</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">3</th>
-                        <td>Lorem ipsum</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">4</th>
-                        <td>Holi de nuevo</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">5</th>
-                        <td>Lorem ipsum</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                <div class="panel-body">
-                  <p>Mostrando 1 a 6 registros</p>
-                </div>
-              </div>
-            </div>
+            </section><!-- right col -->
           </div><!-- /.row (main row) -->
         </section><!-- /.content -->
 @endsection
@@ -100,18 +56,25 @@
 <link rel="stylesheet" href="{{ asset('la-assets/plugins/daterangepicker/daterangepicker-bs3.css') }}">
 <!-- bootstrap wysihtml5 - text editor -->
 <link rel="stylesheet" href="{{ asset('la-assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
+
+<!-- Funciones de FullCalendar -->
+<link href="{{ asset('/js/fullcalendar-3.3.1/lib/cupertino/jquery-ui.min.css') }}" rel="stylesheet" />
+<link href="{{ asset('/js/fullcalendar-3.3.1/fullcalendar.min.css') }}" rel="stylesheet" />
+<link href="{{ asset('/js/fullcalendar-3.3.1/fullcalendar.print.min.css') }}" rel="stylesheet" media="print" />
 @endpush
 
 
 @push('scripts')
 <!-- jQuery UI 1.11.4 -->
-<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<!--<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>-->
+<script src="{{ asset('/js/jquery-ui-1.11.4/jquery-ui.min.js') }}"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
   $.widget.bridge('uibutton', $.ui.button);
 </script>
 <!-- Morris.js charts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>-->
+<script src="{{ asset('/js/raphael-2.1.0/raphael-min.js') }}"></script>
 <script src="{{ asset('la-assets/plugins/morris/morris.min.js') }}"></script>
 <!-- Sparkline -->
 <script src="{{ asset('la-assets/plugins/sparkline/jquery.sparkline.min.js') }}"></script>
@@ -121,7 +84,8 @@
 <!-- jQuery Knob Chart -->
 <script src="{{ asset('la-assets/plugins/knob/jquery.knob.js') }}"></script>
 <!-- daterangepicker -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>-->
+<script src="{{ asset('/js/moment-2.18.1/moment-with-locales.min.js') }}"></script>
 <script src="{{ asset('la-assets/plugins/daterangepicker/daterangepicker.js') }}"></script>
 <!-- datepicker -->
 <script src="{{ asset('la-assets/plugins/datepicker/bootstrap-datepicker.js') }}"></script>
@@ -131,4 +95,71 @@
 <script src="{{ asset('la-assets/plugins/fastclick/fastclick.js') }}"></script>
 <!-- dashboard -->
 <script src="{{ asset('la-assets/js/pages/dashboard.js') }}"></script>
+<!-- FullCalendar -->
+<script src="{{ asset('/js/fullcalendar-3.3.1/fullcalendar.min.js') }}"></script>
+<!-- Cargar archivo de localización -->
+<script src="{{ asset('/js/fullcalendar-3.3.1/locale/es-do.js') }}"></script>
+<!--DataTable-->
+<script src="{{ asset('la-assets/plugins/datatables/datatables.min.js') }}"></script>
+@endpush
+
+@push('scripts')
+<script type="text/javascript">
+  $(document).ready(function(){
+      $('.carousel').carousel({
+          interval: 3500
+      });
+
+      $('#calendario').fullCalendar({
+          header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month'
+          },
+          theme: true,
+          events: '{{ route("api_calendario_eventos") }}',
+          eventClick: function(event) {
+              window.open(event.url, 'gcalevent', 'width=700,height=600');
+              return false;
+          }
+      });
+
+      $("#eventos").DataTable({
+      		processing: true,
+          ajax: '{{ route("api_calendario_eventos_tabla") }}',
+          searching: false,
+      		language: {
+      				lengthMenu: "_MENU_",
+      				search: "_INPUT_",
+      				searchPlaceholder: "Buscar",
+      				emptyTable: "No hay registros",
+      				info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+      				infoEmpty: "Mostrando desde 0 hasta 0 de 0 registros",
+      				infoFiltered: "(filtrado de un total de _MAX_ registros)",
+      				infoPostFix: "",
+      				thousands: ",",
+      				lengthMenu: "Mostrar _MENU_ registros",
+      				loadingRecords: "Cargando...",
+      				processing: "Procesando...",
+      				zeroRecords: "No se encontraron coincidencias",
+      				paginate: {
+      						first: "Primero",
+      						last: "&Uacute;ltimo",
+      						next: "Siguiente",
+      						previous: "Anterior"
+      				},
+      				aria: {
+      						sortAscending: ": activar para ordenar la columna de manera ascendente",
+      						sortDescending: ": activar para ordenar la columna de manera descendente"
+      				}
+      		}/*,
+      		columnDefs: [
+              {
+                  orderable: false,
+                  targets: [-1]
+              }
+          ]*/
+    	});
+  });
+</script>
 @endpush
