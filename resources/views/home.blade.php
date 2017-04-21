@@ -66,7 +66,9 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#home" class="smoothScroll">Accede</a></li>
+                @if (Auth::guest())
+                <li class="active"><a href="#botonLogin" class="smoothScroll">Accede</a></li>
+                @endif
                 <?php
                   // <li><a href="#about" class="smoothScroll">Avisos</a></li>
                 ?>
@@ -100,7 +102,7 @@
                 <div id="calendario"></div>
                 <!--<iframe src="https://calendar.google.com/calendar/embed?src=admlab.cuvalles%40gmail.com&ctz=America/Mexico_City" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>-->
             </div>
-            <div class="col-lg-12">
+            <div class="col-lg-12" id="botonLogin">
                 <h1>{{ LAConfigs::getByKey('sitename_part1') }} <b><a>{{ LAConfigs::getByKey('sitename_part2') }}</a></b></h1>
                 <h3>{{ LAConfigs::getByKey('site_description') }}</h3>
                 <h3><a href="{{ url('/login') }}" class="btn btn-lg btn-success">Inicia sesi&oacute;n</a></h3>
