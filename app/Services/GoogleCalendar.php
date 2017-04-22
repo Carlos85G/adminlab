@@ -96,4 +96,81 @@ class GoogleCalendar {
 
         return $results->getItems();
     }
+
+
+    /**
+     * Función para añadir nuevos eventos al calendario remoto.
+     * @param string $calendarId: El id del calendario a obtener. El no añadirlo asumirá el calendario principal
+     * @param array $data: Información del evento: nombre, laboratorio, fecha de inicio y fecha de fin.
+     * @return Google_Service_Calendar_Event
+     */
+    public function createEvent($calendarId = null, $data = array())
+    {
+      if(!isset($calendarId)){
+          $calendarId = $this->calendarioPrincipal;
+      }
+
+      $evento = new \Google_Service_Calendar_Event();
+      $evento->setSummary($data['nombre']);
+      $evento->setLocation($data['laboratorio']);
+
+      $fechaInicio = new \Google_Service_Calendar_EventDateTime();
+      $fechaInicio->setDateTime($data['fecha_inicio']); /*'2011-06-03T10:00:00.000-07:00'*/
+      $evento->setStart($fechaInicio);
+
+      $fechaFin = new \Google_Service_Calendar_EventDateTime();
+      $fechaFin->setDateTime($data['fecha_fin']); /*'2011-06-03T10:00:00.000-07:00'*/
+      $evento->setEnd($fechaFin);
+
+      $eventoNuevo = $this->service->events->insert($calendarId, $evento);
+
+      return $eventoNuevo;
+    }
+
+    /**
+     * Función para actualizar nuevos eventos al calendario remoto.
+     * @param string $calendarId: El id del calendario a obtener. El no añadirlo asumirá el calendario principal
+     * @param string $eventId: ID del evento remoto
+     * @param array $data: Información del evento: nombre, laboratorio, fecha de inicio y fecha de fin.
+     * @return Google_Service_Calendar_Event
+     */
+    public function updateEvent($calendarId = null, $eventId, $data = array())
+    {
+      if(!isset($calendarId)){
+          $calendarId = $this->calendarioPrincipal;
+      }
+
+      $evento = $this->service->events->get($calendarId, $eventId);
+      $evento->setSummary($data['nombre']);
+      $evento->setLocation($data['laboratorio']);
+
+      $fechaInicio = new \Google_Service_Calendar_EventDateTime();
+      $fechaInicio->setDateTime($data['fecha_inicio']); /*'2011-06-03T10:00:00.000-07:00'*/
+      $evento->setStart($fechaInicio);
+
+      $fechaFin = new \Google_Service_Calendar_EventDateTime();
+      $fechaFin->setDateTime($data['fecha_fin']); /*'2011-06-03T10:00:00.000-07:00'*/
+      $evento->setEnd($fechaFin);
+
+      $eventoNuevo = $this->service->events->update($calendarId, $eventId, $evento);
+
+      return $eventoNuevo;
+    }
+
+    /**
+     * Función para eliminar nuevos eventos al calendario remoto.
+     * @param string $calendarId: El id del calendario a obtener. El no añadirlo asumirá el calendario principal
+     * @param string $eventId: ID del evento remoto
+     * @return Google_Service_Calendar_Event
+     */
+    public function deleteEvent($calendarId = null, $eventId)
+    {
+      if(!isset($calendarId)){
+          $calendarId = $this->calendarioPrincipal;
+      }
+
+      $respuesta = $this->service->events->delete($calendarId, $eventId);
+
+      return $respuesta;
+    }
 }

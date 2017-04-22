@@ -85,4 +85,8 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== Reactivos ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/reactivos', 'LA\ReactivosController');
 	Route::get(config('laraadmin.adminRoute') . '/reactivo_dt_ajax', 'LA\ReactivosController@dtajax');
+
+	/* ================== ReservasPracticas ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/reservaspracticas', 'LA\ReservasPracticasController');
+	Route::get(config('laraadmin.adminRoute') . '/reservaspractica_dt_ajax', 'LA\ReservasPracticasController@dtajax');
 });

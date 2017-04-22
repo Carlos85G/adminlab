@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Dwij\Laraadmin\Models\Module;
 
-class CreatePracticasTable extends Migration
+class CreateReservaspracticasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -17,13 +17,12 @@ class CreatePracticasTable extends Migration
      */
     public function up()
     {
-        Module::generate("Practicas", 'practicas', 'nombre', 'fa-cube', [
-            ["nombre", "Nombre", "Name", true, "", 3, 256, true],
-            ["objetivo", "Objetivo", "Textarea", false, "", 3, 256, true],
-            ["practica_materiales", "Materiales", "Multiselect", false, "", 0, 0, true, "@materiales"],
-            ["practica_reactivos", "Reactivos", "Multiselect", false, "", 0, 0, false, "@reactivos"],
-            ["duracion", "Duración ", "Integer", false, "3600", 0, 11, true],
-            ["practica_pdf", "Subir práctica ", "File", false, "", 0, 0, true],
+        Module::generate("Reservaspracticas", 'reservaspracticas', 'practica', 'fa-cube', [
+            ["practica", "Práctica a realizar", "Radio", false, "", 0, 0, true, "@practicas"],
+            ["laboratorio", "Laboratorio", "Radio", false, "", 0, 0, true, "@laboratorios"],
+            ["fecha_hora", "Fecha y Hora", "Datetime", false, "", 0, 0, true],
+            ["solicitante", "Solicitante", "Dropdown", false, "", 0, 256, true, "@users"],
+            ["gcalendar_event_id", "ID Google Calendar", "Name", true, "", 0, 256, false],
         ]);
 		
 		/*
@@ -69,8 +68,8 @@ class CreatePracticasTable extends Migration
      */
     public function down()
     {
-        if (Schema::hasTable('practicas')) {
-            Schema::drop('practicas');
+        if (Schema::hasTable('reservaspracticas')) {
+            Schema::drop('reservaspracticas');
         }
     }
 }

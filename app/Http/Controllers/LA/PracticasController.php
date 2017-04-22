@@ -23,7 +23,7 @@ class PracticasController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'practiva_reactivos';
-	public $listing_cols = ['id', 'practica_laboratorio', 'nombre', 'objetivo', 'practica_materiales', 'practica_reactivos', 'duracion', 'practica_pdf'];
+	public $listing_cols = ['id', 'nombre', 'objetivo', 'practica_materiales', 'practica_reactivos', 'duracion', 'practica_pdf'];
 
 	public function __construct() {
 		// Field Access of Listing Columns

@@ -1,14 +1,14 @@
 @extends("la.layouts.app")
 
-@section("contentheader_title", "Reactivos")
-@section("contentheader_description", "Listado de Reactivos")
-@section("section", "Reactivos")
+@section("contentheader_title", "Reservaci&oacute;n de Pr&aacute;cticas")
+@section("contentheader_description", "Listado de Reservaciones de Pr&aacute;cticas")
+@section("section", "Reservaciones de Pr&aacute;cticas")
 @section("sub_section", "Listado")
-@section("htmlheader_title", "Listado de Reactivos")
+@section("htmlheader_title", "Listado de Reservaciones de Pr&aacute;cticas")
 
 @section("headerElems")
-@la_access("Reactivos", "create")
-	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">A&nilde;adir Reactivo</button>
+@la_access("ReservasPracticas", "create")
+	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">A&ntilde;adir Reservaci&oacute;n</button>
 @endla_access
 @endsection
 
@@ -45,29 +45,28 @@
 	</div>
 </div>
 
-@la_access("Reactivos", "create")
+@la_access("ReservasPracticas", "create")
 <div class="modal fade" id="AddModal" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">A&ntilde;adir Reactivo</h4>
+				<h4 class="modal-title" id="myModalLabel">A&ntilde;adir Reservaci&oacute;n</h4>
 			</div>
-			{!! Form::open(['action' => 'LA\ReactivosController@store', 'id' => 'reactivo-add-form']) !!}
+			{!! Form::open(['action' => 'LA\ReservasPracticasController@store', 'id' => 'reservaspractica-add-form']) !!}
 			<div class="modal-body">
 				<div class="box-body">
-                    @la_form($module)
+          {{--  @la_form($module) --}}
 
-					{{--
-					@la_input($module, 'unidad')
-					@la_input($module, 'cantidad')
-					@la_input($module, 'nombre')
-					--}}
+					@la_input($module, 'practica')
+					@la_input($module, 'laboratorio')
+					@la_input($module, 'fecha_hora')
+					<input type="hidden" value="{{ Auth::user()->id }}" name="solicitante" />
 				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-				{!! Form::submit( 'Submit', ['class'=>'btn btn-success']) !!}
+				{!! Form::submit( 'Enviar', ['class'=>'btn btn-success']) !!}
 			</div>
 			{!! Form::close() !!}
 		</div>
@@ -88,7 +87,7 @@ $(function () {
 	$("#example1").DataTable({
 		processing: true,
         serverSide: true,
-        ajax: "{{ url(config('laraadmin.adminRoute') . '/reactivo_dt_ajax') }}",
+        ajax: "{{ url(config('laraadmin.adminRoute') . '/reservaspractica_dt_ajax') }}",
 		language: {
 				lengthMenu: "_MENU_",
 				search: "_INPUT_",
@@ -118,7 +117,7 @@ $(function () {
 		columnDefs: [ { orderable: false, targets: [-1] }],
 		@endif
 	});
-	$("#reactivo-add-form").validate({
+	$("#reservaspractica-add-form").validate({
 
 	});
 });
