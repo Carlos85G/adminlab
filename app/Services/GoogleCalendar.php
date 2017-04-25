@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Config;
 class GoogleCalendar {
     protected $client;
     protected $service;
+    protected $timezone = 'America/Mexico_City';
 
     /*Nombre de la aplicación*/
     protected $nombreAplicacion = 'AdminLab CUValles';
@@ -57,16 +58,41 @@ class GoogleCalendar {
     }
 
     /**
+     * Función para recuperar el valor predeterminado para los calendarios.
+     * @return string: Zona horaria ($this->timezone).
+     */
+    public function getDefaultTimezone()
+    {
+        return $this->timezone;
+    }
+
+    /**
      * Función para obtener el objeto GoogleCalendar
      * @param string $calendarId: El id del calendario a obtener. El no añadirlo asumirá el calendario principal
      * @return Google_Service_Calendar_Calendar
      */
-    public function get($calendarId = null)
+    public function getCalendar($calendarId = null)
     {
         if(!isset($calendarId)){
             $calendarId = $this->calendarioPrincipal;
         }
         $results = $this->service->calendars->get($calendarId);
+        return $results;
+    }
+
+    /**
+     * Función para crear un nuevo objeto GoogleCalendar
+     * @param string $nombre: El nombre que el nuevo calendario secundario tendrá
+     * @return Google_Service_Calendar_Calendar
+     */
+    public function createCalendar($nombre)
+    {
+        $calendario = new \Google_Service_Calendar_Calendar();
+        $calendario->setSummary($nombre);
+        $calendario->setTimeZone(
+            $this->getDefaultTimezone()
+        );
+        $results = $this->service->calendars->insert($calendario);
         return $results;
     }
 
@@ -106,6 +132,9 @@ class GoogleCalendar {
      */
     public function createEvent($calendarId = null, $data = array())
     {
+      /* Bandera de conflicto */
+      $conflicto = false;
+
       if(!isset($calendarId)){
           $calendarId = $this->calendarioPrincipal;
       }

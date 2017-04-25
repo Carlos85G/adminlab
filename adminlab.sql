@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-04-2017 a las 03:55:28
+-- Tiempo de generación: 24-04-2017 a las 20:07:21
 -- Versión del servidor: 5.7.14
 -- Versión de PHP: 5.6.25
 
@@ -140,16 +140,17 @@ CREATE TABLE IF NOT EXISTS `laboratorios` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `nombre` varchar(256) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `gcalendar_cal_id` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `laboratorios`
 --
 
-INSERT INTO `laboratorios` (`id`, `deleted_at`, `created_at`, `updated_at`, `nombre`) VALUES
-(1, NULL, '2017-04-05 05:11:08', '2017-04-22 07:44:59', 'Laboratorio de Ciencias'),
-(2, '2017-04-22 07:44:48', '2017-04-22 07:39:32', '2017-04-22 07:44:48', 'Laboratorio 2');
+INSERT INTO `laboratorios` (`id`, `deleted_at`, `created_at`, `updated_at`, `nombre`, `gcalendar_cal_id`) VALUES
+(3, NULL, '2017-04-25 01:57:02', '2017-04-25 01:57:02', 'Laboratorio de Ciencias', 'gh11lf498pbcbh5f4ivb3n0jo8@group.calendar.google.com'),
+(2, '2017-04-25 00:59:43', '2017-04-25 00:59:29', '2017-04-25 00:59:43', 'Laboratorio 2', '7auutfi99avfbcu5oduh22du8k@group.calendar.google.com');
 
 -- --------------------------------------------------------
 
@@ -357,7 +358,7 @@ CREATE TABLE IF NOT EXISTS `module_fields` (
   PRIMARY KEY (`id`),
   KEY `module_fields_module_foreign` (`module`),
   KEY `module_fields_field_type_foreign` (`field_type`)
-) ENGINE=MyISAM AUTO_INCREMENT=91 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=92 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `module_fields`
@@ -410,7 +411,8 @@ INSERT INTO `module_fields` (`id`, `colname`, `label`, `module`, `field_type`, `
 (85, 'practica', 'Práctica a realizar', 16, 18, 0, '', 0, 0, 1, '@practicas', 1, '2017-04-22 06:30:45', '2017-04-22 06:30:45'),
 (87, 'fecha_hora', 'Fecha y Hora', 16, 5, 0, '', 0, 0, 1, '', 3, '2017-04-22 06:32:27', '2017-04-22 06:32:27'),
 (88, 'solicitante', 'Solicitante', 16, 7, 0, '', 0, 256, 1, '@users', 4, '2017-04-22 06:33:02', '2017-04-22 07:10:10'),
-(90, 'gcalendar_event_id', 'ID Google Calendar', 16, 16, 1, '', 0, 256, 0, '', 5, '2017-04-22 13:04:04', '2017-04-22 13:04:04');
+(90, 'gcalendar_event_id', 'ID Google Calendar', 16, 16, 1, '', 0, 256, 0, '', 5, '2017-04-22 13:04:04', '2017-04-22 13:04:04'),
+(91, 'gcalendar_cal_id', 'ID Google Calendar', 11, 16, 1, '', 0, 256, 0, '', 0, '2017-04-25 00:36:16', '2017-04-25 00:36:16');
 
 -- --------------------------------------------------------
 
@@ -654,7 +656,7 @@ CREATE TABLE IF NOT EXISTS `reservaspracticas` (
   `gcalendar_event_id` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `reservaspracticas_solicitante_foreign` (`solicitante`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `reservaspracticas`
@@ -662,7 +664,14 @@ CREATE TABLE IF NOT EXISTS `reservaspracticas` (
 
 INSERT INTO `reservaspracticas` (`id`, `deleted_at`, `created_at`, `updated_at`, `practica`, `fecha_hora`, `solicitante`, `laboratorio`, `gcalendar_event_id`) VALUES
 (1, '2017-04-22 13:51:08', '2017-04-22 13:50:53', '2017-04-22 13:51:08', 3, '2017-04-30 17:00:00', 1, 1, 's6vdtg95f70e8o2n98t4or8v88'),
-(2, '2017-04-22 13:54:15', '2017-04-22 13:53:26', '2017-04-22 13:54:15', 3, '2017-04-30 17:04:00', 1, 1, 'qes6jq7iaq36qhk7t3jkbmvv00');
+(2, '2017-04-22 13:54:15', '2017-04-22 13:53:26', '2017-04-22 13:54:15', 3, '2017-04-30 17:04:00', 1, 1, 'qes6jq7iaq36qhk7t3jkbmvv00'),
+(3, '2017-04-24 20:37:13', '2017-04-24 20:34:57', '2017-04-24 20:37:13', 3, '2017-04-28 17:00:00', 1, 1, 'n1bnko4m41ik39di3qk56bpf78'),
+(4, '2017-04-24 20:37:04', '2017-04-24 20:35:33', '2017-04-24 20:37:04', 3, '2017-04-28 17:00:00', 1, 1, 'cdl15tki2603bu3atb2p9aeicc'),
+(5, '2017-04-25 01:56:31', '2017-04-25 00:58:12', '2017-04-25 01:56:31', 3, '2017-04-27 17:00:00', 1, 1, '270ie5ofrbdkln37dlfj45qcd4'),
+(6, '2017-04-25 01:00:39', '2017-04-25 01:00:28', '2017-04-25 01:00:39', 3, '2017-04-27 17:00:00', 1, 1, 'ghc3kqqptvqmngi9j1qlhge45g'),
+(7, '2017-04-25 01:56:36', '2017-04-25 01:46:37', '2017-04-25 01:56:36', 3, '2017-04-27 17:00:00', 1, 1, 'i2akqqn4mip6v2dr1vrhqp373g'),
+(8, NULL, '2017-04-25 02:00:57', '2017-04-25 02:00:57', 3, '2017-04-28 17:00:00', 1, 3, 'i9cuqt5ji09ag9q47ip98ihlng'),
+(9, '2017-04-25 04:22:31', '2017-04-25 02:01:27', '2017-04-25 04:22:31', 3, '2017-04-28 17:00:00', 1, 3, '57ld8qpiuh9cmfqju60b4e6hg0');
 
 -- --------------------------------------------------------
 
@@ -758,7 +767,7 @@ CREATE TABLE IF NOT EXISTS `role_module_fields` (
   PRIMARY KEY (`id`),
   KEY `role_module_fields_role_id_foreign` (`role_id`),
   KEY `role_module_fields_field_id_foreign` (`field_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=139 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=140 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `role_module_fields`
@@ -902,7 +911,8 @@ INSERT INTO `role_module_fields` (`id`, `role_id`, `field_id`, `access`, `create
 (135, 5, 72, 'invisible', '2017-04-22 06:46:18', '2017-04-22 06:46:18'),
 (136, 5, 70, 'invisible', '2017-04-22 06:46:18', '2017-04-22 06:46:18'),
 (137, 1, 89, 'write', '2017-04-22 12:53:44', '2017-04-22 12:53:44'),
-(138, 1, 90, 'write', '2017-04-22 13:04:04', '2017-04-22 13:04:04');
+(138, 1, 90, 'write', '2017-04-22 13:04:04', '2017-04-22 13:04:04'),
+(139, 1, 91, 'write', '2017-04-25 00:36:18', '2017-04-25 00:36:18');
 
 -- --------------------------------------------------------
 
@@ -987,7 +997,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `nombre`, `contexto_id`, `email`, `password`, `tipo`, `remember_token`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 'Administrador', 1, 'administrador@adminlab.com', '$2y$10$.EpR/BnPbdzHLIE8Bb1ok.GSvCVr4N/9R8lzQFSYjknlZJ4CFUgOq', 0, 'SQXcgQ070YDD4WpUMs3g4Si78YsuIvJ5KV7mtqKdyTfg8ouvvWHf1nd63hpc', NULL, '2017-03-07 04:23:44', '2017-04-22 12:44:14'),
+(1, 'Administrador', 1, 'administrador@adminlab.com', '$2y$10$.EpR/BnPbdzHLIE8Bb1ok.GSvCVr4N/9R8lzQFSYjknlZJ4CFUgOq', 0, 'scKL0CXRUzHvhzAKyD248kqVXhqOIPLuazDPzXDzfiZz6RLztHH9C2v5FMUq', NULL, '2017-03-07 04:23:44', '2017-04-22 13:58:57'),
 (2, 'Rogelio Jimenez Meza', 1, 'rjmultimedia@gmail.com', '$2y$10$.9XHq4eYdahPDGAPruFAXOhmvhY7lRWFFCHA3XiS6EtJ5BIcwv0ey', 1, 'W0p9gePzlcxssQr1z9SUqRL43YIQNyyHn8pfoDzzAaOF14ntjlh6buI1pZv1', NULL, '2017-04-05 08:51:37', '2017-04-22 12:45:06');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

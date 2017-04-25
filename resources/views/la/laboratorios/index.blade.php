@@ -56,11 +56,9 @@
 			{!! Form::open(['action' => 'LA\LaboratoriosController@store', 'id' => 'laboratorio-add-form']) !!}
 			<div class="modal-body">
 				<div class="box-body">
-                    @la_form($module)
+          {{-- @la_form($module) --}}
 
-					{{--
 					@la_input($module, 'nombre')
-					--}}
 				</div>
 			</div>
 			<div class="modal-footer">

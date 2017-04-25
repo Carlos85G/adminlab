@@ -86,7 +86,8 @@ class ReservasPracticasController extends Controller
 				return redirect()->back()->withErrors($validator)->withInput();
 			}
 
-			/* Tratar de añadir el nuevo evento a GoogleCalendar antes de agregarlo a sistema, para verificar disponibilidad*/
+			$calendario = new GoogleCalendar();
+
 			$practica = \App\Models\Practica::find($request->input('practica'));
 
 			$laboratorio = \App\Models\Laboratorio::find($request->input('laboratorio'));
@@ -95,7 +96,7 @@ class ReservasPracticasController extends Controller
 					'd/m/Y g:i A',
 					$request->input('fecha_hora'),
 					new \DateTimeZone(
-							'America/Mexico_City'
+							$calendario->getDefaultTimezone()
 					)
 			);
 
@@ -106,28 +107,44 @@ class ReservasPracticasController extends Controller
 					new \DateInterval("PT".$practica->duracion."S")
 			);
 
+			$fecha_inicio_c = $fecha_inicio->format('c');
+			$fecha_fin_c = $fecha_fin->format('c');
+
 			$evento = array(
 					'nombre' => $practica->nombre,
 					'laboratorio' => $laboratorio->nombre,
-					'fecha_inicio' => $fecha_inicio->format('c'),
-					'fecha_fin'=> $fecha_fin->format('c')
+					'fecha_inicio' => $fecha_inicio_c,
+					'fecha_fin'=> $fecha_fin_c
 			);
 
-			$calendario = new GoogleCalendar();
 
-			$nuevoEvento = $calendario->createEvent(null, $evento);
+			/* Averiguar si existen eventos en el calendario indicado y, si nos hay, evitar el nuevo evento*/
+			$eventosExistentes = $calendario->listEvents(
+					$laboratorio->gcalendar_cal_id,
+					array(
+							'timeMin' => $fecha_inicio_c,
+							'timeMax' => $fecha_fin_c
+					)
+			);
 
-			/* Insertar a la base de datos solamente si el evento fue creado en el calendario en línea*/
-			if($nuevoEvento instanceOf \Google_Service_Calendar_Event)
+			/* Si no hay eventos en el tiempo indicado, añadir */
+			if(count($eventosExistentes) == 0)
 			{
-					/*Agregar con el nuevo id de evento remoto*/
-					$request->request->add(
-							[
-									'gcalendar_event_id' => $nuevoEvento->id
-							]
-					);
+					/* Tratar de añadir el nuevo evento a GoogleCalendar antes de agregarlo a sistema, para verificar disponibilidad*/
+					$nuevoEvento = $calendario->createEvent($laboratorio->gcalendar_cal_id, $evento);
 
-					$insert_id = Module::insert("ReservasPracticas", $request);
+					/* Insertar a la base de datos solamente si el evento fue creado en el calendario en línea*/
+					if($nuevoEvento instanceOf \Google_Service_Calendar_Event)
+					{
+							/*Agregar con el nuevo id de evento remoto*/
+							$request->request->add(
+									[
+											'gcalendar_event_id' => $nuevoEvento->id
+									]
+							);
+
+							$insert_id = Module::insert("ReservasPracticas", $request);
+					}
 			}
 
 			return redirect()->route(config('laraadmin.adminRoute') . '.reservaspracticas.index');
@@ -219,6 +236,8 @@ class ReservasPracticasController extends Controller
 			}
 
 			/* Tratar de añadir el nuevo evento a GoogleCalendar antes de agregarlo a sistema, para verificar disponibilidad*/
+			$calendario = new GoogleCalendar();
+
 			$practica = \App\Models\Practica::find($request->input('practica'));
 
 			$laboratorio = \App\Models\Laboratorio::find($request->input('laboratorio'));
@@ -229,7 +248,7 @@ class ReservasPracticasController extends Controller
 					'd/m/Y g:i A',
 					$request->input('fecha_hora'),
 					new \DateTimeZone(
-							'America/Mexico_City'
+							$calendario->getDefaultTimezone()
 					)
 			);
 
@@ -247,9 +266,7 @@ class ReservasPracticasController extends Controller
 					'fecha_fin'=> $fecha_fin->format('c')
 			);
 
-			$calendario = new GoogleCalendar();
-
-			$nuevoEvento = $calendario->updateEvent(null, $reservacion->gcalendar_event_id, $evento);
+			$nuevoEvento = $calendario->updateEvent($laboratorio->gcalendar_cal_id, $reservacion->gcalendar_event_id, $evento);
 
 			/* Insertar a la base de datos solamente si el evento fue creado en el calendario en línea*/
 			if($nuevoEvento instanceOf \Google_Service_Calendar_Event)
@@ -276,9 +293,11 @@ class ReservasPracticasController extends Controller
 
 			$reservacion = ReservasPractica::find($id);
 
+			$laboratorio = \App\Models\Laboratorio::find($reservacion->laboratorio);
+
 			$calendario = new GoogleCalendar();
 
-			$respuestaEvento = $calendario->deleteEvent(null, $reservacion->gcalendar_event_id);
+			$respuestaEvento = $calendario->deleteEvent($laboratorio->gcalendar_cal_id, $reservacion->gcalendar_event_id);
 
 			/* Insertar a la base de datos solamente si el evento fue creado en el calendario en línea*/
 			if($respuestaEvento instanceOf \GuzzleHttp\Psr7\Response)

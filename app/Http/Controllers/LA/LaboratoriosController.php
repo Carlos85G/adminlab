@@ -16,6 +16,7 @@ use Datatables;
 use Collective\Html\FormFacade as Form;
 use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
+use App\Services\GoogleCalendar;
 
 use App\Models\Laboratorio;
 
@@ -23,8 +24,8 @@ class LaboratoriosController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'nombre';
-	public $listing_cols = ['id', 'nombre'];
-	
+	public $listing_cols = ['id', 'nombre', 'gcalendar_cal_id'];
+
 	public function __construct() {
 		// Field Access of Listing Columns
 		if(\Dwij\Laraadmin\Helpers\LAHelper::laravel_ver() == 5.3) {
@@ -36,7 +37,7 @@ class LaboratoriosController extends Controller
 			$this->listing_cols = ModuleFields::listingColumnAccessScan('Laboratorios', $this->listing_cols);
 		}
 	}
-	
+
 	/**
 	 * Display a listing of the Laboratorios.
 	 *
@@ -45,7 +46,7 @@ class LaboratoriosController extends Controller
 	public function index()
 	{
 		$module = Module::get('Laboratorios');
-		
+
 		if(Module::hasAccess($module->id)) {
 			return View('la.laboratorios.index', [
 				'show_actions' => $this->show_action,
@@ -76,19 +77,36 @@ class LaboratoriosController extends Controller
 	public function store(Request $request)
 	{
 		if(Module::hasAccess("Laboratorios", "create")) {
-		
+
 			$rules = Module::validateRules("Laboratorios", $request);
-			
+
 			$validator = Validator::make($request->all(), $rules);
-			
+
 			if ($validator->fails()) {
 				return redirect()->back()->withErrors($validator)->withInput();
 			}
-			
-			$insert_id = Module::insert("Laboratorios", $request);
-			
+
+			/* Crear nuevo calendario para eventos separados por el API de Google */
+			$calendario = new GoogleCalendar();
+
+			$nuevoLaboratorio = $calendario->createCalendar(
+					$request->input('nombre')
+			);
+
+			/* Insertar a la base de datos solamente si el calendario fue creado en la cuenta en línea*/
+			if($nuevoLaboratorio instanceOf \Google_Service_Calendar_Calendar)
+			{
+					/*Agregar con el nuevo id de calendario remoto*/
+					$request->request->add(
+							[
+									'gcalendar_cal_id' => $nuevoLaboratorio->getId()
+							]
+					);
+					$insert_id = Module::insert("Laboratorios", $request);
+			}
+
 			return redirect()->route(config('laraadmin.adminRoute') . '.laboratorios.index');
-			
+
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
 		}
@@ -103,12 +121,12 @@ class LaboratoriosController extends Controller
 	public function show($id)
 	{
 		if(Module::hasAccess("Laboratorios", "view")) {
-			
+
 			$laboratorio = Laboratorio::find($id);
 			if(isset($laboratorio->id)) {
 				$module = Module::get('Laboratorios');
 				$module->row = $laboratorio;
-				
+
 				return view('la.laboratorios.show', [
 					'module' => $module,
 					'view_col' => $this->view_col,
@@ -134,13 +152,13 @@ class LaboratoriosController extends Controller
 	 */
 	public function edit($id)
 	{
-		if(Module::hasAccess("Laboratorios", "edit")) {			
+		if(Module::hasAccess("Laboratorios", "edit")) {
 			$laboratorio = Laboratorio::find($id);
-			if(isset($laboratorio->id)) {	
+			if(isset($laboratorio->id)) {
 				$module = Module::get('Laboratorios');
-				
+
 				$module->row = $laboratorio;
-				
+
 				return view('la.laboratorios.edit', [
 					'module' => $module,
 					'view_col' => $this->view_col,
@@ -166,19 +184,19 @@ class LaboratoriosController extends Controller
 	public function update(Request $request, $id)
 	{
 		if(Module::hasAccess("Laboratorios", "edit")) {
-			
+
 			$rules = Module::validateRules("Laboratorios", $request, true);
-			
+
 			$validator = Validator::make($request->all(), $rules);
-			
+
 			if ($validator->fails()) {
 				return redirect()->back()->withErrors($validator)->withInput();;
 			}
-			
+
 			$insert_id = Module::updateRow("Laboratorios", $request, $id);
-			
+
 			return redirect()->route(config('laraadmin.adminRoute') . '.laboratorios.index');
-			
+
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
 		}
@@ -194,14 +212,14 @@ class LaboratoriosController extends Controller
 	{
 		if(Module::hasAccess("Laboratorios", "delete")) {
 			Laboratorio::find($id)->delete();
-			
+
 			// Redirecting to index() method
 			return redirect()->route(config('laraadmin.adminRoute') . '.laboratorios.index');
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
 		}
 	}
-	
+
 	/**
 	 * Datatable Ajax fetch
 	 *
@@ -214,9 +232,9 @@ class LaboratoriosController extends Controller
 		$data = $out->getData();
 
 		$fields_popup = ModuleFields::getModuleFields('Laboratorios');
-		
+
 		for($i=0; $i < count($data->data); $i++) {
-			for ($j=0; $j < count($this->listing_cols); $j++) { 
+			for ($j=0; $j < count($this->listing_cols); $j++) {
 				$col = $this->listing_cols[$j];
 				if($fields_popup[$col] != null && starts_with($fields_popup[$col]->popup_vals, "@")) {
 					$data->data[$i][$j] = ModuleFields::getFieldValue($fields_popup[$col], $data->data[$i][$j]);
@@ -228,13 +246,13 @@ class LaboratoriosController extends Controller
 				//    $data->data[$i][$j];
 				// }
 			}
-			
+
 			if($this->show_action) {
 				$output = '';
 				if(Module::hasAccess("Laboratorios", "edit")) {
 					$output .= '<a href="'.url(config('laraadmin.adminRoute') . '/laboratorios/'.$data->data[$i][0].'/edit').'" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>';
 				}
-				
+
 				if(Module::hasAccess("Laboratorios", "delete")) {
 					$output .= Form::open(['route' => [config('laraadmin.adminRoute') . '.laboratorios.destroy', $data->data[$i][0]], 'method' => 'delete', 'style'=>'display:inline']);
 					$output .= ' <button class="btn btn-danger btn-xs" type="submit"><i class="fa fa-times"></i></button>';

@@ -30,11 +30,9 @@
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
 				{!! Form::model($laboratorio, ['route' => [config('laraadmin.adminRoute') . '.laboratorios.update', $laboratorio->id ], 'method'=>'PUT', 'id' => 'laboratorio-edit-form']) !!}
-					@la_form($module)
+					{{--@la_form($module)--}}
 
-					{{--
 					@la_input($module, 'nombre')
-					--}}
                     <br>
 					<div class="form-group">
 						{!! Form::submit( 'Actualizar', ['class'=>'btn btn-success']) !!} <button class="btn btn-default pull-right"><a href="{{ url(config('laraadmin.adminRoute') . '/laboratorios') }}">Cancelar</a></button>

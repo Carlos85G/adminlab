@@ -114,7 +114,7 @@
           header: {
             left: 'prev,next today',
             center: 'title',
-            right: 'month'
+            right: 'listDay,month'
           },
           theme: true,
           events: '{{ route("api_calendario_eventos") }}',

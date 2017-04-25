@@ -47,7 +47,12 @@
     <script src="{{ asset('/js/fullcalendar-3.3.1/fullcalendar.min.js') }}"></script>
     <!-- Cargar archivo de localización -->
     <script src="{{ asset('/js/fullcalendar-3.3.1/locale/es-do.js') }}"></script>
-
+    <style type="text/css">
+      #calendario{
+        background-color: #FFFFFF;
+        padding: 5px;
+      }
+    </style>
 
 </head>
 
@@ -246,7 +251,7 @@
             header: {
       				left: 'prev,next today',
       				center: 'title',
-      				right: 'month'
+      				right: 'listDay,month'
       			},
             theme: true,
             events: '{{ route("api_calendario_eventos") }}',
