@@ -56,16 +56,21 @@
 			{!! Form::open(['action' => 'LA\PracticasController@store', 'id' => 'practica-add-form']) !!}
 			<div class="modal-body">
 				<div class="box-body">
-                    @la_form($module)
+						{{--  @la_form($module) --}}
 
-					{{--
-					@la_input($module, 'nombre')
-					@la_input($module, 'objetivo')
-					@la_input($module, 'introduccion')
-					@la_input($module, 'bibliografia')
-					@la_input($module, 'procedimiento')
-					@la_input($module, 'preguntas')
-					--}}
+						@la_input($module, 'nombre')
+						@la_input($module, 'objetivo')
+						@la_input($module, 'practica_materiales')
+						@la_input($module, 'practica_reactivos')
+						<div class="form-group">
+								<label for="Horas">Horas * :</label>
+								<input class="form-control" id="horas" placeholder="Introduce n&uacute;mero de horas" required="1" name="horas" type="number" value="1" aria-required="true" />
+								<label for="Minutos">Minutos * :</label>
+								<input class="form-control" id="minutos" placeholder="Introduce n&uacute;mero de minutos" required="1" name="minutos" type="number" value="0" aria-required="true" />
+								<input id="duracion" name="duracion" type="hidden" value="3600" />
+						</div>
+						@la_input($module, 'practica_pdf')
+					  {{-- 	@la_input($module, 'duracion')	--}}
 				</div>
 			</div>
 			<div class="modal-footer">
@@ -124,6 +129,31 @@ $(function () {
 	$("#practica-add-form").validate({
 
 	});
+	$("#horas,#minutos").change(function(){
+		cambiarasegundos();
+	});
+
+	function cambiarasegundos(){
+		var segundodhoras = 0,
+			segundodminutos = 0,
+			totalsegundos = 0;
+
+		try{
+			horas = parseInt($("#horas").val());
+			segundodhoras = (horas*3600);
+			minutos = parseInt($("#minutos").val());
+			segundodminutos = (minutos*60);
+			totalsegundos = segundodminutos + segundodhoras;
+		}catch(e){
+			totalsegundos = 0;
+		}
+
+		if(isNaN(totalsegundos)){
+			totalsegundos = 0;
+		}
+
+		$("#duracion").val(totalsegundos);
+	}
 });
 </script>
 @endpush

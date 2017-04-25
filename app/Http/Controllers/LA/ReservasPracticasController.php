@@ -86,6 +86,9 @@ class ReservasPracticasController extends Controller
 				return redirect()->back()->withErrors($validator)->withInput();
 			}
 
+			/*Variable para guardar el último error de validación*/
+			$error = null;
+
 			$calendario = new GoogleCalendar();
 
 			$practica = \App\Models\Practica::find($request->input('practica'));
@@ -128,7 +131,9 @@ class ReservasPracticasController extends Controller
 			);
 
 			/* Si no hay eventos en el tiempo indicado, añadir */
-			if(count($eventosExistentes) == 0)
+			$cuentaEventosExistentes = count($eventosExistentes);
+
+			if($cuentaEventosExistentes == 0)
 			{
 					/* Tratar de añadir el nuevo evento a GoogleCalendar antes de agregarlo a sistema, para verificar disponibilidad*/
 					$nuevoEvento = $calendario->createEvent($laboratorio->gcalendar_cal_id, $evento);
@@ -144,7 +149,18 @@ class ReservasPracticasController extends Controller
 							);
 
 							$insert_id = Module::insert("ReservasPracticas", $request);
+					}else
+					{
+							$error = 'Falló la creación de evento remoto.';
 					}
+			}else{
+				$error = $cuentaEventosExistentes.' registro(s) en el horario.';
+			}
+
+			session()->flash('flash-message', ((is_null($error))? 'Registro añadido exitosamente.' : 'Error: '.$error));
+
+			if(!is_null($error)){
+					session()->flash('flash-message-error', true);
 			}
 
 			return redirect()->route(config('laraadmin.adminRoute') . '.reservaspracticas.index');
@@ -235,6 +251,9 @@ class ReservasPracticasController extends Controller
 				return redirect()->back()->withErrors($validator)->withInput();;
 			}
 
+			/*Variable para guardar el último error de validación*/
+			$error = null;
+
 			/* Tratar de añadir el nuevo evento a GoogleCalendar antes de agregarlo a sistema, para verificar disponibilidad*/
 			$calendario = new GoogleCalendar();
 
@@ -272,6 +291,14 @@ class ReservasPracticasController extends Controller
 			if($nuevoEvento instanceOf \Google_Service_Calendar_Event)
 			{
 					$insert_id = Module::updateRow("ReservasPracticas", $request, $id);
+			}else{
+				$error = 'No pudo actualizarse evento remoto.';
+			}
+
+			session()->flash('flash-message', ((is_null($error))? 'Registro actualizado exitosamente.' : 'Error: '.$error));
+
+			if(!is_null($error)){
+					session()->flash('flash-message-error', true);
 			}
 
 			return redirect()->route(config('laraadmin.adminRoute') . '.reservaspracticas.index');
@@ -295,6 +322,9 @@ class ReservasPracticasController extends Controller
 
 			$laboratorio = \App\Models\Laboratorio::find($reservacion->laboratorio);
 
+			/*Variable para guardar el último error de validación*/
+			$error = null;
+
 			$calendario = new GoogleCalendar();
 
 			$respuestaEvento = $calendario->deleteEvent($laboratorio->gcalendar_cal_id, $reservacion->gcalendar_event_id);
@@ -303,6 +333,14 @@ class ReservasPracticasController extends Controller
 			if($respuestaEvento instanceOf \GuzzleHttp\Psr7\Response)
 			{
 					$reservacion->delete();
+			}else{
+				$error = 'No pudo eliminarse evento remoto.';
+			}
+
+			session()->flash('flash-message', ((is_null($error))? 'Registro eliminado exitosamente.' : 'Error: '.$error));
+
+			if(!is_null($error)){
+					session()->flash('flash-message-error', true);
 			}
 
 			// Redirecting to index() method

@@ -18,6 +18,9 @@
 <script src="{{ asset('la-assets/plugins/stickytabs/jquery.stickytabs.js') }}" type="text/javascript"></script>
 <script src="{{ asset('la-assets/plugins/slimScroll/jquery.slimscroll.min.js') }}" type="text/javascript"></script>
 
+<!--NotifyJS-->
+<script src="{{ asset('/js/notifyjs-0.4/notify.js') }}"></script>
+
 
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.

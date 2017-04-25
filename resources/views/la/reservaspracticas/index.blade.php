@@ -117,6 +117,18 @@ $(function () {
 		columnDefs: [ { orderable: false, targets: [-1] }],
 		@endif
 	});
+
+	@if(Session::has('flash-message'))
+	$.notify(
+			'{!! Session::get('flash-message') !!}',
+			{
+					position: 'top center',
+					autoHide: false,
+					className: '{{ Session::has('flash-message-error')? 'error' : 'success' }}'
+			}
+	);
+	@endif
+
 	$("#reservaspractica-add-form").validate({
 
 	});

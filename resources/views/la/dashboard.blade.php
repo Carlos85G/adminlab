@@ -101,6 +101,8 @@
 <script src="{{ asset('/js/fullcalendar-3.3.1/locale/es-do.js') }}"></script>
 <!--DataTable-->
 <script src="{{ asset('la-assets/plugins/datatables/datatables.min.js') }}"></script>
+<!--NotifyJS-->
+<script src="{{ asset('/js/notifyjs-0.4/notify.js') }}"></script>
 @endpush
 
 @push('scripts')
@@ -162,14 +164,19 @@
       						sortAscending: ": activar para ordenar la columna de manera ascendente",
       						sortDescending: ": activar para ordenar la columna de manera descendente"
       				}
-      		}/*,
-      		columnDefs: [
-              {
-                  orderable: false,
-                  targets: [-1]
-              }
-          ]*/
+      		}
     	});
+
+      @if(Session::has('flash-message'))
+      $.notify(
+          '{!! Session::get('flash-message') !!}',
+          {
+              position: 'top center',
+              autoHide: false,
+              className: '{{ Session::has('flash-message-error')? 'error' : 'success' }}'
+          }
+      );
+      @endif
   });
 </script>
 @endpush
