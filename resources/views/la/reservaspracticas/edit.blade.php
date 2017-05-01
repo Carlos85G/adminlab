@@ -34,6 +34,7 @@
 
 					@la_input($module, 'practica')
 					@la_input($module, 'laboratorio')
+					@la_input($module, 'participantes')
 					@la_input($module, 'fecha_hora')
           <br />
 					<div class="form-group">

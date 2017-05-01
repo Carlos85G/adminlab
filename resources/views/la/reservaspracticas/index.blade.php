@@ -60,6 +60,7 @@
 
 					@la_input($module, 'practica')
 					@la_input($module, 'laboratorio')
+					@la_input($module, 'participantes')
 					@la_input($module, 'fecha_hora')
 					<input type="hidden" value="{{ Auth::user()->id }}" name="solicitante" />
 				</div>
@@ -88,31 +89,7 @@ $(function () {
 		processing: true,
         serverSide: true,
         ajax: "{{ url(config('laraadmin.adminRoute') . '/reservaspractica_dt_ajax') }}",
-		language: {
-				lengthMenu: "_MENU_",
-				search: "_INPUT_",
-				searchPlaceholder: "Buscar",
-				emptyTable: "No hay registros",
-				info: "Mostrando desde _START_ hasta _END_ de _TOTAL_ registros",
-				infoEmpty: "Mostrando desde 0 hasta 0 de 0 registros",
-				infoFiltered: "(filtrado de un total de _MAX_ registros)",
-				infoPostFix: "",
-				thousands: ",",
-				lengthMenu: "Mostrar los _MENU_ registros",
-				loadingRecords: "Cargando...",
-				processing: "Procesando...",
-				zeroRecords: "No se encontraron coincidencias",
-				paginate: {
-						first: "Primero",
-						last: "&Uacute;ltimo",
-						next: "Siguiente",
-						previous: "Anterior"
-				},
-				aria: {
-						sortAscending: ": activar para ordenar la columna de manera ascendente",
-						sortDescending: ": activar para ordenar la columna de manera descendente"
-				}
-		},
+				{!! Ayudantes::imprimirLenguageDataTable() !!}
 		@if($show_actions)
 		columnDefs: [ { orderable: false, targets: [-1] }],
 		@endif

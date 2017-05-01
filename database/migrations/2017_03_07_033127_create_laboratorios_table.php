@@ -20,6 +20,8 @@ class CreateLaboratoriosTable extends Migration
         Module::generate("Laboratorios", 'laboratorios', 'nombre', 'fa-cube', [
             ["nombre", "Nombre", "Name", true, "", 3, 256, true],
             ["gcalendar_cal_id", "ID Google Calendar", "Name", true, "", 0, 256, false],
+            ["color_frente", "Color de Frente", "String", false, "", 0, 7, false],
+            ["color_fondo", "Color de Fondo", "String", false, "", 0, 7, false],
         ]);
 		
 		/*

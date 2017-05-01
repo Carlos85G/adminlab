@@ -4,28 +4,56 @@
 @section('contentheader_title') Inicio @endsection
 @section('contentheader_description') Pantalla principal @endsection
 
+@php
+    $laboratorios = \App\Models\Laboratorio::all();
+@endphp
+
 @section('main-content')
 <!-- Main content -->
         <section class="content">
           <!-- Main row -->
           <div class="row">
             <!-- Left col -->
-            <section class="col-lg-7 connectedSortable">
+            <section class="col-lg-7">
               <!-- Calendario -->
               <div class="box box-success">
                 <div class="box-header">
                   <i class="fa fa-calendar"></i>
-                  <h3 class="box-title">Calendario de reservaciones</h3>
+                  <h3 class="box-title">Calendarios de reservaciones</h3>
                 </div>
-                <div class="box-body" id="calendario">
+                <div class="box-body">
+
+                  <div class="nav-tabs-custom">
+                    <!-- Tabs within a box -->
+                    <ul class="nav nav-tabs" id="laboratorios">
+                      <!-- -->
+                      @foreach($laboratorios as $laboratorio)
+                      <li>
+                          <a href="#laboratorio{{$laboratorio->id}}-tab" data-toggle="tab">{{$laboratorio->nombre}}</a>
+                      </li>
+                      @endforeach
+                    </ul>
+                    <div class="tab-content no-padding">
+                      @foreach($laboratorios as $laboratorio)
+                      <div class="tab-pane" id="laboratorio{{$laboratorio->id}}-tab" style="position: relative;">
+                          <div class="cargador" id="laboratorio{{$laboratorio->id}}-cargador">
+                              <div class="cargador-overlay"></div>
+                              <div class="cargador-spinner"></div>
+                          </div>
+                          <div id="laboratorio{{$laboratorio->id}}-calendario"></div>
+                      </div>
+                      @endforeach
+                    </div>
+                  </div><!-- /.nav-tabs-custom -->
+
                   <!--item -->
                   <!--<div class="item" ></div>--><!-- /.item -->
                 </div><!-- /.calendario -->
                 <div class="box-footer"></div>
               </div><!-- /.box (chat box) -->
             </section><!-- /.Left col -->
-            <!-- right col (We are only adding the ID to make the widgets sortable)-->
-            <section class="col-lg-5 connectedSortable">
+            <!-- right col-->
+            <section class="col-lg-5">
               <!-- Listado de eventos -->
               <div class="box box-success">
                 <div class="box-body">
@@ -34,6 +62,7 @@
               		<tr class="success">
               			<th>ID</th>
               			<th>Evento</th>
+                    <th>Ubicaci&oacute;n</th>
               		</tr>
               		</thead>
               		<tbody></tbody>
@@ -61,6 +90,9 @@
 <link href="{{ asset('/js/fullcalendar-3.3.1/lib/cupertino/jquery-ui.min.css') }}" rel="stylesheet" />
 <link href="{{ asset('/js/fullcalendar-3.3.1/fullcalendar.min.css') }}" rel="stylesheet" />
 <link href="{{ asset('/js/fullcalendar-3.3.1/fullcalendar.print.min.css') }}" rel="stylesheet" media="print" />
+
+<!--Estilo del precargador -->
+<link href="{{ asset('/css/cargador.css') }}" rel="stylesheet" />
 @endpush
 
 
@@ -112,14 +144,43 @@
           interval: 3500
       });
 
-      $('#calendario').fullCalendar({
+      $("#eventos").DataTable({
+      		processing: true,
+          ajax: '{{ route("api_calendario_eventos_tabla") }}',
+          searching: false,
+      		{!! Ayudantes::imprimirLenguageDataTable() !!}
+          columnDefs: [ { orderable: false, targets: [-1] }],
+    	});
+
+      @if(Session::has('flash-message'))
+      $.notify(
+          '{!! Session::get('flash-message') !!}',
+          {
+              position: 'top center',
+              autoHide: false,
+              className: '{{ Session::has('flash-message-error')? 'error' : 'success' }}'
+          }
+      );
+      @endif
+
+      @foreach($laboratorios as $laboratorio)
+      $('#laboratorio{{$laboratorio->id}}-calendario').fullCalendar({
           header: {
             left: 'prev,next today',
             center: 'title',
-            right: 'listDay,month'
+            right: 'listDay,listWeek,month'
           },
+          @if(!empty($laboratorio->color_frente))
+          eventTextColor: '{{$laboratorio->color_frente}}',
+          @endif
+          @if(!empty($laboratorio->color_fondo))
+          eventColor: '{{$laboratorio->color_fondo}}',
+          @endif
           theme: true,
-          events: '{{ route("api_calendario_eventos") }}',
+          events: '{{ route("api_calendario_laboratorio_eventos", ["laboratorioId" => $laboratorio->id]) }}',
+          loading: function(bool) {
+            $('#laboratorio{{$laboratorio->id}}-cargador').toggle(bool);
+          },
           eventClick: function(event) {
               window.open(event.url, 'gcalevent', 'width=700,height=600');
               return false;
@@ -135,48 +196,16 @@
               $(this).css('background-color', 'red');
           }
       });
+      @endforeach
 
-      $("#eventos").DataTable({
-      		processing: true,
-          ajax: '{{ route("api_calendario_eventos_tabla") }}',
-          searching: false,
-      		language: {
-      				lengthMenu: "_MENU_",
-      				search: "_INPUT_",
-      				searchPlaceholder: "Buscar",
-      				emptyTable: "No hay registros",
-      				info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
-      				infoEmpty: "Mostrando desde 0 hasta 0 de 0 registros",
-      				infoFiltered: "(filtrado de un total de _MAX_ registros)",
-      				infoPostFix: "",
-      				thousands: ",",
-      				lengthMenu: "Mostrar _MENU_ registros",
-      				loadingRecords: "Cargando...",
-      				processing: "Procesando...",
-      				zeroRecords: "No se encontraron coincidencias",
-      				paginate: {
-      						first: "Primero",
-      						last: "&Uacute;ltimo",
-      						next: "Siguiente",
-      						previous: "Anterior"
-      				},
-      				aria: {
-      						sortAscending: ": activar para ordenar la columna de manera ascendente",
-      						sortDescending: ": activar para ordenar la columna de manera descendente"
-      				}
-      		}
-    	});
+      $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+          @foreach($laboratorios as $laboratorio)
+          $('#laboratorio{{$laboratorio->id}}-calendario').fullCalendar('render');
+          @endforeach
+          console.log("FUNCIONA");
+      });
 
-      @if(Session::has('flash-message'))
-      $.notify(
-          '{!! Session::get('flash-message') !!}',
-          {
-              position: 'top center',
-              autoHide: false,
-              className: '{{ Session::has('flash-message-error')? 'error' : 'success' }}'
-          }
-      );
-      @endif
+      $('#laboratorios a:first').tab('show');
   });
 </script>
 @endpush

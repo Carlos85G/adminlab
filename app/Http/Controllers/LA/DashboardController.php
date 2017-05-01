@@ -9,6 +9,7 @@ namespace App\Http\Controllers\LA;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use App\Models\Laboratorio;
 
 /**
  * Class DashboardController

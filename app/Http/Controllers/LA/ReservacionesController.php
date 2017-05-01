@@ -16,6 +16,7 @@ use Datatables;
 use Collective\Html\FormFacade as Form;
 use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
+use Ayudantes;
 
 use App\Models\Reservacione;
 
@@ -86,6 +87,8 @@ class ReservacionesController extends Controller
 			}
 
 			$insert_id = Module::insert("Reservaciones", $request);
+
+			Ayudantes::flashMessages(null, 'creado');
 
 			return redirect()->route(config('laraadmin.adminRoute') . '.reservaciones.index');
 
@@ -177,6 +180,8 @@ class ReservacionesController extends Controller
 
 			$insert_id = Module::updateRow("Reservaciones", $request, $id);
 
+			Ayudantes::flashMessages(null, 'actualizado');
+
 			return redirect()->route(config('laraadmin.adminRoute') . '.reservaciones.index');
 
 		} else {
@@ -194,6 +199,8 @@ class ReservacionesController extends Controller
 	{
 		if(Module::hasAccess("Reservaciones", "delete")) {
 			Reservacione::find($id)->delete();
+
+			Ayudantes::flashMessages(null, 'eliminado');
 
 			// Redirecting to index() method
 			return redirect()->route(config('laraadmin.adminRoute') . '.reservaciones.index');

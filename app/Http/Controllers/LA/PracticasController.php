@@ -16,6 +16,7 @@ use Datatables;
 use Collective\Html\FormFacade as Form;
 use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
+use Ayudantes;
 
 use App\Models\Practica;
 
@@ -86,6 +87,8 @@ class PracticasController extends Controller
 			}
 
 			$insert_id = Module::insert("Practicas", $request);
+
+			Ayudantes::flashMessages(null, 'creado');
 
 			return redirect()->route(config('laraadmin.adminRoute') . '.practicas.index');
 
@@ -177,6 +180,8 @@ class PracticasController extends Controller
 
 			$insert_id = Module::updateRow("Practicas", $request, $id);
 
+			Ayudantes::flashMessages(null, 'actualizado');
+
 			return redirect()->route(config('laraadmin.adminRoute') . '.practicas.index');
 
 		} else {
@@ -194,6 +199,8 @@ class PracticasController extends Controller
 	{
 		if(Module::hasAccess("Practicas", "delete")) {
 			Practica::find($id)->delete();
+
+			Ayudantes::flashMessages(null, 'eliminado');
 
 			// Redirecting to index() method
 			return redirect()->route(config('laraadmin.adminRoute') . '.practicas.index');

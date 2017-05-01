@@ -22,6 +22,7 @@ class CreateReservaspracticasTable extends Migration
             ["laboratorio", "Laboratorio", "Radio", false, "", 0, 0, true, "@laboratorios"],
             ["fecha_hora", "Fecha y Hora", "Datetime", false, "", 0, 0, true],
             ["solicitante", "Solicitante", "Dropdown", false, "", 0, 256, true, "@users"],
+            ["participantes", "Núm. Participantes", "Integer", false, "10", 1, 11, true],
             ["gcalendar_event_id", "ID Google Calendar", "Name", true, "", 0, 256, false],
         ]);
 		

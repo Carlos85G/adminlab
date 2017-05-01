@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Config;
 class GoogleCalendar {
     protected $client;
     protected $service;
-    protected $timezone = 'America/Mexico_City';
+    protected static $timezone = 'America/Mexico_City';
 
     /*Nombre de la aplicación*/
     protected $nombreAplicacion = 'AdminLab CUValles';
@@ -58,12 +58,12 @@ class GoogleCalendar {
     }
 
     /**
-     * Función para recuperar el valor predeterminado para los calendarios.
+     * Función estática para recuperar el valor predeterminado para los calendarios.
      * @return string: Zona horaria ($this->timezone).
      */
-    public function getDefaultTimezone()
+    public static function getDefaultTimezone()
     {
-        return $this->timezone;
+        return self::$timezone;
     }
 
     /**
@@ -93,6 +93,66 @@ class GoogleCalendar {
             $this->getDefaultTimezone()
         );
         $results = $this->service->calendars->insert($calendario);
+        return $results;
+    }
+
+    /**
+     * Función para listar todos los calendarios en línea. Útil para saber el color
+     * @return array(Google_Service_Calendar_CalendarListEntry)
+     */
+    public function listCalendarsFromCalendarList()
+    {
+        $results = $this->service->calendarList->listCalendarList();
+        return $results->getItems();
+    }
+
+    /**
+     * Función para obtener un calendario desde la lista de calendarios en línea. Útil para saber el color
+     * @param string $calendarId: El id del calendario a obtener. El no añadirlo asumirá el calendario principal
+     * @return Google_Service_Calendar_CalendarListEntry
+     */
+    public function getCalendarFromCalendarList($calendarId = null)
+    {
+        if(!isset($calendarId)){
+            $calendarId = $this->calendarioPrincipal;
+        }
+        $results = $this->service->calendarList->get($calendarId);
+        return $results;
+    }
+
+    /**
+     * Función para actualizar un objeto GoogleCalendar
+     * @param string $calendarId: El id del calendario a obtener. El no añadirlo asumirá el calendario
+     * @param string $data: Los datos nuevos para cambiar en el calendario
+     * @return Google_Service_Calendar_Calendar
+     */
+    public function updateCalendar($calendarId = null, $data =  array())
+    {
+        $calendario = $this->getCalendar($calendarId);
+        $calendario->setSummary($data["summary"]);
+
+        if(isset($data["timezone"])){
+            $calendario->setTimeZone(
+                $data["timezone"]
+            );
+        }
+
+        $results = $this->service->calendars->update($calendario->id, $calendario);
+        return $results;
+    }
+
+    /**
+     * Función para eliminar un objeto GoogleCalendar
+     * @param string $calendarId: El id del calendario a obtener. El no añadirlo asumirá el calendario
+     * @return \GuzzleHttp\Psr7\Response
+     */
+    public function deleteCalendar($calendarId = null)
+    {
+        if(!isset($calendarId)){
+            $calendarId = $this->calendarioPrincipal;
+        }
+
+        $results = $this->service->calendars->delete($calendarId);
         return $results;
     }
 
@@ -140,15 +200,15 @@ class GoogleCalendar {
       }
 
       $evento = new \Google_Service_Calendar_Event();
-      $evento->setSummary($data['nombre']);
-      $evento->setLocation($data['laboratorio']);
+      $evento->setSummary($data['summary']);
+      $evento->setLocation($data['location']);
 
       $fechaInicio = new \Google_Service_Calendar_EventDateTime();
-      $fechaInicio->setDateTime($data['fecha_inicio']); /*'2011-06-03T10:00:00.000-07:00'*/
+      $fechaInicio->setDateTime($data['start']); /*'2011-06-03T10:00:00.000-07:00'*/
       $evento->setStart($fechaInicio);
 
       $fechaFin = new \Google_Service_Calendar_EventDateTime();
-      $fechaFin->setDateTime($data['fecha_fin']); /*'2011-06-03T10:00:00.000-07:00'*/
+      $fechaFin->setDateTime($data['end']); /*'2011-06-03T10:00:00.000-07:00'*/
       $evento->setEnd($fechaFin);
 
       $eventoNuevo = $this->service->events->insert($calendarId, $evento);
@@ -190,7 +250,7 @@ class GoogleCalendar {
      * Función para eliminar nuevos eventos al calendario remoto.
      * @param string $calendarId: El id del calendario a obtener. El no añadirlo asumirá el calendario principal
      * @param string $eventId: ID del evento remoto
-     * @return Google_Service_Calendar_Event
+     * @return \GuzzleHttp\Psr7\Response
      */
     public function deleteEvent($calendarId = null, $eventId)
     {

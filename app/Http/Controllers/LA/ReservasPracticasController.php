@@ -17,6 +17,7 @@ use Collective\Html\FormFacade as Form;
 use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
 use App\Services\GoogleCalendar;
+use Ayudantes;
 
 use App\Models\ReservasPractica;
 
@@ -24,7 +25,7 @@ class ReservasPracticasController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'practica';
-	public $listing_cols = ['id', 'practica', 'laboratorio', 'fecha_hora', 'solicitante', 'gcalendar_event_id'];
+	public $listing_cols = ['id', 'practica', 'laboratorio', 'fecha_hora', 'solicitante', 'participantes', 'gcalendar_event_id'];
 
 	public function __construct() {
 		// Field Access of Listing Columns
@@ -95,7 +96,7 @@ class ReservasPracticasController extends Controller
 
 			$laboratorio = \App\Models\Laboratorio::find($request->input('laboratorio'));
 
-			$fecha_inicio = date_create_from_format(
+			$fecha_inicio = \DateTime::createFromFormat(
 					'd/m/Y g:i A',
 					$request->input('fecha_hora'),
 					new \DateTimeZone(
@@ -114,10 +115,10 @@ class ReservasPracticasController extends Controller
 			$fecha_fin_c = $fecha_fin->format('c');
 
 			$evento = array(
-					'nombre' => $practica->nombre,
-					'laboratorio' => $laboratorio->nombre,
-					'fecha_inicio' => $fecha_inicio_c,
-					'fecha_fin'=> $fecha_fin_c
+					'summary' => $practica->nombre,
+					'location' => $laboratorio->nombre,
+					'start' => $fecha_inicio_c,
+					'end'=> $fecha_fin_c
 			);
 
 
@@ -130,9 +131,9 @@ class ReservasPracticasController extends Controller
 					)
 			);
 
-			/* Si no hay eventos en el tiempo indicado, añadir */
 			$cuentaEventosExistentes = count($eventosExistentes);
 
+			/* Si no hay eventos en el tiempo indicado, añadir */
 			if($cuentaEventosExistentes == 0)
 			{
 					/* Tratar de añadir el nuevo evento a GoogleCalendar antes de agregarlo a sistema, para verificar disponibilidad*/
@@ -149,19 +150,14 @@ class ReservasPracticasController extends Controller
 							);
 
 							$insert_id = Module::insert("ReservasPracticas", $request);
-					}else
-					{
+					} else {
 							$error = 'Falló la creación de evento remoto.';
 					}
-			}else{
+			} else {
 				$error = $cuentaEventosExistentes.' registro(s) en el horario.';
 			}
 
-			session()->flash('flash-message', ((is_null($error))? 'Registro añadido exitosamente.' : 'Error: '.$error));
-
-			if(!is_null($error)){
-					session()->flash('flash-message-error', true);
-			}
+			Ayudantes::flashMessages($error, 'creado');
 
 			return redirect()->route(config('laraadmin.adminRoute') . '.reservaspracticas.index');
 
@@ -292,14 +288,10 @@ class ReservasPracticasController extends Controller
 			{
 					$insert_id = Module::updateRow("ReservasPracticas", $request, $id);
 			}else{
-				$error = 'No pudo actualizarse evento remoto.';
+					$error = 'No pudo actualizarse evento remoto.';
 			}
 
-			session()->flash('flash-message', ((is_null($error))? 'Registro actualizado exitosamente.' : 'Error: '.$error));
-
-			if(!is_null($error)){
-					session()->flash('flash-message-error', true);
-			}
+			Ayudantes::flashMessages($error, 'actualizado');
 
 			return redirect()->route(config('laraadmin.adminRoute') . '.reservaspracticas.index');
 
@@ -337,11 +329,7 @@ class ReservasPracticasController extends Controller
 				$error = 'No pudo eliminarse evento remoto.';
 			}
 
-			session()->flash('flash-message', ((is_null($error))? 'Registro eliminado exitosamente.' : 'Error: '.$error));
-
-			if(!is_null($error)){
-					session()->flash('flash-message-error', true);
-			}
+			Ayudantes::flashMessages($error, 'eliminado');
 
 			// Redirecting to index() method
 			return redirect()->route(config('laraadmin.adminRoute') . '.reservaspracticas.index');

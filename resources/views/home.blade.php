@@ -47,6 +47,10 @@
     <script src="{{ asset('/js/fullcalendar-3.3.1/fullcalendar.min.js') }}"></script>
     <!-- Cargar archivo de localización -->
     <script src="{{ asset('/js/fullcalendar-3.3.1/locale/es-do.js') }}"></script>
+
+    <!--Estilo del precargador -->
+    <link href="{{ asset('/css/cargador.css') }}" rel="stylesheet" />
+
     <style type="text/css">
       #calendario{
         background-color: #FFFFFF;
@@ -57,7 +61,11 @@
 </head>
 
 <body data-spy="scroll" data-offset="0" data-target="#navigation">
+@php
+    /* Obtener los labotarorios en el sistema */
 
+    $laboratorios = \App\Models\Laboratorio::all();
+@endphp
 <!-- Fixed navbar -->
 <div id="navigation" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -104,6 +112,10 @@
                 <img class="hidden-xs hidden-sm hidden-md" src="{{ asset('/la-assets/img/arrow1.png') }}">
             </div>
             <div class="col-lg-8" id="calendario">
+                <div class="cargador">
+                    <div class="cargador-overlay"></div>
+                    <div class="cargador-spinner"></div>
+                </div>
                 <div id="calendario"></div>
                 <!--<iframe src="https://calendar.google.com/calendar/embed?src=admlab.cuvalles%40gmail.com&ctz=America/Mexico_City" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>-->
             </div>
@@ -254,7 +266,18 @@
       				right: 'listDay,month'
       			},
             theme: true,
-            events: '{{ route("api_calendario_eventos") }}',
+            eventSources: [
+                @foreach($laboratorios as $laboratorio)
+                {
+                    url: '{{ route("api_calendario_laboratorio_eventos", ["laboratorioId" => $laboratorio->id]) }}',
+                    color: '{{ $laboratorio->color_fondo }}',
+                    textColor: '{{ $laboratorio->color_frente }}'
+                },
+                @endforeach
+            ],
+            loading: function(bool) {
+      				$('.cargador').toggle(bool);
+      			},
       			eventClick: function(event) {
         				window.open(event.url, 'gcalevent', 'width=700,height=600');
         				return false;

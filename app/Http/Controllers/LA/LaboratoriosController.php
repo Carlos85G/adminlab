@@ -17,6 +17,7 @@ use Collective\Html\FormFacade as Form;
 use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
 use App\Services\GoogleCalendar;
+use Ayudantes;
 
 use App\Models\Laboratorio;
 
@@ -55,7 +56,7 @@ class LaboratoriosController extends Controller
 			]);
 		} else {
             return redirect(config('laraadmin.adminRoute')."/");
-        }
+    }
 	}
 
 	/**
@@ -86,6 +87,9 @@ class LaboratoriosController extends Controller
 				return redirect()->back()->withErrors($validator)->withInput();
 			}
 
+			/*Variable para guardar el último error de validación*/
+			$error = null;
+
 			/* Crear nuevo calendario para eventos separados por el API de Google */
 			$calendario = new GoogleCalendar();
 
@@ -96,14 +100,33 @@ class LaboratoriosController extends Controller
 			/* Insertar a la base de datos solamente si el calendario fue creado en la cuenta en línea*/
 			if($nuevoLaboratorio instanceOf \Google_Service_Calendar_Calendar)
 			{
-					/*Agregar con el nuevo id de calendario remoto*/
+
+					/* Espacio para valores adicionales */
+					$valoresExtras = array(
+							'gcalendar_cal_id' => $nuevoLaboratorio->getId()
+					);
+
+					/* Recuperar color remotamente (Google es una diva y no pone el color bajo la respuesta inicial) */
+					$nuevoLaboratorioDetalles = $calendario->getCalendarFromCalendarList($valoresExtras['gcalendar_cal_id']);
+
+					/* Verificar que fue posible obtener los detalles y, si se pudo, asignar colores */
+					if($nuevoLaboratorioDetalles instanceOf \Google_Service_Calendar_CalendarListEntry){
+							$valoresExtras['color_frente'] = $nuevoLaboratorioDetalles->getForegroundColor();
+							$valoresExtras['color_fondo'] = $nuevoLaboratorioDetalles->getBackgroundColor();
+					}
+
+					/*Agregar con el nuevo id de calendario remoto y colores*/
 					$request->request->add(
-							[
-									'gcalendar_cal_id' => $nuevoLaboratorio->getId()
-							]
+							$valoresExtras
 					);
 					$insert_id = Module::insert("Laboratorios", $request);
 			}
+			else
+			{
+					$error = 'No pudo crearse calendario remoto.';
+			}
+
+			Ayudantes::flashMessages($error, 'creado');
 
 			return redirect()->route(config('laraadmin.adminRoute') . '.laboratorios.index');
 
@@ -193,7 +216,32 @@ class LaboratoriosController extends Controller
 				return redirect()->back()->withErrors($validator)->withInput();;
 			}
 
-			$insert_id = Module::updateRow("Laboratorios", $request, $id);
+			/*Variable para guardar el último error de validación*/
+			$error = null;
+
+			$laboratorio = \App\Models\Laboratorio::find($id);
+
+			/* Actualizar el calendario para eventos separados por el API de Google */
+			$calendario = new GoogleCalendar();
+
+			$actualizadoLaboratorio = $calendario->updateCalendar(
+					$laboratorio->gcalendar_cal_id,
+					array(
+							'summary' => $request->input('nombre')
+					)
+			);
+
+			/* Insertar a la base de datos solamente si el calendario fue actualizado en la cuenta en línea*/
+			if($actualizadoLaboratorio instanceOf \Google_Service_Calendar_Calendar)
+			{
+					$insert_id = Module::updateRow("Laboratorios", $request, $id);
+			}
+			else
+			{
+					$error = 'No pudo actualizarse calendario remoto.';
+			}
+
+			Ayudantes::flashMessages($error, 'actualizado');
 
 			return redirect()->route(config('laraadmin.adminRoute') . '.laboratorios.index');
 
@@ -211,7 +259,24 @@ class LaboratoriosController extends Controller
 	public function destroy($id)
 	{
 		if(Module::hasAccess("Laboratorios", "delete")) {
-			Laboratorio::find($id)->delete();
+
+			$laboratorio = Laboratorio::find($id);
+
+			/*Variable para guardar el último error de validación*/
+			$error = null;
+
+			$calendario = new GoogleCalendar();
+
+			$respuestaLaboratorio = $calendario->deleteCalendar($laboratorio->gcalendar_cal_id);
+
+			if($respuestaLaboratorio instanceOf \GuzzleHttp\Psr7\Response)
+			{
+					$laboratorio->delete();
+			}else{
+				$error = 'No pudo eliminarse calendario remoto.';
+			}
+
+			Ayudantes::flashMessages($error, 'eliminado');
 
 			// Redirecting to index() method
 			return redirect()->route(config('laraadmin.adminRoute') . '.laboratorios.index');

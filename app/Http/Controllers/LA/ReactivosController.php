@@ -16,6 +16,7 @@ use Datatables;
 use Collective\Html\FormFacade as Form;
 use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
+use Ayudantes;
 
 use App\Models\Reactivo;
 
@@ -24,7 +25,7 @@ class ReactivosController extends Controller
 	public $show_action = true;
 	public $view_col = 'nombre';
 	public $listing_cols = ['id', 'unidad', 'cantidad', 'nombre'];
-	
+
 	public function __construct() {
 		// Field Access of Listing Columns
 		if(\Dwij\Laraadmin\Helpers\LAHelper::laravel_ver() == 5.3) {
@@ -36,7 +37,7 @@ class ReactivosController extends Controller
 			$this->listing_cols = ModuleFields::listingColumnAccessScan('Reactivos', $this->listing_cols);
 		}
 	}
-	
+
 	/**
 	 * Display a listing of the Reactivos.
 	 *
@@ -45,7 +46,7 @@ class ReactivosController extends Controller
 	public function index()
 	{
 		$module = Module::get('Reactivos');
-		
+
 		if(Module::hasAccess($module->id)) {
 			return View('la.reactivos.index', [
 				'show_actions' => $this->show_action,
@@ -76,19 +77,21 @@ class ReactivosController extends Controller
 	public function store(Request $request)
 	{
 		if(Module::hasAccess("Reactivos", "create")) {
-		
+
 			$rules = Module::validateRules("Reactivos", $request);
-			
+
 			$validator = Validator::make($request->all(), $rules);
-			
+
 			if ($validator->fails()) {
 				return redirect()->back()->withErrors($validator)->withInput();
 			}
-			
+
 			$insert_id = Module::insert("Reactivos", $request);
-			
+
+			Ayudantes::flashMessages(null, 'creado');
+
 			return redirect()->route(config('laraadmin.adminRoute') . '.reactivos.index');
-			
+
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
 		}
@@ -103,12 +106,12 @@ class ReactivosController extends Controller
 	public function show($id)
 	{
 		if(Module::hasAccess("Reactivos", "view")) {
-			
+
 			$reactivo = Reactivo::find($id);
 			if(isset($reactivo->id)) {
 				$module = Module::get('Reactivos');
 				$module->row = $reactivo;
-				
+
 				return view('la.reactivos.show', [
 					'module' => $module,
 					'view_col' => $this->view_col,
@@ -134,13 +137,13 @@ class ReactivosController extends Controller
 	 */
 	public function edit($id)
 	{
-		if(Module::hasAccess("Reactivos", "edit")) {			
+		if(Module::hasAccess("Reactivos", "edit")) {
 			$reactivo = Reactivo::find($id);
-			if(isset($reactivo->id)) {	
+			if(isset($reactivo->id)) {
 				$module = Module::get('Reactivos');
-				
+
 				$module->row = $reactivo;
-				
+
 				return view('la.reactivos.edit', [
 					'module' => $module,
 					'view_col' => $this->view_col,
@@ -166,19 +169,21 @@ class ReactivosController extends Controller
 	public function update(Request $request, $id)
 	{
 		if(Module::hasAccess("Reactivos", "edit")) {
-			
+
 			$rules = Module::validateRules("Reactivos", $request, true);
-			
+
 			$validator = Validator::make($request->all(), $rules);
-			
+
 			if ($validator->fails()) {
 				return redirect()->back()->withErrors($validator)->withInput();;
 			}
-			
+
 			$insert_id = Module::updateRow("Reactivos", $request, $id);
-			
+
+			Ayudantes::flashMessages(null, 'actualizado');
+
 			return redirect()->route(config('laraadmin.adminRoute') . '.reactivos.index');
-			
+
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
 		}
@@ -194,14 +199,16 @@ class ReactivosController extends Controller
 	{
 		if(Module::hasAccess("Reactivos", "delete")) {
 			Reactivo::find($id)->delete();
-			
+
+			Ayudantes::flashMessages(null, 'eliminado');
+
 			// Redirecting to index() method
 			return redirect()->route(config('laraadmin.adminRoute') . '.reactivos.index');
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
 		}
 	}
-	
+
 	/**
 	 * Datatable Ajax fetch
 	 *
@@ -214,9 +221,9 @@ class ReactivosController extends Controller
 		$data = $out->getData();
 
 		$fields_popup = ModuleFields::getModuleFields('Reactivos');
-		
+
 		for($i=0; $i < count($data->data); $i++) {
-			for ($j=0; $j < count($this->listing_cols); $j++) { 
+			for ($j=0; $j < count($this->listing_cols); $j++) {
 				$col = $this->listing_cols[$j];
 				if($fields_popup[$col] != null && starts_with($fields_popup[$col]->popup_vals, "@")) {
 					$data->data[$i][$j] = ModuleFields::getFieldValue($fields_popup[$col], $data->data[$i][$j]);
@@ -228,13 +235,13 @@ class ReactivosController extends Controller
 				//    $data->data[$i][$j];
 				// }
 			}
-			
+
 			if($this->show_action) {
 				$output = '';
 				if(Module::hasAccess("Reactivos", "edit")) {
 					$output .= '<a href="'.url(config('laraadmin.adminRoute') . '/reactivos/'.$data->data[$i][0].'/edit').'" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>';
 				}
-				
+
 				if(Module::hasAccess("Reactivos", "delete")) {
 					$output .= Form::open(['route' => [config('laraadmin.adminRoute') . '.reactivos.destroy', $data->data[$i][0]], 'method' => 'delete', 'style'=>'display:inline']);
 					$output .= ' <button class="btn btn-danger btn-xs" type="submit"><i class="fa fa-times"></i></button>';
