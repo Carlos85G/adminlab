@@ -19,6 +19,7 @@ use Dwij\Laraadmin\Models\ModuleFields;
 use Ayudantes;
 
 use App\Models\Practica;
+use App\PracticaMaterial;
 
 class PracticasController extends Controller
 {
@@ -175,7 +176,7 @@ class PracticasController extends Controller
 			$validator = Validator::make($request->all(), $rules);
 
 			if ($validator->fails()) {
-				return redirect()->back()->withErrors($validator)->withInput();;
+				return redirect()->back()->withErrors($validator)->withInput();
 			}
 
 			$insert_id = Module::updateRow("Practicas", $request, $id);

@@ -133,6 +133,7 @@ class ReservasPracticasController extends Controller
 
 			$cuentaEventosExistentes = count($eventosExistentes);
 
+
 			/* Si no hay eventos en el tiempo indicado, añadir */
 			if($cuentaEventosExistentes == 0)
 			{

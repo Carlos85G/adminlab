@@ -24,7 +24,7 @@ class ReactivosController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'nombre';
-	public $listing_cols = ['id', 'unidad', 'cantidad', 'nombre'];
+	public $listing_cols = ['id', 'nombre', 'cantidad', 'unidad'];
 
 	public function __construct() {
 		// Field Access of Listing Columns

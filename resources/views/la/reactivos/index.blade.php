@@ -8,7 +8,7 @@
 
 @section("headerElems")
 @la_access("Reactivos", "create")
-	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">A&nilde;adir Reactivo</button>
+	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">A&ntilde;adir Reactivo</button>
 @endla_access
 @endsection
 

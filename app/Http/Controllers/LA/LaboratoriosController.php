@@ -25,7 +25,7 @@ class LaboratoriosController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'nombre';
-	public $listing_cols = ['id', 'nombre', 'gcalendar_cal_id'];
+	public $listing_cols = ['id', 'nombre'];
 
 	public function __construct() {
 		// Field Access of Listing Columns
