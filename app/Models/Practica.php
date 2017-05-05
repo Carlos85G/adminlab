@@ -36,11 +36,8 @@ class Practica extends Model
    * Función publica para establecer la relación múltiple entre la práctica y la definición de reactivos
    * @return array(PracticaReactivo)
    */
-  /*
-  Descomentar cuando esté implementado
   public function reactivos()
   {
-      return $this->hasMany(\App\PracticaReactivo::class, 'reactivo_id', 'id');
+      return $this->hasMany(\App\PracticaReactivo::class, 'practica_id', 'id');
   }
-  */
 }

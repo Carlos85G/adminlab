@@ -20,8 +20,6 @@ class CreatePracticasTable extends Migration
         Module::generate("Practicas", 'practicas', 'nombre', 'fa-cube', [
             ["nombre", "Nombre", "Name", true, "", 3, 256, true],
             ["objetivo", "Objetivo", "Textarea", false, "", 3, 256, true],
-            ["practica_materiales", "Materiales", "Multiselect", false, "", 0, 0, true, "@materiales"],
-            ["practica_reactivos", "Reactivos", "Multiselect", false, "", 0, 0, false, "@reactivos"],
             ["duracion", "Duración ", "Integer", false, "3600", 0, 11, true],
             ["practica_pdf", "Subir práctica ", "File", false, "", 0, 0, true],
         ]);

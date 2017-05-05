@@ -50,7 +50,7 @@ $reactivos = \App\Models\Reactivo::all();
 							<div class="form-group col-md-5">
 								<select class="form-control" required="1" data-placeholder="Seleccione un Material" rel="select2" name="practicamaterial[{{ $practicamaterial->id }}]">
 									@foreach($materiales as $material)
-									<option value="{{ $material->id }}"{{ ($practicamaterial->material_id === $material->id)? ' selected="selected"' : '' }} >{{ $material->descripcion }}</option>
+									<option value="{{ $material->id }}"{!! ($practicamaterial->material_id === $material->id)? ' selected="selected"' : '' !!} >{{ $material->descripcion }}</option>
 									@endforeach
 								</select>
 							</div>
@@ -78,22 +78,55 @@ $reactivos = \App\Models\Reactivo::all();
 					</div>
 					<label for="practica_reactivos">Reactivos* :</label>
 					<div id="practica_reactivos">
-
-
-						{{--Aquí van los reactivos--}}
-
-
-						
+					@foreach($practica->reactivos as $practicareactivo)
+						<div class="row practicareactivo">
+							<div class="form-group col-md-3">
+								<select class="form-control change-unity" required="1" data-placeholder="Seleccione un Reactivo" rel="select2" name="practicareactivo[{{ $practicareactivo->id }}]">
+									@foreach($reactivos as $reactivo)
+									<option value="{{ $reactivo->id }}"{!! ($practicareactivo->reactivo_id === $reactivo->id)? ' selected="selected"' : '' !!} data-unidad="{{ $reactivo->unidad }}">{{ $reactivo->nombre }}</option>
+									@endforeach
+								</select>
+							</div>
+							<div class="form-group col-md-4">
+								<div class="input-group">
+									<input class="form-control" placeholder="Indique candidad de reactivo " required="1" name="practicareactivo_cantidad[{{ $practicareactivo->id }}]" type="number" value="{{ $practicareactivo->cantidad }}" />
+									<span class="input-group-addon">{{ $reactivo->unidad }}</span>
+								</div>
+							</div>
+							<div class="form-group col-md-4">
+								<label for="practicareactivo_por_grupo[{{ $practicareactivo->id }}]">&iquest;Para todos?:</label>
+								<input type="hidden" value="{{ ($practicareactivo->por_grupo == 1)? 'true' : 'false' }}" name="practicareactivo_por_grupo_hidden[{{ $practicareactivo->id }}]" />
+								<input class="form-control" name="practicareactivo_por_grupo[{{ $practicareactivo->id }}]" type="checkbox" value="practicareactivo_por_grupo[{{ $practicareactivo->id }}]"{!! ($practicareactivo->por_grupo === 1)? ' checked="checked"' : '' !!} />
+								<div class="Switch Round {{ ($practicareactivo->por_grupo == 1)? 'On' : 'Off' }}" style="vertical-align:top;margin-left:10px;">
+									<div class="Toggle"></div>
+								</div>
+							</div>
+							<div class="form-group col-md-1">
+								<button type="button" class="btn btn-danger btn-xs remove_practicareactivo">
+									<i class="fa fa-times"></i>
+								</button>
+							</div>
+						</div>
+					@endforeach
 					</div>
 					<div class="form-group">
 						<div class="btn btn-success btn-md" id="nuevo-reactivo">A&ntilde;adir nuevo Reactivo</div>
 					</div>
-					<div class="form-group">
-							<label for="Horas">Horas * :</label>
-							<input class="form-control" id="horas" placeholder="Introduce n&uacute;mero de horas" required="1" name="horas" type="number" value="{{ (int) ($practica->duracion / 3600) }}" aria-required="true" />
-							<label for="Minutos">Minutos * :</label>
-							<input class="form-control" id="minutos" placeholder="Introduce n&uacute;mero de minutos" required="1" name="minutos" type="number" value="{{ (int) ($practica->duracion % 3600) }}" aria-required="true" />
-							<input id="duracion" name="duracion" type="hidden" value="{{ $practica->duracion }}" />
+					<label>Duraci&oacute;n * :</label>
+					<div class="row">
+						<div class="form-group col-md-6">
+							<div class="input-group">
+								<input class="form-control" id="horas" placeholder="Introduce n&uacute;mero de horas" required="1" name="horas" type="number" value="{{ (int) ($practica->duracion / 3600) }}" aria-required="true" />
+								<span class="input-group-addon">horas</span>
+							</div>
+						</div>
+						<div class="form-group col-md-6">
+							<div class="input-group">
+								<input class="form-control" id="minutos" placeholder="Introduce n&uacute;mero de minutos" required="1" name="minutos" type="number" value="{{ (int) ($practica->duracion % 3600) }}" aria-required="true" />
+								<span class="input-group-addon">minutos</span>
+							</div>
+						</div>
+						<input id="duracion" name="duracion" type="hidden" value="{{ $practica->duracion }}" />
 					</div>
 					@la_input($module, 'practica_pdf')
                     <br>
@@ -125,6 +158,12 @@ $(function () {
 		el.click(function(){
 			$(this).parents("div.practicareactivo").remove();
 		});
+	}
+
+	function addChangeUnity(el){
+		el.change(function(){
+			 $(this).parents('div.practicareactivo').find('span.input-group-addon').html($(this).find("option:selected").attr('data-unidad'));
+		}).change();
 	}
 
 	function cambiarasegundos(){
@@ -307,7 +346,7 @@ $(function () {
 			nombre_reactivo = $(
 				'<select />',
 				{
-					class: "form-control",
+					class: "form-control change-unity",
 					required: 1,
 					"data-placeholder": "Seleccione un Reactivo",
 					rel: "select2",
@@ -443,12 +482,9 @@ $(function () {
 
 		addToggleCheck(por_grupo_reactivo_switch);
 		addSelect2(nombre_reactivo);
-		nombre_reactivo.change(function(){
-			cantidad_reactivo_unidad.html($(this).find("option:selected").attr('data-unidad'));
-		}).change();
+		addChangeUnity(nombre_reactivo);
 		addRemovePracticaReactivo(eliminar_reactivo_button);
 	});
-
 
 	$('button.remove_practicamaterial').each(function(){
 			addRemovePracticaMaterial($(this));
@@ -456,6 +492,10 @@ $(function () {
 
 	$('button.remove_practicareactivo').each(function(){
 			addRemovePracticaReactivo($(this));
+	});
+
+	$('select.change-unity').each(function(){
+		addChangeUnity($(this));
 	});
 
 	$("#horas,#minutos").change(function(){

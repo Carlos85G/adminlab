@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTablePracticasmaterial extends Migration
+class CreateTablePracticasmateriales extends Migration
 {
     /**
      * Run the migrations.
@@ -14,10 +14,11 @@ class CreateTablePracticasmaterial extends Migration
     {
         Schema::create('practicasmateriales', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('practica_id', 10)->unsigned();
-            $table->integer('material_id', 10)->unsigned();
-            $table->integer('cantidad', 10)->default(1)->unsigned();
-            $table->boolean('por_practica')->default(false);
+            $table->integer('practica_id')->unsigned();
+            $table->integer('material_id')->unsigned();
+            $table->integer('cantidad')->default(1)->unsigned();
+            $table->boolean('por_grupo')->default(false);
+            $table->timestamp('deleted_at')->default(null);
             $table->timestamps();
         });
     }
