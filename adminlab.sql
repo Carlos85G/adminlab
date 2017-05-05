@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-05-2017 a las 00:42:04
+-- Tiempo de generación: 04-05-2017 a las 23:46:01
 -- Versión del servidor: 5.7.14
 -- Versión de PHP: 5.6.25
 
@@ -384,10 +384,10 @@ INSERT INTO `module_fields` (`id`, `colname`, `label`, `module`, `field_type`, `
 (31, 'display_name', 'Display Name', 5, 19, 0, '', 0, 250, 1, '', 0, '2017-03-07 04:21:31', '2017-03-07 04:21:31'),
 (32, 'description', 'Description', 5, 21, 0, '', 0, 1000, 0, '', 0, '2017-03-07 04:21:31', '2017-03-07 04:21:31'),
 (33, 'parent', 'Parent Role', 5, 7, 0, '1', 0, 0, 0, '@roles', 0, '2017-03-07 04:21:31', '2017-03-07 04:21:31'),
-(74, 'estante', 'Número de Estante', 13, 13, 0, '', 1, 11, 1, '', 3, '2017-03-07 11:28:21', '2017-03-07 11:28:21'),
-(73, 'anaquel', 'Número de Anaquel', 13, 13, 0, '', 1, 11, 1, '', 2, '2017-03-07 11:27:47', '2017-03-07 11:27:47'),
-(72, 'codigo', 'Código', 13, 22, 0, '', 3, 256, 1, '', 5, '2017-03-07 11:27:17', '2017-04-05 20:55:28'),
-(71, 'marca', 'Marca', 13, 22, 0, '', 3, 256, 1, '', 4, '2017-03-07 11:26:40', '2017-04-05 20:55:45'),
+(74, 'estante', 'Número de Estante', 13, 13, 0, '', 1, 11, 1, '', 6, '2017-03-07 11:28:21', '2017-03-07 11:28:21'),
+(73, 'anaquel', 'Número de Anaquel', 13, 13, 0, '', 1, 11, 1, '', 5, '2017-03-07 11:27:47', '2017-03-07 11:27:47'),
+(72, 'codigo', 'Código', 13, 22, 0, '', 3, 256, 1, '', 4, '2017-03-07 11:27:17', '2017-04-05 20:55:28'),
+(71, 'marca', 'Marca', 13, 22, 0, '', 3, 256, 1, '', 2, '2017-03-07 11:26:40', '2017-04-05 20:55:45'),
 (46, 'name', 'Name', 7, 16, 1, '', 0, 250, 1, '', 0, '2017-03-07 04:21:31', '2017-03-07 04:21:31'),
 (47, 'file_name', 'File Name', 7, 19, 1, '', 0, 250, 1, '', 0, '2017-03-07 04:21:31', '2017-03-07 04:21:31'),
 (48, 'backup_size', 'File Size', 7, 19, 0, '0', 0, 10, 1, '', 0, '2017-03-07 04:21:31', '2017-03-07 04:21:31'),
@@ -401,15 +401,15 @@ INSERT INTO `module_fields` (`id`, `colname`, `label`, `module`, `field_type`, `
 (56, 'nombre', 'Nombre', 11, 16, 1, '', 3, 256, 1, '', 0, '2017-03-07 09:31:16', '2017-04-22 06:44:25'),
 (57, 'nombre', 'Nombre', 12, 16, 1, '', 3, 256, 1, '', 1, '2017-03-07 09:32:49', '2017-03-07 09:32:49'),
 (58, 'objetivo', 'Objetivo', 12, 21, 0, '', 3, 256, 1, '', 2, '2017-03-07 09:33:23', '2017-03-08 22:47:51'),
-(81, 'practica_materiales', 'Materiales', 12, 15, 0, '', 0, 0, 1, '@materiales', 3, '2017-04-05 05:08:21', '2017-04-05 21:05:11'),
+(81, 'practica_materiales', 'Materiales', 12, 2, 0, '1', 0, 256, 1, '', 3, '2017-04-05 05:08:21', '2017-05-05 03:44:02'),
 (80, 'duracion', 'Duración ', 12, 13, 0, '3600', 0, 11, 1, '', 5, '2017-04-05 05:02:51', '2017-04-05 05:02:51'),
 (79, 'practica_pdf', 'Subir práctica ', 12, 9, 0, '', 0, 0, 1, '', 6, '2017-04-05 04:57:34', '2017-04-05 04:57:34'),
 (63, 'descripcion', 'Descripción', 13, 16, 1, '', 3, 256, 1, '', 1, '2017-03-07 09:48:40', '2017-03-07 11:26:16'),
-(77, 'unidad', 'Unidad de Medida', 15, 7, 0, '', 0, 0, 0, '["kg","g","l","ml","cajas","paquetes"]', 0, '2017-03-07 11:36:13', '2017-03-07 11:36:13'),
-(76, 'cantidad', 'Cantidad', 15, 13, 0, '0', 0, 11, 1, '', 0, '2017-03-07 11:31:42', '2017-03-07 11:31:42'),
-(75, 'nombre', 'Nombre', 15, 16, 0, '', 3, 256, 1, '', 0, '2017-03-07 11:31:08', '2017-03-07 11:31:08'),
-(70, 'cantidad', 'Cantidad', 13, 13, 0, '', 0, 11, 1, '', 6, '2017-03-07 10:28:41', '2017-03-07 10:28:41'),
-(82, 'practica_reactivos', 'Reactivos', 12, 15, 0, '', 0, 0, 0, '@reactivos', 4, '2017-04-05 05:09:09', '2017-04-05 05:50:39'),
+(77, 'unidad', 'Unidad de Medida', 15, 7, 0, '', 0, 0, 0, '["kg","g","l","ml","cajas","paquetes"]', 3, '2017-03-07 11:36:13', '2017-03-07 11:36:13'),
+(76, 'cantidad', 'Cantidad', 15, 13, 0, '0', 0, 11, 1, '', 2, '2017-03-07 11:31:42', '2017-03-07 11:31:42'),
+(75, 'nombre', 'Nombre', 15, 16, 0, '', 3, 256, 1, '', 1, '2017-03-07 11:31:08', '2017-03-07 11:31:08'),
+(70, 'cantidad', 'Cantidad', 13, 13, 0, '', 0, 11, 1, '', 3, '2017-03-07 10:28:41', '2017-03-07 10:28:41'),
+(82, 'practica_reactivos', 'Reactivos', 12, 15, 0, '', 0, 256, 1, '@reactivos', 4, '2017-04-05 05:09:09', '2017-05-05 03:01:46'),
 (89, 'laboratorio', 'Laboratorio', 16, 18, 0, '', 0, 0, 1, '@laboratorios', 2, '2017-04-22 12:53:44', '2017-04-22 12:53:44'),
 (85, 'practica', 'Práctica a realizar', 16, 18, 0, '', 0, 0, 1, '@practicas', 1, '2017-04-22 06:30:45', '2017-04-22 06:30:45'),
 (87, 'fecha_hora', 'Fecha y Hora', 16, 5, 0, '', 0, 0, 1, '', 3, '2017-04-22 06:32:27', '2017-04-22 06:32:27'),
@@ -572,9 +572,10 @@ CREATE TABLE IF NOT EXISTS `practicas` (
   `objetivo` varchar(256) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `practica_pdf` int(11) NOT NULL DEFAULT '0',
   `duracion` int(10) UNSIGNED NOT NULL DEFAULT '3600',
-  `practica_materiales` varchar(256) COLLATE utf8_unicode_ci NOT NULL DEFAULT '[]',
+  `practica_materiales` tinyint(1) NOT NULL DEFAULT '0',
   `practica_reactivos` varchar(256) COLLATE utf8_unicode_ci NOT NULL DEFAULT '[]',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `practicas_practica_materiales_foreign` (`practica_materiales`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -582,7 +583,34 @@ CREATE TABLE IF NOT EXISTS `practicas` (
 --
 
 INSERT INTO `practicas` (`id`, `deleted_at`, `created_at`, `updated_at`, `nombre`, `objetivo`, `practica_pdf`, `duracion`, `practica_materiales`, `practica_reactivos`) VALUES
-(3, NULL, '2017-04-05 05:31:02', '2017-04-22 07:45:17', 'Práctica 1. Conocimiento del equipo de interfaz independiente Labquest ', 'Conocerá las partes que conforman el equipo de Labquest marca vernier así como las mediciones que se pueden llevar a cabo con sensores que a él se le pueden integrar. ', 1, 3600, '["1","2"]', '["1"]');
+(3, NULL, '2017-04-05 05:31:02', '2017-05-05 07:47:59', 'Práctica 1. Conocimiento del equipo de interfaz independiente Labquest ', 'Conocerá las partes que conforman el equipo de Labquest marca vernier así como las mediciones que se pueden llevar a cabo con sensores que a él se le pueden integrar. ', 1, 3600, 0, '["1"]');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `practicasmateriales`
+--
+
+DROP TABLE IF EXISTS `practicasmateriales`;
+CREATE TABLE IF NOT EXISTS `practicasmateriales` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `practica_id` int(10) UNSIGNED NOT NULL,
+  `material_id` int(10) UNSIGNED NOT NULL,
+  `cantidad` int(10) UNSIGNED NOT NULL DEFAULT '1',
+  `por_grupo` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `practicasmateriales`
+--
+
+INSERT INTO `practicasmateriales` (`id`, `practica_id`, `material_id`, `cantidad`, `por_grupo`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, 3, 1, 2, 0, NULL, '2017-05-04 20:45:00', '2017-05-04 20:45:00'),
+(2, 3, 2, 1, 1, NULL, '2017-05-04 20:46:00', '2017-05-04 20:46:00');
 
 -- --------------------------------------------------------
 
@@ -617,14 +645,15 @@ CREATE TABLE IF NOT EXISTS `reactivos` (
   `cantidad` int(10) UNSIGNED NOT NULL DEFAULT '0',
   `unidad` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `reactivos`
 --
 
 INSERT INTO `reactivos` (`id`, `deleted_at`, `created_at`, `updated_at`, `nombre`, `cantidad`, `unidad`) VALUES
-(1, NULL, '2017-04-05 05:28:08', '2017-04-05 05:28:08', 'test', 1, 'kg');
+(1, NULL, '2017-04-05 05:28:08', '2017-04-05 05:28:08', 'test', 1, 'kg'),
+(2, NULL, '2017-05-05 09:35:43', '2017-05-05 09:35:43', 'Ácido Sulfúrico', 20, 'l');
 
 -- --------------------------------------------------------
 
