@@ -16,7 +16,6 @@ use Datatables;
 use Collective\Html\FormFacade as Form;
 use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
-use App\Services\GoogleCalendar;
 use Ayudantes;
 
 use App\Models\Laboratorio;
@@ -25,7 +24,7 @@ class LaboratoriosController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'nombre';
-	public $listing_cols = ['id', 'nombre'];
+	public $listing_cols = ['id', 'nombre', 'color_fondo'];
 
 	public function __construct() {
 		// Field Access of Listing Columns
@@ -90,41 +89,25 @@ class LaboratoriosController extends Controller
 			/*Variable para guardar el último error de validación*/
 			$error = null;
 
-			/* Crear nuevo calendario para eventos separados por el API de Google */
-			$calendario = new GoogleCalendar();
+			/* Generar color aleatorio de fondo y buscar que no exista */
+			do{
+				$colorFondo = Ayudantes::generarColor();
+			}while(Laboratorio::where('color_fondo', $colorFondo)->count() > 0);
 
-			$nuevoLaboratorio = $calendario->createCalendar(
-					$request->input('nombre')
+			$colorFrente = Ayudantes::colorContrastante($colorFondo);
+
+			/* Espacio para valores adicionales */
+			$valoresExtras = array(
+					'color_fondo' => $colorFondo,
+					'color_frente' => $colorFrente
 			);
 
-			/* Insertar a la base de datos solamente si el calendario fue creado en la cuenta en línea*/
-			if($nuevoLaboratorio instanceOf \Google_Service_Calendar_Calendar)
-			{
+			/*Agregar con el nuevo id de calendario remoto y colores*/
+			$request->request->add(
+					$valoresExtras
+			);
 
-					/* Espacio para valores adicionales */
-					$valoresExtras = array(
-							'gcalendar_cal_id' => $nuevoLaboratorio->getId()
-					);
-
-					/* Recuperar color remotamente (Google es una diva y no pone el color bajo la respuesta inicial) */
-					$nuevoLaboratorioDetalles = $calendario->getCalendarFromCalendarList($valoresExtras['gcalendar_cal_id']);
-
-					/* Verificar que fue posible obtener los detalles y, si se pudo, asignar colores */
-					if($nuevoLaboratorioDetalles instanceOf \Google_Service_Calendar_CalendarListEntry){
-							$valoresExtras['color_frente'] = $nuevoLaboratorioDetalles->getForegroundColor();
-							$valoresExtras['color_fondo'] = $nuevoLaboratorioDetalles->getBackgroundColor();
-					}
-
-					/*Agregar con el nuevo id de calendario remoto y colores*/
-					$request->request->add(
-							$valoresExtras
-					);
-					$insert_id = Module::insert("Laboratorios", $request);
-			}
-			else
-			{
-					$error = 'No pudo crearse calendario remoto.';
-			}
+			$insert_id = Module::insert("Laboratorios", $request);
 
 			Ayudantes::flashMessages($error, 'creado');
 
@@ -219,27 +202,7 @@ class LaboratoriosController extends Controller
 			/*Variable para guardar el último error de validación*/
 			$error = null;
 
-			$laboratorio = \App\Models\Laboratorio::find($id);
-
-			/* Actualizar el calendario para eventos separados por el API de Google */
-			$calendario = new GoogleCalendar();
-
-			$actualizadoLaboratorio = $calendario->updateCalendar(
-					$laboratorio->gcalendar_cal_id,
-					array(
-							'summary' => $request->input('nombre')
-					)
-			);
-
-			/* Insertar a la base de datos solamente si el calendario fue actualizado en la cuenta en línea*/
-			if($actualizadoLaboratorio instanceOf \Google_Service_Calendar_Calendar)
-			{
-					$insert_id = Module::updateRow("Laboratorios", $request, $id);
-			}
-			else
-			{
-					$error = 'No pudo actualizarse calendario remoto.';
-			}
+			$insert_id = Module::updateRow("Laboratorios", $request, $id);
 
 			Ayudantes::flashMessages($error, 'actualizado');
 
@@ -265,16 +228,7 @@ class LaboratoriosController extends Controller
 			/*Variable para guardar el último error de validación*/
 			$error = null;
 
-			$calendario = new GoogleCalendar();
-
-			$respuestaLaboratorio = $calendario->deleteCalendar($laboratorio->gcalendar_cal_id);
-
-			if($respuestaLaboratorio instanceOf \GuzzleHttp\Psr7\Response)
-			{
-					$laboratorio->delete();
-			}else{
-				$error = 'No pudo eliminarse calendario remoto.';
-			}
+			$laboratorio->delete();
 
 			Ayudantes::flashMessages($error, 'eliminado');
 

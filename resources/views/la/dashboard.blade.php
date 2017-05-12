@@ -202,7 +202,6 @@
           @foreach($laboratorios as $laboratorio)
           $('#laboratorio{{$laboratorio->id}}-calendario').fullCalendar('render');
           @endforeach
-          console.log("FUNCIONA");
       });
 
       $('#laboratorios a:first').tab('show');

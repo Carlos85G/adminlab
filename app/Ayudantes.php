@@ -3,6 +3,18 @@ namespace App;
 
 abstract class Ayudantes
 {
+    /* Variable estática para mantener consistencia*/
+    protected static $timezone = 'America/Mexico_City';
+
+    /**
+     * Función estática para recuperar el valor predeterminado para los calendarios.
+     * @return string: Zona horaria ($this->timezone).
+     */
+    public static function getDefaultTimezone()
+    {
+        return self::$timezone;
+    }
+
     /**
      * Función para el envío de mensajes al Usuario
      * @param string $error: Error a mostrar al usuario.
@@ -16,6 +28,29 @@ abstract class Ayudantes
         if(!is_null($error)){
             session()->flash('flash-message-error', true);
         }
+    }
+
+    /**
+     * Función para obtener un color aleatorio
+     * @return string: Color en hexadecimal, con "#" incluido.
+     */
+    public static function generarColor()
+    {
+        $r = random_int(0, 255);
+        $g = random_int(0, 255);
+        $b = random_int(0, 255);
+        return ('#'.strtoupper(dechex($r) . dechex($g) . dechex($b)));
+    }
+
+    /**
+     * Función para obtener el tono contrastante del color dado (Blanco o Negro)
+     * @param string $hexcolor: Color en hexadecimal, con o sin "#"
+     * @return string: Color en hexadecimal, con "#" incluido.
+     */
+    public static function colorContrastante($hexcolor){
+        $posicionPound = stripos($hexcolor, '#');
+        $hexcolor = ($posicionPound === false)? $hexcolor : substr($hexcolor, 1);
+        return ('#'.((hexdec($hexcolor) > 0xffffff/2) ? '000000':'FFFFFF'));
     }
 
     /**

@@ -58,11 +58,11 @@
 				<div class="box-body">
           {{--  @la_form($module) --}}
 
-					@la_input($module, 'practica')
-					@la_input($module, 'laboratorio')
+					@la_input($module, 'practica_id')
+					@la_input($module, 'laboratorio_id')
 					@la_input($module, 'participantes')
-					@la_input($module, 'fecha_hora')
-					<input type="hidden" value="{{ Auth::user()->id }}" name="solicitante" />
+					@la_input($module, 'fecha_inicio')
+					<input type="hidden" value="{{ Auth::user()->id }}" name="solicitante_id" />
 				</div>
 			</div>
 			<div class="modal-footer">

@@ -24,8 +24,8 @@ use App\Models\ReservasPractica;
 class ReservasPracticasController extends Controller
 {
 	public $show_action = true;
-	public $view_col = 'practica';
-	public $listing_cols = ['id', 'practica', 'laboratorio', 'fecha_hora', 'solicitante', 'participantes', 'gcalendar_event_id'];
+	public $view_col = 'practica_id';
+	public $listing_cols = ['id', 'practica_id', 'laboratorio_id', 'fecha_inicio', 'fecha_fin', 'solicitante_id', 'participantes', 'gcalendar_event_id'];
 
 	public function __construct() {
 		// Field Access of Listing Columns
@@ -90,72 +90,54 @@ class ReservasPracticasController extends Controller
 			/*Variable para guardar el último error de validación*/
 			$error = null;
 
-			$calendario = new GoogleCalendar();
+			$practica = \App\Models\Practica::find($request->input('practica_id'));
 
-			$practica = \App\Models\Practica::find($request->input('practica'));
+			$laboratorio = \App\Models\Laboratorio::find($request->input('laboratorio_id'));
 
-			$laboratorio = \App\Models\Laboratorio::find($request->input('laboratorio'));
-
-			$fecha_inicio = \DateTime::createFromFormat(
+			$fechaInicio = \DateTime::createFromFormat(
 					'd/m/Y g:i A',
-					$request->input('fecha_hora'),
+					$request->input('fecha_inicio'),
 					new \DateTimeZone(
-							$calendario->getDefaultTimezone()
+							Ayudantes::getDefaultTimezone()
 					)
 			);
 
-			$fecha_fin = clone $fecha_inicio;
+			$fechaFin = clone $fechaInicio;
 
 			/*Añadir la duración de la práctica*/
-			$fecha_fin->add(
+			$fechaFin->add(
 					new \DateInterval("PT".$practica->duracion."S")
 			);
 
-			$fecha_inicio_c = $fecha_inicio->format('c');
-			$fecha_fin_c = $fecha_fin->format('c');
+			$fechaInicioYMD = $fechaInicio->format('Y-m-d H:i:s');
+			$fechaFinYMD = $fechaFin->format('Y-m-d H:i:s');
 
-			$evento = array(
-					'summary' => $practica->nombre,
-					'location' => $laboratorio->nombre,
-					'start' => $fecha_inicio_c,
-					'end'=> $fecha_fin_c
+			/* Encontrar reservaciones existentes */
+			$eventosExistentes = ReservasPractica::encontrarConflictos(
+				$laboratorio->id,
+				$fechaInicioYMD,
+				$fechaFinYMD
 			);
 
-
-			/* Averiguar si existen eventos en el calendario indicado y, si nos hay, evitar el nuevo evento*/
-			$eventosExistentes = $calendario->listEvents(
-					$laboratorio->gcalendar_cal_id,
-					array(
-							'timeMin' => $fecha_inicio_c,
-							'timeMax' => $fecha_fin_c
-					)
-			);
-
-			$cuentaEventosExistentes = count($eventosExistentes);
-
+			/* Verificar la cuenta de registros */
+			$cuentaEventosExistentes = $eventosExistentes->count();
 
 			/* Si no hay eventos en el tiempo indicado, añadir */
 			if($cuentaEventosExistentes == 0)
 			{
-					/* Tratar de añadir el nuevo evento a GoogleCalendar antes de agregarlo a sistema, para verificar disponibilidad*/
-					$nuevoEvento = $calendario->createEvent($laboratorio->gcalendar_cal_id, $evento);
+				/*Agregar con la nueva fecha de fin*/
+				$request->request->add(
+						[
+							'fecha_fin' => $fechaFin->format('d/m/Y g:i A')
+						]
+				);
 
-					/* Insertar a la base de datos solamente si el evento fue creado en el calendario en línea*/
-					if($nuevoEvento instanceOf \Google_Service_Calendar_Event)
-					{
-							/*Agregar con el nuevo id de evento remoto*/
-							$request->request->add(
-									[
-											'gcalendar_event_id' => $nuevoEvento->id
-									]
-							);
+				$insert_id = Module::insert("ReservasPracticas", $request);
 
-							$insert_id = Module::insert("ReservasPracticas", $request);
-					} else {
-							$error = 'Falló la creación de evento remoto.';
-					}
+				/*Ya que la reservación está guardada, será necesario añadir las cantidades de materiales*/
+
 			} else {
-				$error = $cuentaEventosExistentes.' registro(s) en el horario.';
+				$error = $cuentaEventosExistentes.' registro(s) existente(s) en el horario solicitado.';
 			}
 
 			Ayudantes::flashMessages($error, 'creado');
@@ -251,45 +233,58 @@ class ReservasPracticasController extends Controller
 			/*Variable para guardar el último error de validación*/
 			$error = null;
 
-			/* Tratar de añadir el nuevo evento a GoogleCalendar antes de agregarlo a sistema, para verificar disponibilidad*/
-			$calendario = new GoogleCalendar();
+			$practica = \App\Models\Practica::find($request->input('practica_id'));
 
-			$practica = \App\Models\Practica::find($request->input('practica'));
-
-			$laboratorio = \App\Models\Laboratorio::find($request->input('laboratorio'));
+			$laboratorio = \App\Models\Laboratorio::find($request->input('laboratorio_id'));
 
 			$reservacion = \App\Models\ReservasPractica::find($id);
 
-			$fecha_inicio = date_create_from_format(
+			$fechaInicio = date_create_from_format(
 					'd/m/Y g:i A',
-					$request->input('fecha_hora'),
+					$request->input('fecha_inicio'),
 					new \DateTimeZone(
-							$calendario->getDefaultTimezone()
+							Ayudantes::getDefaultTimezone()
 					)
 			);
 
-			$fecha_fin = clone $fecha_inicio;
+			$fechaFin = clone $fechaInicio;
 
 			/*Añadir la duración de la práctica*/
-			$fecha_fin->add(
+			$fechaFin->add(
 					new \DateInterval("PT".$practica->duracion."S")
 			);
 
-			$evento = array(
-					'nombre' => $practica->nombre,
-					'laboratorio' => $laboratorio->nombre,
-					'fecha_inicio' => $fecha_inicio->format('c'),
-					'fecha_fin'=> $fecha_fin->format('c')
+			$fechaInicioYMD = $fechaInicio->format('Y-m-d H:i:s');
+			$fechaFinYMD = $fechaFin->format('Y-m-d H:i:s');
+
+			/* Encontrar reservaciones existentes */
+			$eventosExistentes = ReservasPractica::encontrarConflictos(
+				$laboratorio->id,
+				$fechaInicioYMD,
+				$fechaFinYMD
 			);
 
-			$nuevoEvento = $calendario->updateEvent($laboratorio->gcalendar_cal_id, $reservacion->gcalendar_event_id, $evento);
+			/*Excluir la actual*/
+			$eventosExistentes = $eventosExistentes->filter(function($v, $k) use ($id){
+				return ($v->id != $id);
+			});
 
-			/* Insertar a la base de datos solamente si el evento fue creado en el calendario en línea*/
-			if($nuevoEvento instanceOf \Google_Service_Calendar_Event)
+			/* Verificar la cuenta de registros */
+			$cuentaEventosExistentes = $eventosExistentes->count();
+
+			/* Si no hay eventos en el tiempo indicado, actualizar */
+			if($cuentaEventosExistentes == 0)
 			{
+					/*Actualizar con la nueva fecha de fin*/
+					$request->request->add(
+							[
+								'fecha_fin' => $fechaFin->format('d/m/Y g:i A')
+							]
+					);
+
 					$insert_id = Module::updateRow("ReservasPracticas", $request, $id);
 			}else{
-					$error = 'No pudo actualizarse evento remoto.';
+					$error = $cuentaEventosExistentes.' registro(s) existente(s) en el horario solicitado.';
 			}
 
 			Ayudantes::flashMessages($error, 'actualizado');
@@ -311,24 +306,12 @@ class ReservasPracticasController extends Controller
 	{
 		if(Module::hasAccess("ReservasPracticas", "delete")) {
 
-			$reservacion = ReservasPractica::find($id);
-
-			$laboratorio = \App\Models\Laboratorio::find($reservacion->laboratorio);
-
 			/*Variable para guardar el último error de validación*/
 			$error = null;
 
-			$calendario = new GoogleCalendar();
+			$reservacion = ReservasPractica::find($id);
 
-			$respuestaEvento = $calendario->deleteEvent($laboratorio->gcalendar_cal_id, $reservacion->gcalendar_event_id);
-
-			/* Insertar a la base de datos solamente si el evento fue creado en el calendario en línea*/
-			if($respuestaEvento instanceOf \GuzzleHttp\Psr7\Response)
-			{
-					$reservacion->delete();
-			}else{
-				$error = 'No pudo eliminarse evento remoto.';
-			}
+			$reservacion->delete();
 
 			Ayudantes::flashMessages($error, 'eliminado');
 

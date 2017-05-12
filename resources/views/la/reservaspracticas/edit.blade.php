@@ -32,10 +32,10 @@
 				{!! Form::model($reservaspractica, ['route' => [config('laraadmin.adminRoute') . '.reservaspracticas.update', $reservaspractica->id ], 'method'=>'PUT', 'id' => 'reservaspractica-edit-form']) !!}
 					{{--@la_form($module)--}}
 
-					@la_input($module, 'practica')
-					@la_input($module, 'laboratorio')
+					@la_input($module, 'practica_id')
+					@la_input($module, 'laboratorio_id')
 					@la_input($module, 'participantes')
-					@la_input($module, 'fecha_hora')
+					@la_input($module, 'fecha_inicio')
           <br />
 					<div class="form-group">
 						{!! Form::submit( 'Actualizar', ['class'=>'btn btn-success']) !!} <button class="btn btn-default pull-right"><a href="{{ url(config('laraadmin.adminRoute') . '/reservaspracticas') }}">Cancelar</a></button>

@@ -58,7 +58,7 @@ $reactivos = \App\Models\Reactivo::all();
 								<input class="form-control" placeholder="Indique candidad de material " required="1" name="practicamaterial_cantidad[{{ $practicamaterial->id }}]" type="number" value="{{ $practicamaterial->cantidad }}" />
 							</div>
 							<div class="form-group col-md-4">
-								<label for="practicamaterial_por_grupo[{{ $practicamaterial->id }}]">&iquest;Para todos?:</label>
+								<label for="practicamaterial_por_grupo[{{ $practicamaterial->id }}]">Por grupo:</label>
 								<input type="hidden" value="{{ ($practicamaterial->por_grupo == 1)? 'true' : 'false' }}" name="practicamaterial_por_grupo_hidden[{{ $practicamaterial->id }}]" />
 								<input class="form-control" name="practicamaterial_por_grupo[{{ $practicamaterial->id }}]" type="checkbox" value="practicamaterial_por_grupo[{{ $practicamaterial->id }}]"{!! ($practicamaterial->por_grupo === 1)? ' checked="checked"' : '' !!} />
 								<div class="Switch Round {{ ($practicamaterial->por_grupo == 1)? 'On' : 'Off' }}" style="vertical-align:top;margin-left:10px;">
@@ -94,7 +94,7 @@ $reactivos = \App\Models\Reactivo::all();
 								</div>
 							</div>
 							<div class="form-group col-md-4">
-								<label for="practicareactivo_por_grupo[{{ $practicareactivo->id }}]">&iquest;Para todos?:</label>
+								<label for="practicareactivo_por_grupo[{{ $practicareactivo->id }}]">Por grupo:</label>
 								<input type="hidden" value="{{ ($practicareactivo->por_grupo == 1)? 'true' : 'false' }}" name="practicareactivo_por_grupo_hidden[{{ $practicareactivo->id }}]" />
 								<input class="form-control" name="practicareactivo_por_grupo[{{ $practicareactivo->id }}]" type="checkbox" value="practicareactivo_por_grupo[{{ $practicareactivo->id }}]"{!! ($practicareactivo->por_grupo === 1)? ' checked="checked"' : '' !!} />
 								<div class="Switch Round {{ ($practicareactivo->por_grupo == 1)? 'On' : 'Off' }}" style="vertical-align:top;margin-left:10px;">
@@ -240,7 +240,7 @@ $(function () {
 				'<label />',
 				{
 					for: 'practicamaterial_por_grupo[' + nuevoId + ']',
-					html: '&iquest;Para todos?:'
+					html: 'Por grupo:'
 				}
 			),
 			por_grupo_material_hidden = $(
@@ -393,7 +393,7 @@ $(function () {
 				'<label />',
 				{
 					for: 'practicareactivo_por_grupo[' + nuevoId + ']',
-					html: '&iquest;Para todos?:'
+					html: 'Por grupo:'
 				}
 			),
 			por_grupo_reactivo_hidden = $(

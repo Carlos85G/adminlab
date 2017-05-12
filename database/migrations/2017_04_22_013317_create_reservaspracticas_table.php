@@ -18,19 +18,20 @@ class CreateReservaspracticasTable extends Migration
     public function up()
     {
         Module::generate("Reservaspracticas", 'reservaspracticas', 'practica', 'fa-cube', [
-            ["practica", "Práctica a realizar", "Radio", false, "", 0, 0, true, "@practicas"],
-            ["laboratorio", "Laboratorio", "Radio", false, "", 0, 0, true, "@laboratorios"],
-            ["fecha_hora", "Fecha y Hora", "Datetime", false, "", 0, 0, true],
-            ["solicitante", "Solicitante", "Dropdown", false, "", 0, 256, true, "@users"],
+            ["practica_id", "Práctica a realizar", "Radio", false, "", 0, 0, true, "@practicas"],
+            ["laboratorio_id", "Laboratorio", "Radio", false, "", 0, 0, true, "@laboratorios"],
+            ["fecha_inicio", "Fecha de Inicio", "Datetime", false, "", 0, 0, true],
+            ["fecha_fin", "Fecha de Fin", "Datetime", false, "", 0, 0, true],
+            ["solicitante_id", "Solicitante", "Dropdown", false, "", 0, 256, true, "@users"],
             ["participantes", "Núm. Participantes", "Integer", false, "10", 1, 11, true],
             ["gcalendar_event_id", "ID Google Calendar", "Name", true, "", 0, 256, false],
         ]);
-		
+
 		/*
 		Row Format:
 		["field_name_db", "Label", "UI Type", "Unique", "Default_Value", "min_length", "max_length", "Required", "Pop_values"]
         Module::generate("Module_Name", "Table_Name", "view_column_name" "Fields_Array");
-        
+
 		Module::generate("Books", 'books', 'name', [
             ["address",     "Address",      "Address",  false, "",          0,  1000,   true],
             ["restricted",  "Restricted",   "Checkbox", false, false,       0,  0,      false],

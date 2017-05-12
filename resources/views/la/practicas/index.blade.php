@@ -233,7 +233,7 @@ $(function () {
 				'<label />',
 				{
 					for: 'practicamaterial_por_grupo[' + nuevoId + ']',
-					html: '&iquest;Para todos?:'
+					html: 'Por grupo:'
 				}
 			),
 			por_grupo_material_hidden = $(
@@ -386,7 +386,7 @@ $(function () {
 				'<label />',
 				{
 					for: 'practicareactivo_por_grupo[' + nuevoId + ']',
-					html: '&iquest;Para todos?:'
+					html: 'Por grupo:'
 				}
 			),
 			por_grupo_reactivo_hidden = $(
