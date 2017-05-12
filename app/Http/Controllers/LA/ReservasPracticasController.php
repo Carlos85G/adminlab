@@ -19,6 +19,10 @@ use Dwij\Laraadmin\Models\ModuleFields;
 use App\Services\GoogleCalendar;
 use Ayudantes;
 
+use App\Models\Practica;
+use App\Models\Laboratorio;
+use App\Models\Materiale;
+use App\Models\Reactivo;
 use App\Models\ReservasPractica;
 
 class ReservasPracticasController extends Controller
@@ -90,9 +94,9 @@ class ReservasPracticasController extends Controller
 			/*Variable para guardar el último error de validación*/
 			$error = null;
 
-			$practica = \App\Models\Practica::find($request->input('practica_id'));
+			$practica = Practica::find($request->input('practica_id'));
 
-			$laboratorio = \App\Models\Laboratorio::find($request->input('laboratorio_id'));
+			$laboratorio = Laboratorio::find($request->input('laboratorio_id'));
 
 			$fechaInicio = \DateTime::createFromFormat(
 					'd/m/Y g:i A',
@@ -122,20 +126,102 @@ class ReservasPracticasController extends Controller
 			/* Verificar la cuenta de registros */
 			$cuentaEventosExistentes = $eventosExistentes->count();
 
-			/* Si no hay eventos en el tiempo indicado, añadir */
+			/* Si no hay eventos en el tiempo indicado, continuar */
 			if($cuentaEventosExistentes == 0)
 			{
-				/*Agregar con la nueva fecha de fin*/
-				$request->request->add(
-						[
-							'fecha_fin' => $fechaFin->format('d/m/Y g:i A')
-						]
-				);
+				/* Verificar que haya suficientes reactivos y materiales para la práctica */
 
-				$insert_id = Module::insert("ReservasPracticas", $request);
+				/* Espacio para guardar las cantidades. El key es el ID del material o reacivo y el valor es el valor total a descontar */
+				$cantidadesMateriales = array();
+				$cantidadesReactivos = array();
 
-				/*Ya que la reservación está guardada, será necesario añadir las cantidades de materiales*/
+				/* Iniciar petición de búsqueda de materiales escasos */
+				$materialesFaltantesFinder = Materiale::query();
 
+				foreach($practica->materiales as $material)
+				{
+						/* Conseguir el multiplicador: Si es por grupo, multiplicar por uno; si no, multiplicar por la cantidad de participantes */
+						$cantidadMultiplicar = ($material->por_grupo)? 1 : ((int) $request->input('participantes'));
+
+						$cantidadTotal = ($material->cantidad * $cantidadMultiplicar);
+
+						/* Guardar cantidad de materiales */
+						$cantidadesMateriales[$material->material_id] = $cantidadTotal;
+
+						/* Agregar a la búsqueda el filtro de material que sólo retornará la fila si el material no es suficiente */
+						$materialesFaltantesFinder->orWhere(function($query) use ($material, $cantidadTotal){
+							$query->where(
+								'id',
+								$material->material_id
+							)->where(
+								'cantidad',
+								'<',
+								$cantidadTotal
+							);
+						});
+				}
+				unset($material);
+
+				/* Obtener materiales escasos */
+				$materialesFaltantes = $materialesFaltantesFinder->get();
+
+				/* Iniciar petición de búsqueda de reactivos escasos */
+				$reactivosFaltantesFinder = Reactivo::query();
+
+				foreach($practica->reactivos as $reactivo)
+				{
+						/* Conseguir el multiplicador: Si es por grupo, multiplicar por uno; si no, multiplicar por la cantidad de participantes */
+						$cantidadMultiplicar = ($reactivo->por_grupo)? 1 : ((int) $request->input('participantes'));
+
+						/* Guardar cantidad de reactivos */
+						$cantidadesReactivos[$reactivo->reactivo_id] = $cantidadTotal;
+
+						/* Agregar a la búsqueda el filtro de material que sólo retornará la fila si el material no es suficiente */
+						$reactivosFaltantesFinder->orWhere(function($query) use ($reactivo, $cantidadTotal){
+							$query->where(
+								'id',
+								$reactivo->reactivo_id
+							)->where(
+								'cantidad',
+								'<',
+								$cantidadTotal
+							);
+						});
+				}
+				unset($reactivo);
+
+				/* Obtener reactivos escasos */
+				$reactivosFaltantes = $reactivosFaltantesFinder->get();
+
+				if($materialesFaltantes->count() < 1 || $reactivosFaltantes->count() < 1){
+					/*Agregar con la nueva fecha de fin*/
+					$request->request->add(
+							[
+								'fecha_fin' => $fechaFin->format('d/m/Y g:i A')
+							]
+					);
+
+					$insert_id = Module::insert("ReservasPracticas", $request);
+
+					/*Ya que la reservación está guardada, será necesario remover las cantidades de materiales y reactivos solicitados*/
+					$materiales = Materiale::find(array_keys($cantidadesMateriales));
+
+					foreach($materiales as $material)
+					{
+						$material->cantidad -= $cantidadesMateriales[$material->id];
+						$material->save();
+					}
+
+					$reactivos = Reactivo::find(array_keys($cantidadesReactivos));
+
+					foreach($reactivos as $reactivo)
+					{
+						$reactivo->cantidad -= $cantidadesReactivos[$reactivo->id];
+						$reactivo->save();
+					}
+				} else {
+					$error = 'El sistema no cuenta con los suficientes materiales y/o reactivos.';
+				}
 			} else {
 				$error = $cuentaEventosExistentes.' registro(s) existente(s) en el horario solicitado.';
 			}
