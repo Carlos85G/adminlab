@@ -1,7 +1,7 @@
 @extends('la.layouts.app')
 
 @section('htmlheader_title')
-	ReservasPractica View
+	Vista de Reservaci&oacute;n de Pr&aacute;ctica
 @endsection
 
 

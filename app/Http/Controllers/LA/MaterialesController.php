@@ -23,7 +23,7 @@ use App\Models\Materiale;
 class MaterialesController extends Controller
 {
 	public $show_action = true;
-	public $view_col = 'nombre';
+	public $view_col = 'descripcion';
 	public $listing_cols = ['id', 'descripcion', 'anaquel', 'estante', 'marca', 'codigo', 'cantidad'];
 
 	public function __construct() {
