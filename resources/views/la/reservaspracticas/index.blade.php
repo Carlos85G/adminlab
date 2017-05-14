@@ -14,6 +14,11 @@
 
 @section("main-content")
 
+@php
+	$usuarios = \App\User::all();
+	$usuarioActual = Auth::user();
+@endphp
+
 @if (count($errors) > 0)
     <div class="alert alert-danger">
         <ul>
@@ -62,7 +67,19 @@
 					@la_input($module, 'laboratorio_id')
 					@la_input($module, 'participantes')
 					@la_input($module, 'fecha_inicio')
-					<input type="hidden" value="{{ Auth::user()->id }}" name="solicitante_id" />
+					{{-- Esta no es la manera correcta de revisar por privilegios administrativos, pero es lo necesario --}}
+					@if($usuarioActual->hasRole('SUPER_ADMIN') || $usuarioActual->hasRole('LabAdmin'))
+					<div class="form-group">
+						<label for="solicitante_id">Solicitante</label>
+						<select class="form-control" required="1" data-placeholder="Seleccione un Usuario" rel="select2" name="solicitante_id">
+							@foreach($usuarios as $usuario)
+							<option value="{{ $usuario->id }}"{!! ($usuarioActual->id === $usuario->id)? ' selected="selected"' : '' !!}>{{ $usuario->name }}</option>
+							@endforeach
+						</select>
+					</div>
+					@else
+					<input type="hidden" value="{{ $usuarioActual->id }}" name="solicitante_id" />
+					@endif
 				</div>
 			</div>
 			<div class="modal-footer">

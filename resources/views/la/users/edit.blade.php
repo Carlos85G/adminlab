@@ -33,11 +33,11 @@
 					@la_form($module)
 
 					{{--
-					@la_input($module, 'nombre')
-					@la_input($module, 'contexto_id')
+					@la_input($module, 'name')
+					@la_input($module, 'context_id')
 					@la_input($module, 'email')
 					@la_input($module, 'password')
-					@la_input($module, 'tipo')
+					@la_input($module, 'type')
 					--}}
                     <br>
 					<div class="form-group">

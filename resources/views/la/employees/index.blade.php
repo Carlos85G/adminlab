@@ -7,7 +7,7 @@
 @section("htmlheader_title", "Listado de Usuarios")
 
 @section("headerElems")
-@la_access("Users", "create")
+@la_access("Employees", "create")
 	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">A&ntilde;adir Usuario</button>
 @endla_access
 @endsection
@@ -34,7 +34,7 @@
 			<th>{{ $module->fields[$col]['label'] or ucfirst($col) }}</th>
 			@endforeach
 			@if($show_actions)
-			<th>Actions</th>
+			<th>Acciones</th>
 			@endif
 		</tr>
 		</thead>
@@ -45,7 +45,7 @@
 	</div>
 </div>
 
-@la_access("Users", "create")
+@la_access("Employees", "create")
 <div class="modal fade" id="AddModal" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -53,23 +53,43 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title" id="myModalLabel">A&ntilde;adir Usuario</h4>
 			</div>
-			{!! Form::open(['action' => 'LA\UsersController@store', 'id' => 'user-add-form']) !!}
+			{!! Form::open(['action' => 'LA\EmployeesController@store', 'id' => 'employee-add-form']) !!}
 			<div class="modal-body">
 				<div class="box-body">
                     @la_form($module)
 
 					{{--
 					@la_input($module, 'name')
-					@la_input($module, 'context_id')
+					@la_input($module, 'designation')
+					@la_input($module, 'gender')
+					@la_input($module, 'mobile')
+					@la_input($module, 'mobile2')
 					@la_input($module, 'email')
-					@la_input($module, 'password')
-					@la_input($module, 'type')
+					@la_input($module, 'dept')
+					@la_input($module, 'city')
+					@la_input($module, 'address')
+					@la_input($module, 'about')
+					@la_input($module, 'date_birth')
+					@la_input($module, 'date_hire')
+					@la_input($module, 'date_left')
+					@la_input($module, 'salary_cur')
 					--}}
+					<div class="form-group">
+						<label for="role">Rol* :</label>
+						<select class="form-control" required="1" data-placeholder="Seleccione un Rol" rel="select2" name="role">
+							<?php $roles = App\Role::all(); ?>
+							@foreach($roles as $role)
+								@if($role->id != 1)
+									<option value="{{ $role->id }}">{{ $role->name }}</option>
+								@endif
+							@endforeach
+						</select>
+					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-				{!! Form::submit( 'Submit', ['class'=>'btn btn-success']) !!}
+				{!! Form::submit( 'Enviar', ['class'=>'btn btn-success']) !!}
 			</div>
 			{!! Form::close() !!}
 		</div>
@@ -90,7 +110,7 @@ $(function () {
 	$("#example1").DataTable({
 		processing: true,
         serverSide: true,
-        ajax: "{{ url(config('laraadmin.adminRoute') . '/user_dt_ajax') }}",
+        ajax: "{{ url(config('laraadmin.adminRoute') . '/employee_dt_ajax') }}",
 				language: {
 						lengthMenu: "_MENU_",
 						search: "_INPUT_",
@@ -120,7 +140,7 @@ $(function () {
 		columnDefs: [ { orderable: false, targets: [-1] }],
 		@endif
 	});
-	$("#user-add-form").validate({
+	$("#employee-add-form").validate({
 
 	});
 });

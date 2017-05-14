@@ -114,7 +114,7 @@
 							<li class="user-header">
 								<img src="{{ Gravatar::fallback(asset('la-assets/img/user2-160x160.jpg'))->get(Auth::user()->email) }}" class="img-circle" alt="Imagen de usuario" />
 								<p>
-									{{ Auth::user()->nombre }}
+									{{ Auth::user()->name }}
 									<?php
 									$datec = Auth::user()['created_at'];
 									?>

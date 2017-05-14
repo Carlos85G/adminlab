@@ -1,7 +1,7 @@
 @extends('la.layouts.app')
 
 @section('htmlheader_title')
-	User View
+	Organization View
 @endsection
 
 
@@ -15,7 +15,7 @@
 					<div class="profile-icon text-primary"><i class="fa {{ $module->fa_icon }}"></i></div>
 				</div>
 				<div class="col-md-9">
-					<h4 class="name">{{ $user->$view_col }}</h4>
+					<h4 class="name">{{ $organization->$view_col }}</h4>
 					<div class="row stats">
 						<div class="col-md-4"><i class="fa fa-facebook"></i> 234</div>
 						<div class="col-md-4"><i class="fa fa-twitter"></i> 12</div>
@@ -81,12 +81,12 @@
 			</div>
 		</div>
 		<div class="col-md-1 actions">
-			@la_access("Users", "edit")
-				<a href="{{ url(config('laraadmin.adminRoute') . '/users/'.$user->id.'/edit') }}" class="btn btn-xs btn-edit btn-default"><i class="fa fa-pencil"></i></a><br>
+			@la_access("Organizations", "edit")
+				<a href="{{ url(config('laraadmin.adminRoute') . '/organizations/'.$organization->id.'/edit') }}" class="btn btn-xs btn-edit btn-default"><i class="fa fa-pencil"></i></a><br>
 			@endla_access
-
-			@la_access("Users", "delete")
-				{{ Form::open(['route' => [config('laraadmin.adminRoute') . '.users.destroy', $user->id], 'method' => 'delete', 'style'=>'display:inline']) }}
+			
+			@la_access("Organizations", "delete")
+				{{ Form::open(['route' => [config('laraadmin.adminRoute') . '.organizations.destroy', $organization->id], 'method' => 'delete', 'style'=>'display:inline']) }}
 					<button class="btn btn-default btn-delete btn-xs" type="submit"><i class="fa fa-times"></i></button>
 				{{ Form::close() }}
 			@endla_access
@@ -94,9 +94,9 @@
 	</div>
 
 	<ul data-toggle="ajax-tab" class="nav nav-tabs profile" role="tablist">
-		<li class=""><a href="{{ url(config('laraadmin.adminRoute') . '/users') }}" data-toggle="tooltip" data-placement="right" title="Back to Users"><i class="fa fa-chevron-left"></i></a></li>
-		<li class="active"><a role="tab" data-toggle="tab" class="active" href="#tab-general-info" data-target="#tab-info"><i class="fa fa-bars"></i> Informaci&oacute;n general</a></li>
-		<li class=""><a role="tab" data-toggle="tab" href="#tab-timeline" data-target="#tab-timeline"><i class="fa fa-clock-o"></i> L&iacute;nea de tiempo</a></li>
+		<li class=""><a href="{{ url(config('laraadmin.adminRoute') . '/organizations') }}" data-toggle="tooltip" data-placement="right" title="Back to Organizations"><i class="fa fa-chevron-left"></i></a></li>
+		<li class="active"><a role="tab" data-toggle="tab" class="active" href="#tab-general-info" data-target="#tab-info"><i class="fa fa-bars"></i> General Info</a></li>
+		<li class=""><a role="tab" data-toggle="tab" href="#tab-timeline" data-target="#tab-timeline"><i class="fa fa-clock-o"></i> Timeline</a></li>
 	</ul>
 
 	<div class="tab-content">
@@ -104,14 +104,20 @@
 			<div class="tab-content">
 				<div class="panel infolist">
 					<div class="panel-default panel-heading">
-						<h4>Informaci&oacute;n general</h4>
+						<h4>General Info</h4>
 					</div>
 					<div class="panel-body">
 						@la_display($module, 'name')
-						@la_display($module, 'context_id')
 						@la_display($module, 'email')
-						@la_display($module, 'password')
-						@la_display($module, 'type')
+						@la_display($module, 'phone')
+						@la_display($module, 'website')
+						@la_display($module, 'assigned_to')
+						@la_display($module, 'connect_since')
+						@la_display($module, 'address')
+						@la_display($module, 'city')
+						@la_display($module, 'description')
+						@la_display($module, 'profile_image')
+						@la_display($module, 'profile')
 					</div>
 				</div>
 			</div>
@@ -141,8 +147,8 @@
 					quora plaxo ideeli hulu weebly balihoo...
 					</div>
 					<div class="timeline-footer">
-					<a class="btn btn-primary btn-xs">Leer m&aacute;s</a>
-					<a class="btn btn-danger btn-xs">Borrar</a>
+					<a class="btn btn-primary btn-xs">Read more</a>
+					<a class="btn btn-danger btn-xs">Delete</a>
 					</div>
 				</div>
 				</li>
@@ -210,7 +216,7 @@
 			</ul>
 			<!--<div class="text-center p30"><i class="fa fa-list-alt" style="font-size: 100px;"></i> <br> No posts to show</div>-->
 		</div>
-
+		
 	</div>
 	</div>
 	</div>

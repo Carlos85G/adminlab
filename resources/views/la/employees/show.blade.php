@@ -1,37 +1,35 @@
 @extends('la.layouts.app')
 
 @section('htmlheader_title')
-	User View
+	Vista de Usuario
 @endsection
 
 
 @section('main-content')
 <div id="page-content" class="profile2">
-	<div class="bg-primary clearfix">
+	<div class="bg-success clearfix">
 		<div class="col-md-4">
 			<div class="row">
 				<div class="col-md-3">
-					<!--<img class="profile-image" src="{{ asset('la-assets/img/avatar5.png') }}" alt="">-->
-					<div class="profile-icon text-primary"><i class="fa {{ $module->fa_icon }}"></i></div>
+					<img class="profile-image" src="{{ Gravatar::fallback(asset('/img/avatar5.png'))->get(Auth::user()->email, ['size'=>400]) }}" alt="">
 				</div>
 				<div class="col-md-9">
-					<h4 class="name">{{ $user->$view_col }}</h4>
+					<h4 class="name">{{ $employee->$view_col }}</h4>
 					<div class="row stats">
-						<div class="col-md-4"><i class="fa fa-facebook"></i> 234</div>
-						<div class="col-md-4"><i class="fa fa-twitter"></i> 12</div>
-						<div class="col-md-4"><i class="fa fa-instagram"></i> 89</div>
+						<div class="col-md-6 stat"><div class="label2" data-toggle="tooltip" data-placement="top" title="Puesto">{{ $employee->designation }}</div></div>
+						<div class="col-md-6 stat"><i class="fa fa-map-marker"></i> {{ $employee->city or "NA" }}</div>
 					</div>
-					<p class="desc">Test Description in one line</p>
+					<p class="desc">{{ substr($employee->about, 0, 33) }}@if(strlen($employee->about) > 33)...@endif</p>
 				</div>
 			</div>
 		</div>
 		<div class="col-md-3">
-			<div class="dats1"><div class="label2">Admin</div></div>
-			<div class="dats1"><i class="fa fa-envelope-o"></i> superadmin@gmail.com</div>
-			<div class="dats1"><i class="fa fa-map-marker"></i> Pune, India</div>
+			<div class="dats1"><i class="fa fa-envelope-o"></i> {{ $employee->email }}</div>
+			<div class="dats1"><i class="fa fa-phone"></i> {{ $employee->mobile }}</div>
+			<div class="dats1"><i class="fa fa-clock-o"></i> Miembro desde {{ date("M d, Y", strtotime($employee->date_hire)) }}</div>
 		</div>
+		{{--
 		<div class="col-md-4">
-			<!--
 			<div class="teamview">
 				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user1-128x128.jpg') }}" alt=""><i class="status-online"></i></a>
 				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user2-160x160.jpg') }}" alt=""></a>
@@ -45,48 +43,16 @@
 				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user6-128x128.jpg') }}" alt=""><i class="status-online"></i></a>
 				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user7-128x128.jpg') }}" alt=""></a>
 			</div>
-			-->
-			<div class="dats1 pb">
-				<div class="clearfix">
-					<span class="pull-left">Task #1</span>
-					<small class="pull-right">20%</small>
-				</div>
-				<div class="progress progress-xs active">
-					<div class="progress-bar progress-bar-warning progress-bar-striped" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-						<span class="sr-only">20% Complete</span>
-					</div>
-				</div>
-			</div>
-			<div class="dats1 pb">
-				<div class="clearfix">
-					<span class="pull-left">Task #2</span>
-					<small class="pull-right">90%</small>
-				</div>
-				<div class="progress progress-xs active">
-					<div class="progress-bar progress-bar-warning progress-bar-striped" style="width: 90%" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
-						<span class="sr-only">90% Complete</span>
-					</div>
-				</div>
-			</div>
-			<div class="dats1 pb">
-				<div class="clearfix">
-					<span class="pull-left">Task #3</span>
-					<small class="pull-right">60%</small>
-				</div>
-				<div class="progress progress-xs active">
-					<div class="progress-bar progress-bar-warning progress-bar-striped" style="width: 60%" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
-						<span class="sr-only">60% Complete</span>
-					</div>
-				</div>
-			</div>
+
 		</div>
+		--}}
 		<div class="col-md-1 actions">
-			@la_access("Users", "edit")
-				<a href="{{ url(config('laraadmin.adminRoute') . '/users/'.$user->id.'/edit') }}" class="btn btn-xs btn-edit btn-default"><i class="fa fa-pencil"></i></a><br>
+			@la_access("Employees", "edit")
+				<a href="{{ url(config('laraadmin.adminRoute') . '/employees/'.$employee->id.'/edit') }}" class="btn btn-xs btn-edit btn-default"><i class="fa fa-pencil"></i></a><br>
 			@endla_access
 
-			@la_access("Users", "delete")
-				{{ Form::open(['route' => [config('laraadmin.adminRoute') . '.users.destroy', $user->id], 'method' => 'delete', 'style'=>'display:inline']) }}
+			@la_access("Employees", "delete")
+				{{ Form::open(['route' => [config('laraadmin.adminRoute') . '.employees.destroy', $employee->id], 'method' => 'delete', 'style'=>'display:inline']) }}
 					<button class="btn btn-default btn-delete btn-xs" type="submit"><i class="fa fa-times"></i></button>
 				{{ Form::close() }}
 			@endla_access
@@ -94,9 +60,12 @@
 	</div>
 
 	<ul data-toggle="ajax-tab" class="nav nav-tabs profile" role="tablist">
-		<li class=""><a href="{{ url(config('laraadmin.adminRoute') . '/users') }}" data-toggle="tooltip" data-placement="right" title="Back to Users"><i class="fa fa-chevron-left"></i></a></li>
-		<li class="active"><a role="tab" data-toggle="tab" class="active" href="#tab-general-info" data-target="#tab-info"><i class="fa fa-bars"></i> Informaci&oacute;n general</a></li>
-		<li class=""><a role="tab" data-toggle="tab" href="#tab-timeline" data-target="#tab-timeline"><i class="fa fa-clock-o"></i> L&iacute;nea de tiempo</a></li>
+		<li class=""><a href="{{ url(config('laraadmin.adminRoute') . '/employees') }}" data-toggle="tooltip" data-placement="right" title="Regresar a Usuarios"><i class="fa fa-chevron-left"></i></a></li>
+		<li class="active"><a role="tab" data-toggle="tab" class="active" href="#tab-info" data-target="#tab-info"><i class="fa fa-bars"></i> Informaci&oacute;n General</a></li>
+		{{--<li class=""><a role="tab" data-toggle="tab" href="#tab-timeline" data-target="#tab-timeline"><i class="fa fa-clock-o"></i> L&iacute;nea de Tiempo</a></li>--}}
+		@if($employee->id == Auth::user()->id || Entrust::hasRole("SUPER_ADMIN"))
+			<li class=""><a role="tab" data-toggle="tab" href="#tab-account-settings" data-target="#tab-account-settings"><i class="fa fa-key"></i> Configuraci&oacute;n de Cuenta</a></li>
+		@endif
 	</ul>
 
 	<div class="tab-content">
@@ -104,19 +73,28 @@
 			<div class="tab-content">
 				<div class="panel infolist">
 					<div class="panel-default panel-heading">
-						<h4>Informaci&oacute;n general</h4>
+						<h4>Informaci&oacute;n General</h4>
 					</div>
 					<div class="panel-body">
 						@la_display($module, 'name')
-						@la_display($module, 'context_id')
+						@la_display($module, 'designation')
+						@la_display($module, 'gender')
+						@la_display($module, 'mobile')
+						@la_display($module, 'mobile2')
 						@la_display($module, 'email')
-						@la_display($module, 'password')
-						@la_display($module, 'type')
+						@la_display($module, 'dept')
+						@la_display($module, 'city')
+						@la_display($module, 'address')
+						@la_display($module, 'about')
+						@la_display($module, 'date_birth')
+						@la_display($module, 'date_hire')
+						@la_display($module, 'date_left')
+						@la_display($module, 'salary_cur')
 					</div>
 				</div>
 			</div>
 		</div>
-		<div role="tabpanel" class="tab-pane fade in p20 bg-white" id="tab-timeline">
+		{{--<div role="tabpanel" class="tab-pane fade in p20 bg-white" id="tab-timeline">
 			<ul class="timeline timeline-inverse">
 				<!-- timeline time label -->
 				<li class="time-label">
@@ -141,8 +119,8 @@
 					quora plaxo ideeli hulu weebly balihoo...
 					</div>
 					<div class="timeline-footer">
-					<a class="btn btn-primary btn-xs">Leer m&aacute;s</a>
-					<a class="btn btn-danger btn-xs">Borrar</a>
+					<a class="btn btn-primary btn-xs">Read more</a>
+					<a class="btn btn-danger btn-xs">Delete</a>
 					</div>
 				</div>
 				</li>
@@ -210,9 +188,65 @@
 			</ul>
 			<!--<div class="text-center p30"><i class="fa fa-list-alt" style="font-size: 100px;"></i> <br> No posts to show</div>-->
 		</div>
+		--}}
 
+		@if($employee->id == Auth::user()->id || Entrust::hasRole("SUPER_ADMIN"))
+		<div role="tabpanel" class="tab-pane fade" id="tab-account-settings">
+			<div class="tab-content">
+				<form action="{{ url(config('laraadmin.adminRoute') . '/change_password/'.$employee->id) }}" id="password-reset-form" class="general-form dashed-row white" method="post" accept-charset="utf-8">
+					{{ csrf_field() }}
+					<div class="panel">
+						<div class="panel-default panel-heading">
+							<h4>Configuraci&oacute;n de Cuenta</h4>
+						</div>
+						<div class="panel-body">
+							@if (count($errors) > 0)
+								<div class="alert alert-danger">
+									<ul>
+										@foreach ($errors->all() as $error)
+											<li>{{ $error }}</li>
+										@endforeach
+									</ul>
+								</div>
+							@endif
+							@if(Session::has('success_message'))
+								<p class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('success_message') }}</p>
+							@endif
+							<div class="form-group">
+								<label for="password" class=" col-md-2">Password</label>
+								<div class=" col-md-10">
+									<input type="password" name="password" value="" id="password" class="form-control" placeholder="Password" autocomplete="off" required="required" data-rule-minlength="6" data-msg-minlength="Por favor escriba al menos 6 caracteres.">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="password_confirmation" class=" col-md-2">Reescriba password</label>
+								<div class=" col-md-10">
+									<input type="password" name="password_confirmation" value="" id="password_confirmation" class="form-control" placeholder="Reescriba password" autocomplete="off" required="required" data-rule-equalto="#password" data-msg-equalto="Por favor escriba nuevamente el mismo valor.">
+								</div>
+							</div>
+						</div>
+						<div class="panel-footer">
+							<button type="submit" class="btn btn-primary"><span class="fa fa-check-circle"></span> Cambiar contrase&ntilde;a</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		@endif
 	</div>
 	</div>
 	</div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+$(function () {
+	@if($employee->id == Auth::user()->id || Entrust::hasRole("SUPER_ADMIN"))
+	$('#password-reset-form').validate({
+
+	});
+	@endif
+});
+</script>
+@endpush

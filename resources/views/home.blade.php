@@ -94,7 +94,7 @@
                       // <li><a href="{{ url('/register') }}">Register</a></li>
                     ?>
                 @else
-                    <li><a href="{{ url(config('laraadmin.adminRoute')) }}">{{ Auth::user()->nombre }}</a></li>
+                    <li><a href="{{ url(config('laraadmin.adminRoute')) }}">{{ Auth::user()->name }}</a></li>
                 @endif
             </ul>
         </div><!--/.nav-collapse -->
@@ -117,7 +117,6 @@
                     <div class="cargador-spinner"></div>
                 </div>
                 <div id="calendario"></div>
-                <!--<iframe src="https://calendar.google.com/calendar/embed?src=admlab.cuvalles%40gmail.com&ctz=America/Mexico_City" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>-->
             </div>
             <div class="col-lg-12" id="botonLogin">
                 <h1>{{ LAConfigs::getByKey('sitename_part1') }} <b><a>{{ LAConfigs::getByKey('sitename_part2') }}</a></b></h1>
