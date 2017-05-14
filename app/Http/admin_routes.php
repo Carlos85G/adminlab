@@ -75,9 +75,6 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	Route::resource(config('laraadmin.adminRoute') . '/prestamos', 'LA\PrestamosController');
 	Route::get(config('laraadmin.adminRoute') . '/prestamo_dt_ajax', 'LA\PrestamosController@dtajax');
 
-	/* ================== Reservaciones ================== */
-	Route::resource(config('laraadmin.adminRoute') . '/reservaciones', 'LA\ReservacionesController');
-	Route::get(config('laraadmin.adminRoute') . '/reservacione_dt_ajax', 'LA\ReservacionesController@dtajax');
 
 	/* ================== Laboratorios ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/laboratorios', 'LA\LaboratoriosController');
@@ -99,4 +96,8 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== ReservasPracticas ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/reservaspracticas', 'LA\ReservasPracticasController');
 	Route::get(config('laraadmin.adminRoute') . '/reservaspractica_dt_ajax', 'LA\ReservasPracticasController@dtajax');
+
+	/* ================== ReservasLaboratorios ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/reservaslaboratorios', 'LA\ReservasLaboratoriosController');
+	Route::get(config('laraadmin.adminRoute') . '/reservaslaboratorio_dt_ajax', 'LA\ReservasLaboratoriosController@dtajax');
 });

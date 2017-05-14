@@ -18,11 +18,13 @@ use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
 use App\Services\GoogleCalendar;
 use Ayudantes;
+use Zizaco\Entrust\EntrustFacade as Entrust;
 
 use App\Models\Practica;
 use App\Models\Laboratorio;
 use App\Models\Materiale;
 use App\Models\Reactivo;
+use App\Models\Reserva;
 use App\Models\ReservasPractica;
 use App\MovimientoMaterial;
 use App\MovimientoReactivo;
@@ -130,7 +132,7 @@ class ReservasPracticasController extends Controller
 			$fechaFinYMD = $fechaFin->format('Y-m-d H:i:s');
 
 			/* Encontrar reservaciones existentes */
-			$eventosExistentes = ReservasPractica::encontrarConflictos(
+			$eventosExistentes = Reserva::encontrarConflictos(
 				$laboratorio->id,
 				$fechaInicioYMD,
 				$fechaFinYMD
@@ -223,7 +225,8 @@ class ReservasPracticasController extends Controller
 					/*Agregar con la nueva fecha de fin*/
 					$request->request->add(
 							[
-								'fecha_fin' => $fechaFin->format('d/m/Y g:i A')
+								'fecha_fin' => $fechaFin->format('d/m/Y g:i A'),
+								'reserva_type' => ReservasPractica::class
 							]
 					);
 
@@ -420,7 +423,7 @@ class ReservasPracticasController extends Controller
 			$fechaFinYMD = $fechaFin->format('Y-m-d H:i:s');
 
 			/* Encontrar reservaciones existentes */
-			$eventosExistentes = ReservasPractica::encontrarConflictos(
+			$eventosExistentes = Reserva::encontrarConflictos(
 				$laboratorio->id,
 				$fechaInicioYMD,
 				$fechaFinYMD
@@ -725,7 +728,13 @@ class ReservasPracticasController extends Controller
 	 */
 	public function dtajax()
 	{
-		$values = DB::table('reservaspracticas')->select($this->listing_cols)->whereNull('deleted_at');
+		$values = DB::table('reservas')->select($this->listing_cols)->whereNull('deleted_at')->where('reserva_type', ReservasPractica::class);
+
+		/* Si no es administrador, sólo mostrar las del usuario */
+		if(!(Entrust::hasRole("SUPER_ADMIN") || Entrust::hasRole("LabAdmin"))){
+			$values->where('solicitante_id', Auth::user()->id);
+		}
+
 		$out = Datatables::of($values)->make();
 		$data = $out->getData();
 

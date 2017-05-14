@@ -9,17 +9,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Reservacione extends Model
+class ReservasLaboratorio extends Reserva
 {
-    use SoftDeletes;
-
-	protected $table = 'reservaciones';
-
-	protected $hidden = [
-
-    ];
-
-	protected $guarded = [];
-
-	protected $dates = ['deleted_at'];
+    
 }

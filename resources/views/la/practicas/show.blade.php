@@ -16,16 +16,16 @@
 				</div>
 				<div class="col-md-9">
 					<h4 class="name">{{ $practica->$view_col }}</h4>
-					<div class="row stats">
+					{{--<div class="row stats">
 						<div class="col-md-4"><i class="fa fa-facebook"></i> 234</div>
 						<div class="col-md-4"><i class="fa fa-twitter"></i> 12</div>
 						<div class="col-md-4"><i class="fa fa-instagram"></i> 89</div>
 					</div>
-					<p class="desc">Test Description in one line</p>
+					<p class="desc">Test Description in one line</p--}}
 				</div>
 			</div>
 		</div>
-		<div class="col-md-3">
+		{{--<div class="col-md-3">
 			<div class="dats1"><div class="label2">Admin</div></div>
 			<div class="dats1"><i class="fa fa-envelope-o"></i> superadmin@gmail.com</div>
 			<div class="dats1"><i class="fa fa-map-marker"></i> Pune, India</div>
@@ -79,7 +79,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div>--}}
 		<div class="col-md-1 actions">
 			@la_access("Practicas", "edit")
 				<a href="{{ url(config('laraadmin.adminRoute') . '/practicas/'.$practica->id.'/edit') }}" class="btn btn-xs btn-edit btn-default"><i class="fa fa-pencil"></i></a><br>
@@ -96,7 +96,7 @@
 	<ul data-toggle="ajax-tab" class="nav nav-tabs profile" role="tablist">
 		<li class=""><a href="{{ url(config('laraadmin.adminRoute') . '/practicas') }}" data-toggle="tooltip" data-placement="right" title="Back to Practicas"><i class="fa fa-chevron-left"></i></a></li>
 		<li class="active"><a role="tab" data-toggle="tab" class="active" href="#tab-general-info" data-target="#tab-info"><i class="fa fa-bars"></i> General Info</a></li>
-		<li class=""><a role="tab" data-toggle="tab" href="#tab-timeline" data-target="#tab-timeline"><i class="fa fa-clock-o"></i> Timeline</a></li>
+		{{--<li class=""><a role="tab" data-toggle="tab" href="#tab-timeline" data-target="#tab-timeline"><i class="fa fa-clock-o"></i> Timeline</a></li>--}}
 	</ul>
 
 	<div class="tab-content">
@@ -109,15 +109,13 @@
 					<div class="panel-body">
 						@la_display($module, 'nombre')
 						@la_display($module, 'objetivo')
-						@la_display($module, 'introduccion')
-						@la_display($module, 'bibliografia')
-						@la_display($module, 'procedimiento')
-						@la_display($module, 'preguntas')
+						@la_display($module, 'duracion')
+						@la_display($module, 'practica_pdf')
 					</div>
 				</div>
 			</div>
 		</div>
-		<div role="tabpanel" class="tab-pane fade in p20 bg-white" id="tab-timeline">
+		{{--<div role="tabpanel" class="tab-pane fade in p20 bg-white" id="tab-timeline">
 			<ul class="timeline timeline-inverse">
 				<!-- timeline time label -->
 				<li class="time-label">
@@ -210,7 +208,7 @@
 				</li>
 			</ul>
 			<!--<div class="text-center p30"><i class="fa fa-list-alt" style="font-size: 100px;"></i> <br> No posts to show</div>-->
-		</div>
+		</div>--}}
 
 	</div>
 	</div>
