@@ -16,16 +16,16 @@
 				</div>
 				<div class="col-md-9">
 					<h4 class="name">{{ $reservaspractica->$view_col }}</h4>
-					<div class="row stats">
+					{{--<div class="row stats">
 						<div class="col-md-4"><i class="fa fa-facebook"></i> 234</div>
 						<div class="col-md-4"><i class="fa fa-twitter"></i> 12</div>
 						<div class="col-md-4"><i class="fa fa-instagram"></i> 89</div>
 					</div>
-					<p class="desc">Test Description in one line</p>
+					<p class="desc">Test Description in one line</p>--}}
 				</div>
 			</div>
 		</div>
-		<div class="col-md-3">
+		{{--<div class="col-md-3">
 			<div class="dats1"><div class="label2">Admin</div></div>
 			<div class="dats1"><i class="fa fa-envelope-o"></i> superadmin@gmail.com</div>
 			<div class="dats1"><i class="fa fa-map-marker"></i> Pune, India</div>
@@ -80,6 +80,7 @@
 				</div>
 			</div>
 		</div>
+		--}}
 		<div class="col-md-1 actions">
 			@la_access("ReservasPracticas", "edit")
 				<a href="{{ url(config('laraadmin.adminRoute') . '/reservaspracticas/'.$reservaspractica->id.'/edit') }}" class="btn btn-xs btn-edit btn-default"><i class="fa fa-pencil"></i></a><br>
@@ -107,14 +108,15 @@
 						<h4>General Info</h4>
 					</div>
 					<div class="panel-body">
-						@la_display($module, 'practica')
-						@la_display($module, 'fecha_hora')
-						@la_display($module, 'solicitante')
+						@la_display($module, 'practica_id')
+						@la_display($module, 'laboratorio_id')
+						@la_display($module, 'fecha_inicio')
+						@la_display($module, 'solicitante_id')
 					</div>
 				</div>
 			</div>
 		</div>
-		<div role="tabpanel" class="tab-pane fade in p20 bg-white" id="tab-timeline">
+		{{--<div role="tabpanel" class="tab-pane fade in p20 bg-white" id="tab-timeline">
 			<ul class="timeline timeline-inverse">
 				<!-- timeline time label -->
 				<li class="time-label">
@@ -207,7 +209,7 @@
 				</li>
 			</ul>
 			<!--<div class="text-center p30"><i class="fa fa-list-alt" style="font-size: 100px;"></i> <br> No posts to show</div>-->
-		</div>
+		</div>--}}
 
 	</div>
 	</div>

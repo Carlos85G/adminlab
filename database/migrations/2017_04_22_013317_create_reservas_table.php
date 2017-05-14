@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Dwij\Laraadmin\Models\Module;
 
-class CreateReservaspracticasTable extends Migration
+class CreateReservasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -17,7 +17,7 @@ class CreateReservaspracticasTable extends Migration
      */
     public function up()
     {
-        Module::generate("Reservaspracticas", 'reservaspracticas', 'practica', 'fa-cube', [
+        Module::generate("Reservaspracticas", 'reservas', 'practica', 'fa-cube', [
             ["practica_id", "Práctica a realizar", "Radio", false, "", 0, 0, true, "@practicas"],
             ["laboratorio_id", "Laboratorio", "Radio", false, "", 0, 0, true, "@laboratorios"],
             ["fecha_inicio", "Fecha de Inicio", "Datetime", false, "", 0, 0, true],
@@ -25,6 +25,7 @@ class CreateReservaspracticasTable extends Migration
             ["solicitante_id", "Solicitante", "Dropdown", false, "", 0, 256, true, "@users"],
             ["participantes", "Núm. Participantes", "Integer", false, "10", 1, 11, true],
             ["gcalendar_event_id", "ID Google Calendar", "Name", true, "", 0, 256, false],
+            ["reserva_type", "Tipo de Reservación", "Name", false, "App\Models\ReservasPractica", 0, 256, true],
         ]);
 
 		/*
@@ -70,8 +71,8 @@ class CreateReservaspracticasTable extends Migration
      */
     public function down()
     {
-        if (Schema::hasTable('reservaspracticas')) {
-            Schema::drop('reservaspracticas');
+        if (Schema::hasTable('reservas')) {
+            Schema::drop('reservas');
         }
     }
 }
