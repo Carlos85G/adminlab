@@ -250,6 +250,7 @@ class ReservasPracticasController extends Controller
 						}
 
 					}
+					unset($material);
 
 					$reactivos = Reactivo::find(array_keys($cantidadesReactivos));
 
@@ -270,6 +271,7 @@ class ReservasPracticasController extends Controller
 							$movimientoReactivo->efectuarCambio();
 						}
 					}
+					unset($reactivo);
 				} else {
 					$error = 'El sistema no cuenta con los suficientes materiales y/o reactivos.';
 				}
@@ -435,33 +437,199 @@ class ReservasPracticasController extends Controller
 			/* Si no hay eventos en el tiempo indicado, actualizar */
 			if($cuentaEventosExistentes == 0)
 			{
-					/* Si el usuario hace cambios de la cantidad de participantes, entonces hay que cambiar la cantidad de reactivos, pero sólo si es una práctica nueva */
+					/* Si el usuario hace cambios de la cantidad de participantes, entonces hay que cambiar la cantidad de reactivos, pero sólo si es una práctica futura */
+					if($reservacion->participantes != $request->input('participantes'))
+					{
+						/* Verificar que haya suficientes reactivos y materiales para la práctica */
 
+						/* Espacio para guardar las cantidades. El key es el ID del material o reacivo y el valor es el valor total a descontar o añadir */
+						$cantidadesMateriales = array();
+						$cantidadesReactivos = array();
 
-					/*
-					Como es supuesto que la reservación ya hizo cambios al sistema, no es necesario modificar los registros actuales de materiales o reactivos.
+						/* Sólo buscar materiales si están definidos en la práctica */
+						if($practica->materiales->count() == 0){
+							$materialesFaltantes = collect();
+						} else {
+							/* Iniciar petición de búsqueda de materiales insuficientes */
+							$materialesFaltantesFinder = Materiale::query();
 
-					En caso que el usuario quiera volver a hacer una práctica pasada, tendrá que registrar una nueva práctica.
+							/* Conseguir movimientos actuales de materiales para la práctica */
+							$movimientosMaterialesOriginal = $reservacion->movimientosMateriales;
 
-					El siguiente código es vestigial, en caso de necesitar efectuar cambios.
+							foreach($practica->materiales as $material)
+							{
+									/* Obtener sólo los movimientos de este material, en el orden del ID */
+									$movimientosMaterialOriginal = $movimientosMaterialesOriginal->where(
+										'material_id',
+										$material->id
+									)->sortBy(
+										'id'
+									)->all();
 
- 					if($reservaOriginalPasada == $reservaNuevaPasada){
-						La reservación se mantiene como pasada o futura...
-					}else if($reservaNuevaPasada){
-						La reservación es movida al pasado...
-					}else{
-						La reservación es movida al futuro...
+									/* Calcular las diferencias de acuerdo todos los movimientos */
+									$cantidadOriginal = 0;
+
+									foreach($movimientosMaterialOriginal as $movimentoMaterialOriginal)
+									{
+										$cantidadOriginal += $movimentoMaterialOriginal->cantidad;
+									}
+									unset($movimentoMaterialOriginal);
+
+									/* Para este momento, $cantidadOriginal ya tiene la cantidad sustraída por el sistema antes de esta actualización */
+
+									/* Conseguir el multiplicador: Si es por grupo, multiplicar por uno; si no, multiplicar por la cantidad de participantes */
+									$cantidadMultiplicar = ($material->por_grupo == 1)? 1 : ((int) $request->input('participantes'));
+
+									$cantidadTotal = ($material->cantidad * $cantidadMultiplicar);
+
+									/*Calcular diferencia (la cantidad original viene en negativo) entre cantidad pedida y cantidad ya guardada*/
+									$cantidadTotal += $cantidadOriginal;
+
+									/* Guardar cantidad de materiales */
+									$cantidadesMateriales[$material->material_id] = $cantidadTotal;
+
+									/* Agregar a la búsqueda el filtro de material que sólo retornará la fila si el material no es suficiente */
+									$materialesFaltantesFinder->orWhere(function($query) use ($material, $cantidadTotal){
+										$query->where(
+											'id',
+											$material->material_id
+										)->where(
+											'cantidad',
+											'<',
+											$cantidadTotal
+										);
+									});
+							}
+							unset($material);
+
+							/* Obtener materiales insuficientes */
+							$materialesFaltantes = $materialesFaltantesFinder->get();
+						}
+
+						/* Sólo buscar reactivos si están definidos en la práctica */
+						if($practica->reactivos->count() == 0){
+							$reactivosFaltantes = collect();
+						} else {
+							/* Iniciar petición de búsqueda de reactivos insuficientes */
+							$reactivosFaltantesFinder = Reactivo::query();
+
+							/* Conseguir movimientos actuales de reactivos para la práctica */
+							$movimientosReactivosOriginal = $reservacion->movimientosReactivos;
+
+							foreach($practica->reactivos as $reactivo)
+							{
+									/* Obtener sólo los movimientos de este reactivo, en el orden del ID */
+									$movimientosReactivoOriginal = $movimientosReactivosOriginal->where(
+										'reactivo_id',
+										$reactivo->id
+									)->sortBy(
+										'id'
+									)->all();
+
+									/* Calcular las diferencias de acuerdo todos los movimientos */
+									$cantidadOriginal = 0;
+
+									foreach($movimientosReactivosOriginal as $movimentoReactivoOriginal)
+									{
+										$cantidadOriginal += $movimentoReactivoOriginal->cantidad;
+									}
+									unset($movimentoReactivoOriginal);
+
+									/* Para este momento, $cantidadOriginal ya tiene la cantidad sustraída por el sistema antes de esta actualización */
+
+									/* Conseguir el multiplicador: Si es por grupo, multiplicar por uno; si no, multiplicar por la cantidad de participantes */
+									$cantidadMultiplicar = ($reactivo->por_grupo == 1)? 1 : ((int) $request->input('participantes'));
+
+									$cantidadTotal = ($reactivo->cantidad * $cantidadMultiplicar);
+
+									/*Calcular diferencia (la cantidad original viene en negativo) entre cantidad pedida y cantidad ya guardada*/
+									$cantidadTotal += $cantidadOriginal;
+
+									/* Guardar cantidad de reactivos */
+									$cantidadesReactivos[$reactivo->reactivo_id] = $cantidadTotal;
+
+									/* Agregar a la búsqueda el filtro de material que sólo retornará la fila si el material no es suficiente */
+									$reactivosFaltantesFinder->orWhere(function($query) use ($reactivo, $cantidadTotal){
+										$query->where(
+											'id',
+											$reactivo->reactivo_id
+										)->where(
+											'cantidad',
+											'<',
+											$cantidadTotal
+										);
+									});
+							}
+							unset($reactivo);
+
+							/* Obtener reactivos insuficientes */
+							$reactivosFaltantes = $reactivosFaltantesFinder->get();
+						}
+
+						/* Sólo actualizar si los materiales y los reactivos son suficientes */
+						if(($materialesFaltantes->count() == 0) && ($reactivosFaltantes->count() == 0)){
+							/*Ya que la reservación está guardada, será necesario remover o añadir las cantidades de materiales y reactivos solicitados*/
+							$materiales = Materiale::find(array_keys($cantidadesMateriales));
+
+							foreach($materiales as $material)
+							{
+								/* Crear nuevo movimiento de material */
+								$movimientoMaterial = new MovimientoMaterial();
+								$movimientoMaterial->asignable_id = $id;
+								$movimientoMaterial->asignable_type = ReservasPractica::class;
+								$movimientoMaterial->cantidad = ((float) ($cantidadesMateriales[$material->id] * -1));
+								$movimientoMaterial->material_id = $material->id;
+
+								if($reservaOriginalPasada && $reservaNuevaPasada)
+								{
+									/* Si la reservació se mantiene en el pasado: sólo guardar el movimiento, pero no hacer cambios a los materiales actuales*/
+									$movimientoMaterial->save();
+								}else{
+									/*La reservación es movida al pasado, al futuro o se mantiene en el futuro: aplicar cambios en el material y guardar movimiento*/
+									$movimientoMaterial->efectuarCambio();
+								}
+
+							}
+							unset($material);
+
+							$reactivos = Reactivo::find(array_keys($cantidadesReactivos));
+
+							foreach($reactivos as $reactivo)
+							{
+								/* Crear nuevo movimiento de reactivo */
+								$movimientoReactivo = new MovimientoReactivo();
+								$movimientoReactivo->asignable_id = $id;
+								$movimientoReactivo->asignable_type = ReservasPractica::class;
+								$movimientoReactivo->cantidad = ((float) ($cantidadesReactivos[$reactivo->id] * -1));
+								$movimientoReactivo->reactivo_id = $reactivo->id;
+
+								if($reservaOriginalPasada && $reservaNuevaPasada)
+								{
+									/* Si la reservació se mantiene en el pasado: sólo guardar el movimiento, pero no hacer cambios a los materiales actuales*/
+									$movimientoReactivo->save();
+								}else{
+									/*La reservación es movida al pasado, al futuro o se mantiene en el futuro: aplicar cambios en el material y guardar movimiento*/
+									$movimientoReactivo->efectuarCambio();
+								}
+							}
+							unset($reactivo);
+						} else {
+							$error = 'El sistema no cuenta con los suficientes materiales y/o reactivos.';
+						}
 					}
-					*/
 
-					/*Actualizar con la nueva fecha de fin*/
-					$request->request->add(
-							[
-								'fecha_fin' => $fechaFin->format('d/m/Y g:i A')
-							]
-					);
+					/* Actualizar sólo si no hay errores */
+					if(is_null($error))
+					{
+						/*Actualizar con la nueva fecha de fin*/
+						$request->request->add(
+								[
+									'fecha_fin' => $fechaFin->format('d/m/Y g:i A')
+								]
+						);
 
-					$insert_id = Module::updateRow("ReservasPracticas", $request, $id);
+						$insert_id = Module::updateRow("ReservasPracticas", $request, $id);
+					}
 			}else{
 					$error = $cuentaEventosExistentes.' registro(s) existente(s) en el horario solicitado.';
 			}
