@@ -278,7 +278,7 @@
       				$('.cargador').toggle(bool);
       			},
       			eventClick: function(event) {
-        				window.open(event.url, 'gcalevent', 'width=700,height=600');
+        				window.open(event.url, 'eventoAdminLab');
         				return false;
       			}
         });

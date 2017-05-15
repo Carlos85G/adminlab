@@ -182,18 +182,22 @@
             $('#laboratorio{{$laboratorio->id}}-cargador').toggle(bool);
           },
           eventClick: function(event) {
-              window.open(event.url, 'gcalevent', 'width=700,height=600');
+              window.open(event.url, 'eventoAdminLab');
               return false;
           },
           dayClick: function(date, jsEvent, view) {
-              alert('Clicked on: ' + date.format());
+            irANuevo = confirm('¿Desea crear una nueva reservación de práctica?\nSerá redirigido a la sección.');
 
-              alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+            if(irANuevo){
+              window.open('{{ url(config('laraadmin.adminRoute'). '/reservaspracticas/') }}', 'nuevoEventoAdminLab');
+            }
 
-              alert('Current view: ' + view.name);
-
-              // change the day's background color just for fun
-              $(this).css('background-color', 'red');
+            return false;
+            {{--
+            alert('Click en: ' + date.format());
+            alert('Coordenadas: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+            alert('Vista actual: ' + view.name);
+            --}}
           }
       });
       @endforeach

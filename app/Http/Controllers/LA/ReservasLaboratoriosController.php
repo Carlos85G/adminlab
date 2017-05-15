@@ -27,7 +27,7 @@ class ReservasLaboratoriosController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'laboratorio_id';
-	public $listing_cols = ['id', 'laboratorio_id', 'fecha_inicio', 'fecha_fin', 'solicitante_id', 'participantes'];
+	public $listing_cols = ['id', 'laboratorio_id', 'fecha_inicio', 'fecha_fin', 'solicitante_id'];
 
 	public function __construct() {
 		// Field Access of Listing Columns

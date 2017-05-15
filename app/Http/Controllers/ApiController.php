@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Ayudantes;
 use App\Models\Laboratorio;
 use App\Models\ReservasPractica;
+use App\Models\ReservasLaboratorio;
 
 class ApiController extends Controller
 {
@@ -163,7 +164,7 @@ class ApiController extends Controller
         foreach($eventosCrudos as $evento){
             $eventos[] = array(
                'id' => $evento->id,
-               'title' => $evento->practica->nombre,
+               'title' => ($evento instanceof ReservasPractica)? $evento->practica->nombre : $this->reservadoPor($evento->solicitante->name),
                'start' => \DateTime::createFromFormat(
                    'Y-m-d H:i:s',
                    $evento->fecha_inicio,
@@ -178,7 +179,8 @@ class ApiController extends Controller
                        Ayudantes::getDefaultTimezone()
                    )
                )->format('c'),
-               'location' => $evento->laboratorio->nombre
+               'location' => $evento->laboratorio->nombre,
+               'url' => url(config('laraadmin.adminRoute'). '/reservas'. (($evento instanceof ReservasPractica)? 'practicas' : 'laboratorios'). '/' .$evento->id)
             );
         }
         unset($evento);
@@ -203,7 +205,7 @@ class ApiController extends Controller
         foreach($eventosTodos as $eventoId => $evento){
             $eventos['data'][] = array(
                 $eventoId + 1,
-                $evento->practica->nombre,
+                ($evento instanceof ReservasPractica)? $evento->practica->nombre : $this->reservadoPor($evento->solicitante->name),
                 $evento->laboratorio->nombre
             );
         }
@@ -211,5 +213,15 @@ class ApiController extends Controller
         unset($evento);
 
         return $eventos;
+    }
+
+    /**
+     * Función de ayuda para informar que es reservación
+     * @param string $nombre: Nombre de la persona
+     * @return string: Cadena concatenada
+     */
+    private function reservadoPor($nombre)
+    {
+      return 'Reservado por '.$nombre;
     }
 }
