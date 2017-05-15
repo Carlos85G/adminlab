@@ -23,8 +23,8 @@ class RolesController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'name';
-	public $listing_cols = ['id', 'name', 'display_name', 'description', 'parent'];
-	
+	public $listing_cols = ['id', 'name', 'display_name', 'description', 'parent', 'dept', 'dias_max_material', 'dias_max_laboratorio'];
+
 	public function __construct() {
 		// Field Access of Listing Columns
 		if(\Dwij\Laraadmin\Helpers\LAHelper::laravel_ver() == 5.3) {
@@ -36,7 +36,7 @@ class RolesController extends Controller
 			$this->listing_cols = ModuleFields::listingColumnAccessScan('Roles', $this->listing_cols);
 		}
 	}
-	
+
 	/**
 	 * Display a listing of the Roles.
 	 *
@@ -45,7 +45,7 @@ class RolesController extends Controller
 	public function index()
 	{
 		$module = Module::get('Roles');
-		
+
 		if(Module::hasAccess($module->id)) {
 			return View('la.roles.index', [
 				'show_actions' => $this->show_action,
@@ -76,19 +76,19 @@ class RolesController extends Controller
 	public function store(Request $request)
 	{
 		if(Module::hasAccess("Roles", "create")) {
-		
+
 			$rules = Module::validateRules("Roles", $request);
-			
+
 			$validator = Validator::make($request->all(), $rules);
-			
+
 			if ($validator->fails()) {
 				return redirect()->back()->withErrors($validator)->withInput();
 			}
-			
+
 			$insert_id = Module::insert("Roles", $request);
-			
+
 			return redirect()->route(config('laraadmin.adminRoute') . '.roles.index');
-			
+
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
 		}
@@ -103,12 +103,12 @@ class RolesController extends Controller
 	public function show($id)
 	{
 		if(Module::hasAccess("Roles", "view")) {
-			
+
 			$role = Role::find($id);
 			if(isset($role->id)) {
 				$module = Module::get('Roles');
 				$module->row = $role;
-				
+
 				return view('la.roles.show', [
 					'module' => $module,
 					'view_col' => $this->view_col,
@@ -134,13 +134,13 @@ class RolesController extends Controller
 	 */
 	public function edit($id)
 	{
-		if(Module::hasAccess("Roles", "edit")) {			
+		if(Module::hasAccess("Roles", "edit")) {
 			$role = Role::find($id);
-			if(isset($role->id)) {	
+			if(isset($role->id)) {
 				$module = Module::get('Roles');
-				
+
 				$module->row = $role;
-				
+
 				return view('la.roles.edit', [
 					'module' => $module,
 					'view_col' => $this->view_col,
@@ -166,19 +166,19 @@ class RolesController extends Controller
 	public function update(Request $request, $id)
 	{
 		if(Module::hasAccess("Roles", "edit")) {
-			
+
 			$rules = Module::validateRules("Roles", $request, true);
-			
+
 			$validator = Validator::make($request->all(), $rules);
-			
+
 			if ($validator->fails()) {
 				return redirect()->back()->withErrors($validator)->withInput();;
 			}
-			
+
 			$insert_id = Module::updateRow("Roles", $request, $id);
-			
+
 			return redirect()->route(config('laraadmin.adminRoute') . '.roles.index');
-			
+
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
 		}
@@ -194,14 +194,14 @@ class RolesController extends Controller
 	{
 		if(Module::hasAccess("Roles", "delete")) {
 			Role::find($id)->delete();
-			
+
 			// Redirecting to index() method
 			return redirect()->route(config('laraadmin.adminRoute') . '.roles.index');
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
 		}
 	}
-	
+
 	/**
 	 * Datatable Ajax fetch
 	 *
@@ -214,9 +214,9 @@ class RolesController extends Controller
 		$data = $out->getData();
 
 		$fields_popup = ModuleFields::getModuleFields('Roles');
-		
+
 		for($i=0; $i < count($data->data); $i++) {
-			for ($j=0; $j < count($this->listing_cols); $j++) { 
+			for ($j=0; $j < count($this->listing_cols); $j++) {
 				$col = $this->listing_cols[$j];
 				if($fields_popup[$col] != null && starts_with($fields_popup[$col]->popup_vals, "@")) {
 					$data->data[$i][$j] = ModuleFields::getFieldValue($fields_popup[$col], $data->data[$i][$j]);
@@ -228,13 +228,13 @@ class RolesController extends Controller
 				//    $data->data[$i][$j];
 				// }
 			}
-			
+
 			if($this->show_action) {
 				$output = '';
 				if(Module::hasAccess("Roles", "edit")) {
 					$output .= '<a href="'.url(config('laraadmin.adminRoute') . '/roles/'.$data->data[$i][0].'/edit').'" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>';
 				}
-				
+
 				if(Module::hasAccess("Roles", "delete")) {
 					$output .= Form::open(['route' => [config('laraadmin.adminRoute') . '.roles.destroy', $data->data[$i][0]], 'method' => 'delete', 'style'=>'display:inline']);
 					$output .= ' <button class="btn btn-danger btn-xs" type="submit"><i class="fa fa-times"></i></button>';

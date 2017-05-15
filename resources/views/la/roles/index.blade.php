@@ -1,14 +1,14 @@
 @extends("la.layouts.app")
 
 @section("contentheader_title", "Roles")
-@section("contentheader_description", "Roles listing")
+@section("contentheader_description", "Listado de Roles")
 @section("section", "Roles")
-@section("sub_section", "Listing")
-@section("htmlheader_title", "Roles Listing")
+@section("sub_section", "Listado")
+@section("htmlheader_title", "Listado de Roles")
 
 @section("headerElems")
 @la_access("Roles", "create")
-	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">Add Role</button>
+	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">A&ntilde;adir Rol</button>
 @endla_access
 @endsection
 
@@ -34,12 +34,12 @@
 			<th>{{ $module->fields[$col]['label'] or ucfirst($col) }}</th>
 			@endforeach
 			@if($show_actions)
-			<th>Actions</th>
+			<th>Acciones</th>
 			@endif
 		</tr>
 		</thead>
 		<tbody>
-			
+
 		</tbody>
 		</table>
 	</div>
@@ -50,25 +50,27 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">Add Role</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">A&ntilde;adir</h4>
 			</div>
 			{!! Form::open(['action' => 'LA\RolesController@store', 'id' => 'role-add-form']) !!}
 			<div class="modal-body">
 				<div class="box-body">
                     @la_form($module)
-					
 					{{--
 					@la_input($module, 'name')
 					@la_input($module, 'display_name')
 					@la_input($module, 'description')
 					@la_input($module, 'parent')
+					@la_input($module, 'dept')
+					@la_input($module, 'dias_max_laboratorio')
+					@la_input($module, 'dias_max_material')
 					--}}
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				{!! Form::submit( 'Submit', ['class'=>'btn btn-success']) !!}
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+				{!! Form::submit( 'Enviar', ['class'=>'btn btn-success']) !!}
 			</div>
 			{!! Form::close() !!}
 		</div>
@@ -90,17 +92,13 @@ $(function () {
 		processing: true,
         serverSide: true,
         ajax: "{{ url(config('laraadmin.adminRoute') . '/role_dt_ajax') }}",
-		language: {
-			lengthMenu: "_MENU_",
-			search: "_INPUT_",
-			searchPlaceholder: "Search"
-		},
+				{!! Ayudantes::imprimirLenguageDataTable() !!}
 		@if($show_actions)
 		columnDefs: [ { orderable: false, targets: [-1] }],
 		@endif
 	});
 	$("#role-add-form").validate({
-		
+
 	});
 });
 </script>

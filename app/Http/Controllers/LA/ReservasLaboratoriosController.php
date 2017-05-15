@@ -19,6 +19,7 @@ use Dwij\Laraadmin\Models\ModuleFields;
 use Ayudantes;
 use Zizaco\Entrust\EntrustFacade as Entrust;
 
+use App\Models\Role;
 use App\Models\Laboratorio;
 use App\Models\Reserva;
 use App\Models\ReservasLaboratorio;
@@ -125,13 +126,33 @@ class ReservasLaboratoriosController extends Controller
 				/* Si no hay eventos en el tiempo indicado, continuar */
 				if($cuentaEventosExistentes == 0)
 				{
-					$request->request->add(
-							[
-								'reserva_type' => ReservasLaboratorio::class
-							]
-					);
+					/* Verificar que el usuario puede pedir prestado el laboratorio por la cantidad de tiempo solicitado */
 
-					$insert_id = Module::insert("ReservasLaboratorios", $request);
+					/* Hacer restricciones de acuerdo a usuario autenticado */
+					$rolFinder = DB::table('roles')
+						->join('role_user', 'role_user.role_id', '=', 'roles.id')
+						->join('users', 'role_user.user_id', '=', 'users.id')
+						->select('roles.id')->where('users.id', Auth::user()->id)->first();
+
+					$rol = Role::find($rolFinder->id);
+				
+					/* Calcular diferencia entre fecha de inicio y de fin */
+					$diferenciaTiempo = $fechaFin->getTimestamp() - $fechaInicio->getTimestamp();
+
+					/* Ajustar para usuarios con privilegios administrativos */
+					$limiteSegundos = (($rol->dias_max_laboratorio < 0)? ($diferenciaTiempo + 1) : $rol->dias_max_laboratorio) * 86400;
+
+					if($diferenciaTiempo > $limiteSegundos){
+						$error = 'Su usuario no permite reservar por un tiempo mayor a '.$rol->dias_max_laboratorio.' días';
+					} else {
+						$request->request->add(
+								[
+									'reserva_type' => ReservasLaboratorio::class
+								]
+						);
+
+						$insert_id = Module::insert("ReservasLaboratorios", $request);
+					}
 				} else {
 					$error = $cuentaEventosExistentes.' registro(s) existente(s) en el horario solicitado.';
 				}
@@ -269,7 +290,27 @@ class ReservasLaboratoriosController extends Controller
 				/* Si no hay eventos en el tiempo indicado, continuar */
 				if($cuentaEventosExistentes == 0)
 				{
-					$insert_id = Module::updateRow("ReservasLaboratorios", $request, $id);
+					/* Verificar que el usuario puede pedir prestado el laboratorio por la cantidad de tiempo solicitado */
+
+					/* Hacer restricciones de acuerdo a usuario autenticado */
+					$rolFinder = DB::table('roles')
+						->join('role_user', 'role_user.role_id', '=', 'roles.id')
+						->join('users', 'role_user.user_id', '=', 'users.id')
+						->select('roles.id')->where('users.id', Auth::user()->id)->first();
+
+					$rol = Role::find($rolFinder->id);
+
+					/* Calcular diferencia entre fecha de inicio y de fin */
+					$diferenciaTiempo = $fechaFin->getTimestamp() - $fechaInicio->getTimestamp();
+
+					/* Ajustar para usuarios con privilegios administrativos */
+					$limiteSegundos = (($rol->dias_max_laboratorio < 0)? ($diferenciaTiempo + 1) : $rol->dias_max_laboratorio) * 86400;
+
+					if($diferenciaTiempo > $limiteSegundos){
+						$error = 'Su usuario no permite reservar por un tiempo mayor a '.$rol->dias_max_laboratorio.' días';
+					} else {
+						$insert_id = Module::updateRow("ReservasLaboratorios", $request, $id);
+					}
 				} else {
 					$error = $cuentaEventosExistentes.' registro(s) existente(s) en el horario solicitado.';
 				}

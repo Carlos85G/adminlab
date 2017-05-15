@@ -18,11 +18,13 @@ class CreateRolesTable extends Migration
     public function up()
     {
         Module::generate("Roles", 'roles', 'name', 'fa-user-plus', [
-            ["name", "Name", "Name", true, "", 1, 250, true],
-            ["display_name", "Display Name", "String", false, "", 0, 250, true],
-            ["description", "Description", "Textarea", false, "", 0, 1000, false],
-            ["parent", "Parent Role", "Dropdown", false, "1", 0, 0, false, "@roles"],
-            ["dept", "Department", "Dropdown", false, "1", 0, 0, false, "@departments"],
+            ["name", "Nombre", "Name", true, "", 1, 250, true],
+            ["display_name", "Nombre a mostrar", "String", false, "", 0, 250, true],
+            ["description", "Descripción", "Textarea", false, "", 0, 1000, false],
+            ["parent", "Rol padre", "Dropdown", false, "1", 0, 0, false, "@roles"],
+            ["dept", "Departmento", "Dropdown", false, "1", 0, 0, false, "@departments"],
+            ["dias_max_laboratorio", "Máx. días Lab.", "Integer", false, "1", 0, 31, true],
+            ["dias_max_material", "Max. días Material", "Integer", false, "1", 0, 31, true],
         ]);
 		
 		/*
