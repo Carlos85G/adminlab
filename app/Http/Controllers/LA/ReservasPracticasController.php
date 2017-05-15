@@ -25,8 +25,8 @@ use App\Models\Laboratorio;
 use App\Models\Materiale;
 use App\Models\Reactivo;
 use App\Models\Reserva;
+use App\Models\ReservasMateriale;
 use App\Models\ReservasPractica;
-use App\MovimientoMaterial;
 use App\MovimientoReactivo;
 
 class ReservasPracticasController extends Controller
@@ -151,38 +151,44 @@ class ReservasPracticasController extends Controller
 				$cantidadesReactivos = array();
 
 				/*Sólo buscar materiales si están definidos en la práctica o si no es una práctica pasada*/
-				if($practica->materiales->count() == 0 || $reservaPasada){
-					$materialesFaltantes = collect();
-				} else {
-					/* Iniciar petición de búsqueda de materiales insuficientes */
-					$materialesFaltantesFinder = Materiale::query();
+				$materialesFaltantes = 0;
 
+				if(!($practica->materiales->count() == 0 || $reservaPasada))
+				{
 					foreach($practica->materiales as $material)
 					{
-							/* Conseguir el multiplicador: Si es por grupo, multiplicar por uno; si no, multiplicar por la cantidad de participantes */
-							$cantidadMultiplicar = ($material->por_grupo == 1)? 1 : ((int) $request->input('participantes'));
+						/* Conseguir el multiplicador: Si es por grupo, multiplicar por uno; si no, multiplicar por la cantidad de participantes */
+						$cantidadMultiplicar = ($material->por_grupo == 1)? 1 : ((int) $request->input('participantes'));
 
-							$cantidadTotal = ($material->cantidad * $cantidadMultiplicar);
+						$cantidadTotal = ($material->cantidad * $cantidadMultiplicar);
 
-							/* Guardar cantidad de materiales */
-							$cantidadesMateriales[$material->material_id] = $cantidadTotal;
+						/* Guardar cantidad requerida de materiales */
+						$cantidadesMateriales[$material->material_id] = $cantidadTotal;
 
-							/* Agregar a la búsqueda el filtro de material que sólo retornará la fila si el material no es suficiente */
-							$materialesFaltantesFinder->orWhere(function($query) use ($material, $cantidadTotal){
-								$query->where(
-									'id',
-									$material->material_id
-								)->where(
-									'cantidad',
-									'<',
-									$cantidadTotal
-								);
-							});
+						/* Obtener la cantidad disponible total */
+						$disponiblesMaterial = $material->material->cantidad;
+
+						/* Revisar la disponibilidad del material en el tiempo solicitado */
+						$incidenciasMaterial = ReservasMateriale::encontrarIncidencias(
+							$material->id,
+							$fechaInicioYMD,
+							$fechaFinYMD
+						);
+
+						/* Ciclar para quitar las reservaciones que ya están en sistema de las cantidades actuales */
+						$incidenciasMaterial->each(function($v, $k) use (&$disponiblesMaterial){
+				      $disponiblesMaterial -= $v->cantidad;
+				    });
+
+						/* No dejar que el valor sea menor a 0 */
+				    $disponiblesMaterial = (($disponiblesMaterial < 0)? 0 : $disponiblesMaterial);
+
+						if($disponiblesMaterial < $cantidadTotal){
+							/* Material faltante: Aumentar cantidad de faltantes */
+							$materialesFaltantes++;
+						}
 					}
 					unset($material);
-
-					/* Obtener materiales insuficientes */
-					$materialesFaltantes = $materialesFaltantesFinder->get();
 				}
 
 				/*Sólo buscar reactivos si están definidos en la práctica o si no es una práctica pasada*/
@@ -221,7 +227,7 @@ class ReservasPracticasController extends Controller
 				}
 
 				/* Sólo agregar si los materiales y los reactivos son suficientes */
-				if(($materialesFaltantes->count() == 0) && ($reactivosFaltantes->count() == 0)){
+				if(($materialesFaltantes == 0) && ($reactivosFaltantes->count() == 0)){
 					/*Agregar con la nueva fecha de fin*/
 					$request->request->add(
 							[
@@ -237,21 +243,14 @@ class ReservasPracticasController extends Controller
 
 					foreach($materiales as $material)
 					{
-						/* Crear nuevo movimiento de material */
-						$movimientoMaterial = new MovimientoMaterial();
-						$movimientoMaterial->asignable_id = $insert_id;
-						$movimientoMaterial->asignable_type = ReservasPractica::class;
-						$movimientoMaterial->cantidad = ((float) ($cantidadesMateriales[$material->id] * -1));
-						$movimientoMaterial->material_id = $material->id;
-
-						if($reservaPasada){
-							/*Sólo guardar el movimiento, pero no hacer cambios a los materiales actuales*/
-							$movimientoMaterial->save();
-						}else{
-							/*Aplicar cambios en el material y guardar movimiento*/
-							$movimientoMaterial->efectuarCambio();
-						}
-
+						/* Crear una nueva reservación de material */
+						$reservacionMaterial = new ReservasMateriale();
+						$reservacionMaterial->reserva_id = $insert_id;
+						$reservacionMaterial->material_id = $material->id;
+						$reservacionMaterial->cantidad = $cantidadesMateriales[$material->id];
+						$reservacionMaterial->fecha_inicio = $fechaInicioYMD;
+						$reservacionMaterial->fecha_fin = $fechaFinYMD;
+						$reservacionMaterial->save();
 					}
 					unset($material);
 
@@ -450,63 +449,49 @@ class ReservasPracticasController extends Controller
 						$cantidadesReactivos = array();
 
 						/* Sólo buscar materiales si están definidos en la práctica */
-						if($practica->materiales->count() == 0){
-							$materialesFaltantes = collect();
-						} else {
-							/* Iniciar petición de búsqueda de materiales insuficientes */
-							$materialesFaltantesFinder = Materiale::query();
+						$materialesFaltantes = 0;
 
-							/* Conseguir movimientos actuales de materiales para la práctica */
-							$movimientosMaterialesOriginal = $reservacion->movimientosMateriales;
-
+						if(!($practica->materiales->count() == 0))
+						{
 							foreach($practica->materiales as $material)
 							{
-									/* Obtener sólo los movimientos de este material, en el orden del ID */
-									$movimientosMaterialOriginal = $movimientosMaterialesOriginal->where(
-										'material_id',
-										$material->id
-									)->sortBy(
-										'id'
-									)->all();
+								/* Conseguir el multiplicador: Si es por grupo, multiplicar por uno; si no, multiplicar por la cantidad de participantes */
+								$cantidadMultiplicar = ($material->por_grupo == 1)? 1 : ((int) $request->input('participantes'));
 
-									/* Calcular las diferencias de acuerdo todos los movimientos */
-									$cantidadOriginal = 0;
+								$cantidadTotal = ($material->cantidad * $cantidadMultiplicar);
 
-									foreach($movimientosMaterialOriginal as $movimentoMaterialOriginal)
-									{
-										$cantidadOriginal += $movimentoMaterialOriginal->cantidad;
-									}
-									unset($movimentoMaterialOriginal);
+								/* Guardar cantidad requerida de materiales */
+								$cantidadesMateriales[$material->material_id] = $cantidadTotal;
 
-									/* Para este momento, $cantidadOriginal ya tiene la cantidad sustraída por el sistema antes de esta actualización */
+								/* Obtener la cantidad disponible total */
+								$disponiblesMaterial = $material->material->cantidad;
 
-									/* Conseguir el multiplicador: Si es por grupo, multiplicar por uno; si no, multiplicar por la cantidad de participantes */
-									$cantidadMultiplicar = ($material->por_grupo == 1)? 1 : ((int) $request->input('participantes'));
+								/* Revisar la disponibilidad del material en el tiempo solicitado */
+								$incidenciasMaterial = ReservasMateriale::encontrarIncidencias(
+									$material->id,
+									$fechaInicioYMD,
+									$fechaFinYMD
+								);
 
-									$cantidadTotal = ($material->cantidad * $cantidadMultiplicar);
+								/*Excluir las incidencias que son de esta práctica*/
+								$incidenciasMaterial = $incidenciasMaterial->filter(function($v, $k) use ($id){
+									return ($v->reserva_id != $id);
+								});
 
-									/*Calcular diferencia (la cantidad original viene en negativo) entre cantidad pedida y cantidad ya guardada*/
-									$cantidadTotal += $cantidadOriginal;
+								/* Ciclar para quitar las reservaciones que ya están en sistema de las cantidades actuales */
+								$incidenciasMaterial->each(function($v, $k) use (&$disponiblesMaterial){
+						      $disponiblesMaterial -= $v->cantidad;
+						    });
 
-									/* Guardar cantidad de materiales */
-									$cantidadesMateriales[$material->material_id] = $cantidadTotal;
+								/* No dejar que el valor sea menor a 0 */
+						    $disponiblesMaterial = (($disponiblesMaterial < 0)? 0 : $disponiblesMaterial);
 
-									/* Agregar a la búsqueda el filtro de material que sólo retornará la fila si el material no es suficiente */
-									$materialesFaltantesFinder->orWhere(function($query) use ($material, $cantidadTotal){
-										$query->where(
-											'id',
-											$material->material_id
-										)->where(
-											'cantidad',
-											'<',
-											$cantidadTotal
-										);
-									});
+								if($disponiblesMaterial < $cantidadTotal){
+									/* Material faltante: Aumentar cantidad de faltantes */
+									$materialesFaltantes++;
+								}
 							}
 							unset($material);
-
-							/* Obtener materiales insuficientes */
-							$materialesFaltantes = $materialesFaltantesFinder->get();
 						}
 
 						/* Sólo buscar reactivos si están definidos en la práctica */
@@ -570,30 +555,27 @@ class ReservasPracticasController extends Controller
 						}
 
 						/* Sólo actualizar si los materiales y los reactivos son suficientes */
-						if(($materialesFaltantes->count() == 0) && ($reactivosFaltantes->count() == 0)){
+						if(($materialesFaltantes == 0) && ($reactivosFaltantes->count() == 0)){
 							/*Ya que la reservación está guardada, será necesario remover o añadir las cantidades de materiales y reactivos solicitados*/
-							$materiales = Materiale::find(array_keys($cantidadesMateriales));
+							$materialesSolicitadosIds = array_keys($cantidadesMateriales);
 
-							foreach($materiales as $material)
-							{
-								/* Crear nuevo movimiento de material */
-								$movimientoMaterial = new MovimientoMaterial();
-								$movimientoMaterial->asignable_id = $id;
-								$movimientoMaterial->asignable_type = ReservasPractica::class;
-								$movimientoMaterial->cantidad = ((float) ($cantidadesMateriales[$material->id] * -1));
-								$movimientoMaterial->material_id = $material->id;
+							$reservacionesMateriales = ReservasMateriale::where(
+								'reserva_id',
+								$id
+							)->get();
 
-								if($reservaOriginalPasada && $reservaNuevaPasada)
-								{
-									/* Si la reservació se mantiene en el pasado: sólo guardar el movimiento, pero no hacer cambios a los materiales actuales*/
-									$movimientoMaterial->save();
+							foreach($reservacionesMateriales as $reservacionMaterial){
+								/*Si este material ya no es requerido por la práctica, remover la reservación*/
+								if(!in_array($reservacionMaterial->material_id, $materialesSolicitadosIds)){
+									$reservacionMaterial->delete();
 								}else{
-									/*La reservación es movida al pasado, al futuro o se mantiene en el futuro: aplicar cambios en el material y guardar movimiento*/
-									$movimientoMaterial->efectuarCambio();
+									$reservacionMaterial->cantidad = $cantidadesMateriales[$reservacionMaterial->material_id];
+									$reservacionMaterial->fecha_inicio = $fechaInicioYMD;
+									$reservacionMaterial->fecha_fin = $fechaFinYMD;
+									$reservacionMaterial->save();
 								}
-
 							}
-							unset($material);
+							unset($reservacionMaterial);
 
 							$reactivos = Reactivo::find(array_keys($cantidadesReactivos));
 
@@ -679,20 +661,8 @@ class ReservasPracticasController extends Controller
 			/* Verificar si la práctica a eliminar es una práctica pasada (que ya finalizó) y evitar que al eliminar se haga cambios a las cantidades actuales de reactivos y materiales */
 			$reservaPasada = ($fechaHoy >= $fechaFin);
 
-			/* Deshacer los movimientos de materiales*/
-			foreach($reservacion->movimientosMateriales as $movimientoMaterial)
-			{
-				if($reservaPasada)
-				{
-					/* La práctica ya fue realizada. No deshacer cambios en cantidades, pero eliminar los movimientos de los materiales */
-					$movimientoMaterial->delete();
-
-				} else {
-					/* La práctica no ha sido finalizada: Todavía pueden revertirse los cambios solicitados */
-					$movimientoMaterial->deshacerCambio();
-				}
-			}
-			unset($movimientoMaterial);
+			/* Eliminar todas las reservaciones de materiales que esta práctica haya creado */
+			ReservasMateriale::where('reserva_id', $id)->delete();
 
 			/* Deshacer los movimientos de reactivos*/
 			foreach($reservacion->movimientosReactivos as $movimientoReactivo)

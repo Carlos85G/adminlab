@@ -100,4 +100,8 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== ReservasLaboratorios ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/reservaslaboratorios', 'LA\ReservasLaboratoriosController');
 	Route::get(config('laraadmin.adminRoute') . '/reservaslaboratorio_dt_ajax', 'LA\ReservasLaboratoriosController@dtajax');
+
+	/* ================== ReservasMateriales ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/reservasmateriales', 'LA\ReservasMaterialesController');
+	Route::get(config('laraadmin.adminRoute') . '/reservasmateriale_dt_ajax', 'LA\ReservasMaterialesController@dtajax');
 });

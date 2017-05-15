@@ -6,7 +6,6 @@
 
 namespace App\Models;
 
-use App\MovimientoMaterial;
 use App\MovimientoReactivo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -20,15 +19,6 @@ class ReservasPractica extends Reserva
   public function practica()
   {
       return $this->hasOne(\App\Models\Practica::class, 'id', 'practica_id');
-  }
-
-  /**
-   * Función publica para recuperar los movimientos de materiales que esta práctica realizó
-   * @return Collection(App\MovimientoMaterial)
-   */
-  public function movimientosMateriales()
-  {
-      return $this->morphMany(MovimientoMaterial::class, 'asignable');
   }
 
   /**
