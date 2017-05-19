@@ -16,22 +16,22 @@
 				</div>
 				<div class="col-md-9">
 					<h4 class="name">{{ $reactivo->$view_col }}</h4>
-					{{--<div class="row stats">
-						<div class="col-md-4"><i class="fa fa-facebook"></i> 234</div>
+					<div class="row stats">
+						{{--<div class="col-md-4"><i class="fa fa-facebook"></i> 234</div>
 						<div class="col-md-4"><i class="fa fa-twitter"></i> 12</div>
-						<div class="col-md-4"><i class="fa fa-instagram"></i> 89</div>
+						<div class="col-md-4"><i class="fa fa-instagram"></i> 89</div>--}}
 					</div>
-					<p class="desc">Test Description in one line</p>--}}
+					{{--<p class="desc">Test Description in one line</p>--}}
 				</div>
 			</div>
 		</div>
-		{{--<div class="col-md-3">
-			<div class="dats1"><div class="label2">Admin</div></div>
+		<div class="col-md-3">
+			{{--<div class="dats1"><div class="label2">Admin</div></div>
 			<div class="dats1"><i class="fa fa-envelope-o"></i> superadmin@gmail.com</div>
-			<div class="dats1"><i class="fa fa-map-marker"></i> Pune, India</div>
+			<div class="dats1"><i class="fa fa-map-marker"></i> Pune, India</div>--}}
 		</div>
 		<div class="col-md-4">
-			<!--
+			{{--<!--
 			<div class="teamview">
 				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user1-128x128.jpg') }}" alt=""><i class="status-online"></i></a>
 				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user2-160x160.jpg') }}" alt=""></a>
@@ -78,8 +78,8 @@
 						<span class="sr-only">60% Complete</span>
 					</div>
 				</div>
-			</div>
-		</div>--}}
+			</div>--}}
+		</div>
 		<div class="col-md-1 actions">
 			@la_access("Reactivos", "edit")
 				<a href="{{ url(config('laraadmin.adminRoute') . '/reactivos/'.$reactivo->id.'/edit') }}" class="btn btn-xs btn-edit btn-default"><i class="fa fa-pencil"></i></a><br>

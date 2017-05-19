@@ -33,11 +33,16 @@ class ReservasMateriale extends Model
 	 */
 	public static function encontrarIncidencias($idMaterial, $fechaInicioYMD, $fechaFinYMD)
   {
+    /*
+    Cambio de lógica en las fechas cruzadas
+
     return self::where(function($query) use ($fechaInicioYMD, $fechaFinYMD){
 			$query->orWhere(function($query) use ($fechaInicioYMD, $fechaFinYMD){
-				/* ... Si es que la fecha de inicio del evento existente está dentro del rango... */
 
-				/* Este código busca en rango sin tomar en cuenta el final, a diferencia de usar whereBetween*/
+        ... Si es que la fecha de inicio del evento existente está dentro del rango...
+
+				Este código busca en rango sin tomar en cuenta el final, a diferencia de usar whereBetween
+
 				$query->where(
 					'fecha_inicio',
 					'>=',
@@ -48,9 +53,11 @@ class ReservasMateriale extends Model
 					$fechaFinYMD
 				);
 			})->orWhere(function($query) use ($fechaInicioYMD, $fechaFinYMD){
-				/*...O si la fecha de fin del evento existente está dentro del rango... */
 
-				/* Este código busca en rango sin tomar en cuenta el inicio, a diferencia de usar whereBetween*/
+        ...O si la fecha de fin del evento existente está dentro del rango...
+
+				Este código busca en rango sin tomar en cuenta el inicio, a diferencia de usar whereBetween
+
 				$query->where(
 					'fecha_fin',
 					'>',
@@ -61,7 +68,9 @@ class ReservasMateriale extends Model
 					$fechaFinYMD
 				);
 			})->orWhere(function($query) use ($fechaInicioYMD, $fechaFinYMD){
-				/*... O si el rango de fechas está dentro de otro evento existente... */
+
+        ... O si el rango de fechas está dentro de otro evento existente...
+
 				$query->where(
 					'fecha_inicio',
 					'<=',
@@ -72,7 +81,59 @@ class ReservasMateriale extends Model
 					$fechaFinYMD
 				);
 			})->orWhere(function($query) use ($fechaInicioYMD, $fechaFinYMD){
-				/*... O si el rango de fechas abarca algún evento existente */
+
+        ... O si el rango de fechas abarca algún evento existente
+
+				$query->where(
+					'fecha_inicio',
+					'>=',
+					$fechaInicioYMD
+				)->where(
+					'fecha_fin',
+					'<=',
+					$fechaFinYMD
+				);
+			});
+		})->where(
+
+      con el material indicado...
+
+      'material_id',
+      $idMaterial
+    )->orderBy(
+      'id',
+      'asc'
+    )->get();*/
+
+    return self::where(function($query) use ($fechaInicioYMD, $fechaFinYMD){
+			$query->orWhere(function($query) use ($fechaInicioYMD, $fechaFinYMD){
+				/* ... Si es que el rango de fechas del evento existente cruza al menos con la fecha de inicio... */
+
+				/* Este código busca en rango sin tomar en cuenta el final, a diferencia de usar whereBetween*/
+				$query->where(
+					'fecha_inicio',
+					'<=',
+					$fechaInicioYMD
+				)->where(
+					'fecha_fin',
+					'>',
+					$fechaInicioYMD
+				);
+			})->orWhere(function($query) use ($fechaInicioYMD, $fechaFinYMD){
+				/* ... O si es que el rango de fechas del evento existente cruza al menos con la fecha de fin... */
+
+				/* Este código busca en rango sin tomar en cuenta el inicio, a diferencia de usar whereBetween*/
+				$query->where(
+					'fecha_inicio',
+					'<',
+					$fechaFinYMD
+				)->where(
+					'fecha_fin',
+					'>=',
+					$fechaFinYMD
+				);
+			})->orWhere(function($query) use ($fechaInicioYMD, $fechaFinYMD){
+				/*... O si el rango de fechas contiene otros eventos existente... */
 				$query->where(
 					'fecha_inicio',
 					'>=',

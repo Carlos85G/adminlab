@@ -301,16 +301,23 @@ class ReservasPracticasController extends Controller
 		if(Module::hasAccess("ReservasPracticas", "view")) {
 
 			$reservaspractica = ReservasPractica::find($id);
+
 			if(isset($reservaspractica->id)) {
 				$module = Module::get('ReservasPracticas');
 				$module->row = $reservaspractica;
 
+				/* Para poder mandar información de la práctica a la vista*/
+				$practica = Practica::find($reservaspractica->practica_id);
+				$modulePractica = Module::get('Practicas');
+				$modulePractica->row = $practica;
+
 				return view('la.reservaspracticas.show', [
 					'module' => $module,
+					'module_practica' => $modulePractica,
 					'view_col' => $this->view_col,
 					'no_header' => true,
 					'no_padding' => "no-padding"
-				])->with('reservaspractica', $reservaspractica);
+				])->with('reservaspractica', $reservaspractica)->with('practica', $practica);
 			} else {
 				return view('errors.404', [
 					'record_id' => $id,

@@ -15,23 +15,23 @@
 					<div class="profile-icon text-primary"><i class="fa {{ $module->fa_icon }}"></i></div>
 				</div>
 				<div class="col-md-9">
-					<h4 class="name">{{ $reservaspractica->$view_col }}</h4>
-					{{--<div class="row stats">
-						<div class="col-md-4"><i class="fa fa-facebook"></i> 234</div>
+					<h4 class="name">{{-- $reservaspractica->$view_col --}}{{ $reservaspractica->practica->nombre }}</h4>
+					<div class="row stats">
+						{{--<div class="col-md-4"><i class="fa fa-facebook"></i> 234</div>
 						<div class="col-md-4"><i class="fa fa-twitter"></i> 12</div>
-						<div class="col-md-4"><i class="fa fa-instagram"></i> 89</div>
+						<div class="col-md-4"><i class="fa fa-instagram"></i> 89</div>--}}
 					</div>
-					<p class="desc">Test Description in one line</p>--}}
+					{{--<p class="desc">Test Description in one line</p>--}}
 				</div>
 			</div>
 		</div>
-		{{--<div class="col-md-3">
-			<div class="dats1"><div class="label2">Admin</div></div>
+		<div class="col-md-3">
+			{{--<div class="dats1"><div class="label2">Admin</div></div>
 			<div class="dats1"><i class="fa fa-envelope-o"></i> superadmin@gmail.com</div>
-			<div class="dats1"><i class="fa fa-map-marker"></i> Pune, India</div>
+			<div class="dats1"><i class="fa fa-map-marker"></i> Pune, India</div>--}}
 		</div>
 		<div class="col-md-4">
-			<!--
+			{{--<!--
 			<div class="teamview">
 				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user1-128x128.jpg') }}" alt=""><i class="status-online"></i></a>
 				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user2-160x160.jpg') }}" alt=""></a>
@@ -78,9 +78,8 @@
 						<span class="sr-only">60% Complete</span>
 					</div>
 				</div>
-			</div>
+			</div>--}}
 		</div>
-		--}}
 		<div class="col-md-1 actions">
 			@la_access("ReservasPracticas", "edit")
 				<a href="{{ url(config('laraadmin.adminRoute') . '/reservaspracticas/'.$reservaspractica->id.'/edit') }}" class="btn btn-xs btn-edit btn-default"><i class="fa fa-pencil"></i></a><br>
@@ -95,9 +94,9 @@
 	</div>
 
 	<ul data-toggle="ajax-tab" class="nav nav-tabs profile" role="tablist">
-		<li class=""><a href="{{ url(config('laraadmin.adminRoute') . '/reservaspracticas') }}" data-toggle="tooltip" data-placement="right" title="Back to ReservasPracticas"><i class="fa fa-chevron-left"></i></a></li>
-		<li class="active"><a role="tab" data-toggle="tab" class="active" href="#tab-general-info" data-target="#tab-info"><i class="fa fa-bars"></i> General Info</a></li>
-		<li class=""><a role="tab" data-toggle="tab" href="#tab-timeline" data-target="#tab-timeline"><i class="fa fa-clock-o"></i> Timeline</a></li>
+		<li class=""><a href="{{ url(config('laraadmin.adminRoute') . '/reservaspracticas') }}" data-toggle="tooltip" data-placement="right" title="Regresar a Reservaciones de Pr&aacute;cticas"><i class="fa fa-chevron-left"></i></a></li>
+		<li class="active"><a role="tab" data-toggle="tab" class="active" href="#tab-general-info" data-target="#tab-info"><i class="fa fa-bars"></i> Informaci&oacute;n General</a></li>
+		<li class=""><a role="tab" data-toggle="tab" href="#tab-practica" data-target="#tab-practica"><i class="fa fa-clock-o"></i> Pr&aacute;ctica</a></li>
 	</ul>
 
 	<div class="tab-content">
@@ -105,111 +104,43 @@
 			<div class="tab-content">
 				<div class="panel infolist">
 					<div class="panel-default panel-heading">
-						<h4>General Info</h4>
+						<h4>Informaci&oacute;n General</h4>
 					</div>
 					<div class="panel-body">
-						@la_display($module, 'practica_id')
-						@la_display($module, 'laboratorio_id')
+						<div class="form-group">
+							<label for="practica_id" class="col-md-2">Pr&aacute;ctica a realizar :</label>
+							<div class="col-md-10 fvalue">{{ $reservaspractica->practica->nombre }}</div>
+						</div>
+						<div class="form-group">
+							<label for="laboratorio_id" class="col-md-2">Laboratorio :</label>
+							<div class="col-md-10 fvalue">{{ $reservaspractica->laboratorio->nombre }}</div>
+						</div>
 						@la_display($module, 'fecha_inicio')
 						@la_display($module, 'solicitante_id')
 					</div>
 				</div>
 			</div>
 		</div>
-		{{--<div role="tabpanel" class="tab-pane fade in p20 bg-white" id="tab-timeline">
-			<ul class="timeline timeline-inverse">
-				<!-- timeline time label -->
-				<li class="time-label">
-					<span class="bg-red">
-						10 Feb. 2014
-					</span>
-				</li>
-				<!-- /.timeline-label -->
-				<!-- timeline item -->
-				<li>
-				<i class="fa fa-envelope bg-blue"></i>
-
-				<div class="timeline-item">
-					<span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
-
-					<h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>
-
-					<div class="timeline-body">
-					Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-					weebly ning heekya handango imeem plugg dopplr jibjab, movity
-					jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-					quora plaxo ideeli hulu weebly balihoo...
+		<div role="tabpanel" class="tab-pane fade in p20 bg-white" id="tab-practica">
+			<div class="tab-content">
+				<div class="panel infolist">
+					<div class="panel-default panel-heading">
+						<h4>Pr&aacute;ctica</h4>
 					</div>
-					<div class="timeline-footer">
-					<a class="btn btn-primary btn-xs">Read more</a>
-					<a class="btn btn-danger btn-xs">Delete</a>
+					<div class="panel-body">
+						@la_display($module_practica, 'nombre')
+						@la_display($module_practica, 'objetivo')
+						<div class="form-group">
+							<label for="duracion" class="col-md-2">Duraci&oacute;n  :</label>
+							<div class="col-md-10 fvalue">
+								{{ (int) ($practica->duracion / 3600) }} horas, {{ (int) ($practica->duracion % 3600) }} minutos
+							</div>
+						</div>
+						@la_display($module_practica, 'practica_pdf')
 					</div>
 				</div>
-				</li>
-				<!-- END timeline item -->
-				<!-- timeline item -->
-				<li>
-				<i class="fa fa-user bg-aqua"></i>
-
-				<div class="timeline-item">
-					<span class="time"><i class="fa fa-clock-o"></i> 5 mins ago</span>
-
-					<h3 class="timeline-header no-border"><a href="#">Sarah Young</a> accepted your friend request
-					</h3>
-				</div>
-				</li>
-				<!-- END timeline item -->
-				<!-- timeline item -->
-				<li>
-				<i class="fa fa-comments bg-yellow"></i>
-
-				<div class="timeline-item">
-					<span class="time"><i class="fa fa-clock-o"></i> 27 mins ago</span>
-
-					<h3 class="timeline-header"><a href="#">Jay White</a> commented on your post</h3>
-
-					<div class="timeline-body">
-					Take me to your leader!
-					Switzerland is small and neutral!
-					We are more like Germany, ambitious and misunderstood!
-					</div>
-					<div class="timeline-footer">
-					<a class="btn btn-warning btn-flat btn-xs">View comment</a>
-					</div>
-				</div>
-				</li>
-				<!-- END timeline item -->
-				<!-- timeline time label -->
-				<li class="time-label">
-					<span class="bg-green">
-						3 Jan. 2014
-					</span>
-				</li>
-				<!-- /.timeline-label -->
-				<!-- timeline item -->
-				<li>
-				<i class="fa fa-camera bg-purple"></i>
-
-				<div class="timeline-item">
-					<span class="time"><i class="fa fa-clock-o"></i> 2 days ago</span>
-
-					<h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
-
-					<div class="timeline-body">
-					<img src="http://placehold.it/150x100" alt="..." class="margin">
-					<img src="http://placehold.it/150x100" alt="..." class="margin">
-					<img src="http://placehold.it/150x100" alt="..." class="margin">
-					<img src="http://placehold.it/150x100" alt="..." class="margin">
-					</div>
-				</div>
-				</li>
-				<!-- END timeline item -->
-				<li>
-				<i class="fa fa-clock-o bg-gray"></i>
-				</li>
-			</ul>
-			<!--<div class="text-center p30"><i class="fa fa-list-alt" style="font-size: 100px;"></i> <br> No posts to show</div>-->
-		</div>--}}
+			</div>
+		</div>
 
 	</div>
 	</div>
