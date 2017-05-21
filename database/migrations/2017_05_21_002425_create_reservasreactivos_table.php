@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Dwij\Laraadmin\Models\Module;
 
-class CreateReservasmaterialesTable extends Migration
+class CreateReservasreactivosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -17,12 +17,11 @@ class CreateReservasmaterialesTable extends Migration
      */
     public function up()
     {
-        Module::generate("Reservasmateriales", 'reservasmateriales', 'material_id', 'fa-cube', [
-            ["material_id", "Material", "Dropdown", false, "", 0, 0, true, "@materiales"],
-            ["cantidad", "Cantidad", "Integer", false, "1", 1, 11, true],
-            ["fecha_inicio", "Fecha de Inicio", "Datetime", false, "", 0, 0, true],
-            ["fecha_fin", "Fecha de Fin", "Datetime", false, "", 0, 0, true],
-            ["solicitante_id", "Solicitante", "Integer", false, "0", 0, 11, false],
+        Module::generate("Reservasreactivos", 'reservasreactivos', 'reactivo_id', 'fa-cube', [
+            ["reactivo_id", "Reactivo", "Dropdown", false, "", 0, 0, true, "@reactivos"],
+            ["cantidad", "Cantidad", "Float", false, "1", 0, 11, true],
+            ["fecha_hora", "Fecha y Hora", "Datetime", false, "", 0, 0, true],
+            ["solicitante_id", "Solicitante", "Dropdown", false, "0", 0, 0, false, "@employees"],
             ["reserva_id", "Reservación", "Integer", false, "0", 0, 11, false],
         ]);
 
@@ -69,8 +68,8 @@ class CreateReservasmaterialesTable extends Migration
      */
     public function down()
     {
-        if (Schema::hasTable('reservasmateriales')) {
-            Schema::drop('reservasmateriales');
+        if (Schema::hasTable('reservasreactivos')) {
+            Schema::drop('reservasreactivos');
         }
     }
 }

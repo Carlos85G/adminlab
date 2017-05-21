@@ -33,30 +33,36 @@
 
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu">
-            <li class="header">M&Oacute;DULOS</li>
+            {{--<li class="header">M&Oacute;DULOS</li>
             <!-- Optionally, you can add icons to the links -->
             <li><a href="{{ url(config('laraadmin.adminRoute')) }}"><i class='fa fa-home'></i> <span>Inicio</span></a></li>
-            <?php
+            @php
             $menuItems = Dwij\Laraadmin\Models\Menu::where("parent", 0)->orderBy('hierarchy', 'asc')->get();
-            ?>
+            @endphp
             @foreach ($menuItems as $menu)
                 @if($menu->type == "module")
-                    <?php
+                    @php
                     $temp_module_obj = Module::get($menu->name);
-                    ?>
-                    <?php /*{{--@la_access($temp_module_obj->id) */ ?>
+                    @endphp
+                    @la_access($temp_module_obj->id)
 						@if(isset($module->id) && $module->name == $menu->name)
-                        	<?php echo LAHelper::print_menu($menu ,true); ?>
+                        	@php
+                           echo LAHelper::print_menu($menu ,true);
+                          @endphp
 						@else
-							<?php echo LAHelper::print_menu($menu); ?>
+							@php
+               echo LAHelper::print_menu($menu);
+              @endphp
 						@endif
-                    <?php /* @endla_access */ ?>
+                    @endla_access
                 @else
-                    <?php echo LAHelper::print_menu($menu); ?>
+                    @php
+                      echo LAHelper::print_menu($menu);
+                    @endphp
                 @endif
             @endforeach
             <!-- LAMenus -->
-
+            --}}
         </ul><!-- /.sidebar-menu -->
     </section>
     <!-- /.sidebar -->

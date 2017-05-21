@@ -350,6 +350,7 @@ class ReservasMaterialesController extends Controller
 		if(Module::hasAccess("ReservasMateriales", "delete")) {
 			ReservasMateriale::find($id)->delete();
 
+			Ayudantes::flashMessages(null, 'eliminado');
 			// Redirecting to index() method
 			return redirect()->route(config('laraadmin.adminRoute') . '.reservasmateriales.index');
 		} else {
