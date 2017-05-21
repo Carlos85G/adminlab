@@ -61,11 +61,6 @@
 </head>
 
 <body data-spy="scroll" data-offset="0" data-target="#navigation">
-@php
-    /* Obtener los labotarorios en el sistema */
-
-    $laboratorios = \App\Models\Laboratorio::all();
-@endphp
 <!-- Fixed navbar -->
 <div id="navigation" class="navbar navbar-default navbar-fixed-top">
     <div class="container">

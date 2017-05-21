@@ -180,7 +180,7 @@ class ApiController extends Controller
                    )
                )->format('c'),
                'location' => $evento->laboratorio->nombre,
-               'url' => url(config('laraadmin.adminRoute'). '/reservas'. (($evento instanceof ReservasPractica)? 'practicas' : 'laboratorios'). '/' .$evento->id)
+               'url' => url('/reservas/'. (($evento instanceof ReservasPractica)? 'practicas' : 'laboratorios'). '/' .$evento->id)
             );
         }
         unset($evento);

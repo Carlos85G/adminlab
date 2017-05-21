@@ -330,6 +330,40 @@ class ReservasPracticasController extends Controller
 	}
 
 	/**
+	 * Función para vistas sin necesidad de dar privilegios
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function guestShow($id)
+	{
+		$reservaspractica = ReservasPractica::find($id);
+
+		if(isset($reservaspractica->id)) {
+			$module = Module::get('ReservasPracticas');
+			$module->row = $reservaspractica;
+
+			/* Para poder mandar información de la práctica a la vista*/
+			$practica = Practica::find($reservaspractica->practica_id);
+			$modulePractica = Module::get('Practicas');
+			$modulePractica->row = $practica;
+
+			return view('la.reservaspracticas.guestShow', [
+				'module' => $module,
+				'module_practica' => $modulePractica,
+				'view_col' => $this->view_col,
+				'no_header' => true,
+				'no_padding' => "no-padding"
+			])->with('reservaspractica', $reservaspractica)->with('practica', $practica);
+		} else {
+			return view('errors.404', [
+				'record_id' => $id,
+				'record_name' => ucfirst("reservaspractica"),
+			]);
+		}
+	}
+
+	/**
 	 * Show the form for editing the specified reservaspractica.
 	 *
 	 * @param  int  $id

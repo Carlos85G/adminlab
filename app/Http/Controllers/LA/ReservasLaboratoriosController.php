@@ -135,7 +135,7 @@ class ReservasLaboratoriosController extends Controller
 						->select('roles.id')->where('users.id', Auth::user()->id)->first();
 
 					$rol = Role::find($rolFinder->id);
-				
+
 					/* Calcular diferencia entre fecha de inicio y de fin */
 					$diferenciaTiempo = $fechaFin->getTimestamp() - $fechaInicio->getTimestamp();
 
@@ -198,6 +198,33 @@ class ReservasLaboratoriosController extends Controller
 			}
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
+		}
+	}
+
+	/**
+	 * Función para vistas sin necesidad de dar privilegios
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function guestShow($id)
+	{
+		$reservaslaboratorio = ReservasLaboratorio::find($id);
+		if(isset($reservaslaboratorio->id)) {
+			$module = Module::get('ReservasLaboratorios');
+			$module->row = $reservaslaboratorio;
+
+			return view('la.reservaslaboratorios.guestShow', [
+				'module' => $module,
+				'view_col' => $this->view_col,
+				'no_header' => true,
+				'no_padding' => "no-padding"
+			])->with('reservaslaboratorio', $reservaslaboratorio);
+		} else {
+			return view('errors.404', [
+				'record_id' => $id,
+				'record_name' => ucfirst("reservaslaboratorio"),
+			]);
 		}
 	}
 

@@ -36,7 +36,10 @@ class HomeController extends Controller
         $roleCount = \App\Role::count();
     		if($roleCount != 0) {
       			if($roleCount != 0) {
-      				return view('home');
+              /* Obtener los labotarorios en el sistema */
+
+              $laboratorios = \App\Models\Laboratorio::all();
+      				return view('home')->with('laboratorios', $laboratorios);
       			}
     		} else {
       			return view('errors.error', [

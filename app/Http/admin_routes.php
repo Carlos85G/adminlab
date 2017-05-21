@@ -22,10 +22,13 @@ if(\Dwij\Laraadmin\Helpers\LAHelper::laravel_ver() == 5.3) {
 	Route::get('/logout', 'Auth\LoginController@logout');
 }
 
+/* Rutas públicas para información de reservación */
+Route::get('/reservas/practicas/{id}', 'LA\ReservasPracticasController@guestShow');
+Route::get('/reservas/laboratorios/{id}', 'LA\ReservasLaboratoriosController@guestShow');
+
 Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], function () {
 
 	/* ================== Dashboard ================== */
-
 	Route::get(config('laraadmin.adminRoute'), 'LA\DashboardController@index');
 	Route::get(config('laraadmin.adminRoute'). '/dashboard', 'LA\DashboardController@index');
 
@@ -75,7 +78,6 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	Route::resource(config('laraadmin.adminRoute') . '/prestamos', 'LA\PrestamosController');
 	Route::get(config('laraadmin.adminRoute') . '/prestamo_dt_ajax', 'LA\PrestamosController@dtajax');
 
-
 	/* ================== Laboratorios ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/laboratorios', 'LA\LaboratoriosController');
 	Route::get(config('laraadmin.adminRoute') . '/laboratorio_dt_ajax', 'LA\LaboratoriosController@dtajax');
@@ -87,7 +89,6 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== Materiales ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/materiales', 'LA\MaterialesController');
 	Route::get(config('laraadmin.adminRoute') . '/materiale_dt_ajax', 'LA\MaterialesController@dtajax');
-
 
 	/* ================== Reactivos ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/reactivos', 'LA\ReactivosController');
