@@ -1,7 +1,7 @@
 @extends('la.layouts.app')
 
 @section('htmlheader_title')
-	Vista de Reservaci&oacute;n de Reactivos
+	Vista de Pr&eacute;stamo de Materiales
 @endsection
 
 
@@ -15,7 +15,7 @@
 					<div class="profile-icon text-primary"><i class="fa {{ $module->fa_icon }}"></i></div>
 				</div>
 				<div class="col-md-9">
-					<h4 class="name">{{ $reservasreactivo->$view_col }}</h4>
+					<h4 class="name">{{ $reservasmateriale->$view_col }}</h4>
 					<div class="row stats">
 						{{--<div class="col-md-4"><i class="fa fa-facebook"></i> 234</div>
 						<div class="col-md-4"><i class="fa fa-twitter"></i> 12</div>
@@ -81,12 +81,12 @@
 			</div>--}}
 		</div>
 		<div class="col-md-1 actions">
-			@la_access("ReservasReactivos", "edit")
-				<a href="{{ url(config('laraadmin.adminRoute') . '/reservasreactivos/'.$reservasreactivo->id.'/edit') }}" class="btn btn-xs btn-edit btn-default"><i class="fa fa-pencil"></i></a><br>
+			@la_access("ReservasMateriales", "edit")
+				<a href="{{ url(config('laraadmin.adminRoute') . '/prestamosmateriales/'.$reservasmateriale->id.'/edit') }}" class="btn btn-xs btn-edit btn-default"><i class="fa fa-pencil"></i></a><br>
 			@endla_access
 
-			@la_access("ReservasReactivos", "delete")
-				{{ Form::open(['route' => [config('laraadmin.adminRoute') . '.reservasreactivos.destroy', $reservasreactivo->id], 'method' => 'delete', 'style'=>'display:inline']) }}
+			@la_access("ReservasMateriales", "delete")
+				{{ Form::open(['route' => [config('laraadmin.adminRoute') . '.prestamosmateriales.destroy', $reservasmateriale->id], 'method' => 'delete', 'style'=>'display:inline']) }}
 					<button class="btn btn-default btn-delete btn-xs" type="submit"><i class="fa fa-times"></i></button>
 				{{ Form::close() }}
 			@endla_access
@@ -94,7 +94,7 @@
 	</div>
 
 	<ul data-toggle="ajax-tab" class="nav nav-tabs profile" role="tablist">
-		<li class=""><a href="{{ url(config('laraadmin.adminRoute') . '/reservasreactivos') }}" data-toggle="tooltip" data-placement="right" title="Regresar a Reservaciones de Reactivos"><i class="fa fa-chevron-left"></i></a></li>
+		<li class=""><a href="{{ url(config('laraadmin.adminRoute') . '/prestamosmateriales') }}" data-toggle="tooltip" data-placement="right" title="Regresar a Reservaciones de Materiales"><i class="fa fa-chevron-left"></i></a></li>
 		<li class="active"><a role="tab" data-toggle="tab" class="active" href="#tab-general-info" data-target="#tab-info"><i class="fa fa-bars"></i> Informaci&oacute;n General</a></li>
 		{{--<li class=""><a role="tab" data-toggle="tab" href="#tab-timeline" data-target="#tab-timeline"><i class="fa fa-clock-o"></i> Timeline</a></li>--}}
 	</ul>
@@ -104,12 +104,14 @@
 			<div class="tab-content">
 				<div class="panel infolist">
 					<div class="panel-default panel-heading">
-						<h4>Informaci&oacute;n General</h4>
+						<h4>General Info</h4>
 					</div>
 					<div class="panel-body">
-						@la_display($module, 'reactivo_id')
+						@la_display($module, 'material_id')
 						@la_display($module, 'cantidad')
-						@la_display($module, 'fecha_hora')
+						@la_display($module, 'lugar')
+						@la_display($module, 'fecha_inicio')
+						@la_display($module, 'fecha_fin')
 						@la_display($module, 'solicitante_id')
 					</div>
 				</div>

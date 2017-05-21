@@ -23,11 +23,11 @@ use App\Models\Role;
 use App\Models\Materiale;
 use App\Models\ReservasMateriale;
 
-class ReservasMaterialesController extends Controller
+class PrestamosMaterialesController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'material_id';
-	public $listing_cols = ['id', 'material_id', 'cantidad', 'fecha_inicio', 'fecha_fin', 'solicitante_id'];
+	public $listing_cols = ['id', 'material_id', 'cantidad', 'fecha_inicio', 'fecha_fin', 'solicitante_id', 'lugar'];
 
 	public function __construct() {
 		// Field Access of Listing Columns
@@ -51,7 +51,7 @@ class ReservasMaterialesController extends Controller
 		$module = Module::get('ReservasMateriales');
 
 		if(Module::hasAccess($module->id)) {
-			return View('la.reservasmateriales.index', [
+			return View('la.prestamosmateriales.index', [
 				'show_actions' => $this->show_action,
 				'listing_cols' => $this->listing_cols,
 				'module' => $module
@@ -164,7 +164,7 @@ class ReservasMaterialesController extends Controller
 
 			Ayudantes::flashMessages($error, 'creado');
 
-			return redirect()->route(config('laraadmin.adminRoute') . '.reservasmateriales.index');
+			return redirect()->route(config('laraadmin.adminRoute') . '.prestamosmateriales.index');
 
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
@@ -186,7 +186,7 @@ class ReservasMaterialesController extends Controller
 				$module = Module::get('ReservasMateriales');
 				$module->row = $reservasmateriale;
 
-				return view('la.reservasmateriales.show', [
+				return view('la.prestamosmateriales.show', [
 					'module' => $module,
 					'view_col' => $this->view_col,
 					'no_header' => true,
@@ -195,7 +195,7 @@ class ReservasMaterialesController extends Controller
 			} else {
 				return view('errors.404', [
 					'record_id' => $id,
-					'record_name' => ucfirst("reservasmateriale"),
+					'record_name' => ucfirst("prestamosmateriale"),
 				]);
 			}
 		} else {
@@ -218,14 +218,14 @@ class ReservasMaterialesController extends Controller
 
 				$module->row = $reservasmateriale;
 
-				return view('la.reservasmateriales.edit', [
+				return view('la.prestamosmateriales.edit', [
 					'module' => $module,
 					'view_col' => $this->view_col,
 				])->with('reservasmateriale', $reservasmateriale);
 			} else {
 				return view('errors.404', [
 					'record_id' => $id,
-					'record_name' => ucfirst("reservasmateriale"),
+					'record_name' => ucfirst("prestamosmateriale"),
 				]);
 			}
 		} else {
@@ -332,7 +332,7 @@ class ReservasMaterialesController extends Controller
 
 			Ayudantes::flashMessages($error, 'actualizado');
 
-			return redirect()->route(config('laraadmin.adminRoute') . '.reservasmateriales.index');
+			return redirect()->route(config('laraadmin.adminRoute') . '.prestamosmateriales.index');
 
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
@@ -352,7 +352,7 @@ class ReservasMaterialesController extends Controller
 
 			Ayudantes::flashMessages(null, 'eliminado');
 			// Redirecting to index() method
-			return redirect()->route(config('laraadmin.adminRoute') . '.reservasmateriales.index');
+			return redirect()->route(config('laraadmin.adminRoute') . '.prestamosmateriales.index');
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
 		}
@@ -365,8 +365,8 @@ class ReservasMaterialesController extends Controller
 	 */
 	public function dtajax()
 	{
-		/*Como las reservaciones no tienen lugar, sólo mostrar las que tienen lugar como vacío*/
-		$values = DB::table('reservasmateriales')->select($this->listing_cols)->whereNull('deleted_at')->where('lugar', '');
+		/*Como los préstamos tienen lugar, sólo mostrar las que tienen lugar diferente a vacío*/
+		$values = DB::table('reservasmateriales')->select($this->listing_cols)->whereNull('deleted_at')->where('lugar', '!=', '');
 
 		/* Si no es administrador, sólo mostrar las del usuario */
 		if(!(Entrust::hasRole("SUPER_ADMIN") || Entrust::hasRole("LabAdmin"))){
@@ -385,7 +385,7 @@ class ReservasMaterialesController extends Controller
 					$data->data[$i][$j] = ModuleFields::getFieldValue($fields_popup[$col], $data->data[$i][$j]);
 				}
 				if($col == $this->view_col) {
-					$data->data[$i][$j] = '<a href="'.url(config('laraadmin.adminRoute') . '/reservasmateriales/'.$data->data[$i][0]).'">'.$data->data[$i][$j].'</a>';
+					$data->data[$i][$j] = '<a href="'.url(config('laraadmin.adminRoute') . '/prestamosmateriales/'.$data->data[$i][0]).'">'.$data->data[$i][$j].'</a>';
 				}
 				// else if($col == "author") {
 				//    $data->data[$i][$j];
@@ -395,11 +395,11 @@ class ReservasMaterialesController extends Controller
 			if($this->show_action) {
 				$output = '';
 				if(Module::hasAccess("ReservasMateriales", "edit")) {
-					$output .= '<a href="'.url(config('laraadmin.adminRoute') . '/reservasmateriales/'.$data->data[$i][0].'/edit').'" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>';
+					$output .= '<a href="'.url(config('laraadmin.adminRoute') . '/prestamosmateriales/'.$data->data[$i][0].'/edit').'" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>';
 				}
 
 				if(Module::hasAccess("ReservasMateriales", "delete")) {
-					$output .= Form::open(['route' => [config('laraadmin.adminRoute') . '.reservasmateriales.destroy', $data->data[$i][0]], 'method' => 'delete', 'style'=>'display:inline']);
+					$output .= Form::open(['route' => [config('laraadmin.adminRoute') . '.prestamosmateriales.destroy', $data->data[$i][0]], 'method' => 'delete', 'style'=>'display:inline']);
 					$output .= ' <button class="btn btn-danger btn-xs" type="submit"><i class="fa fa-times"></i></button>';
 					$output .= Form::close();
 				}

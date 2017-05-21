@@ -22,15 +22,16 @@ class CreateReservasmaterialesTable extends Migration
             ["cantidad", "Cantidad", "Integer", false, "1", 1, 11, true],
             ["fecha_inicio", "Fecha de Inicio", "Datetime", false, "", 0, 0, true],
             ["fecha_fin", "Fecha de Fin", "Datetime", false, "", 0, 0, true],
-            ["solicitante_id", "Solicitante", "Integer", false, "0", 0, 11, false],
+            ["solicitante_id", "Solicitante", "Dropdown", false, "0", 0, 11, false, "@employees"],
             ["reserva_id", "Reservación", "Integer", false, "0", 0, 11, false],
+            ["lugar", "Lugar de Uso", "Address", false, "", 0, 256, false],
         ]);
-
+		
 		/*
 		Row Format:
 		["field_name_db", "Label", "UI Type", "Unique", "Default_Value", "min_length", "max_length", "Required", "Pop_values"]
         Module::generate("Module_Name", "Table_Name", "view_column_name" "Fields_Array");
-
+        
 		Module::generate("Books", 'books', 'name', [
             ["address",     "Address",      "Address",  false, "",          0,  1000,   true],
             ["restricted",  "Restricted",   "Checkbox", false, false,       0,  0,      false],

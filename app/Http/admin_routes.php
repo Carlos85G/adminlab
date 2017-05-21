@@ -109,4 +109,14 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== ReservasReactivos ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/reservasreactivos', 'LA\ReservasReactivosController');
 	Route::get(config('laraadmin.adminRoute') . '/reservasreactivo_dt_ajax', 'LA\ReservasReactivosController@dtajax');
+
+
+	/* ================== PrestamosMateriales ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/prestamosmateriales', 'LA\PrestamosMaterialesController');
+	Route::get(config('laraadmin.adminRoute') . '/prestamosmateriale_dt_ajax', 'LA\PrestamosMaterialesController@dtajax');
+
+	/* ================== PrestamosReactivos ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/prestamosreactivos', 'LA\PrestamosReactivosController');
+	Route::get(config('laraadmin.adminRoute') . '/prestamosreactivo_dt_ajax', 'LA\PrestamosReactivosController@dtajax');
+
 });

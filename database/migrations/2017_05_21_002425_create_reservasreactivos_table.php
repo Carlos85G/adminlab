@@ -23,13 +23,14 @@ class CreateReservasreactivosTable extends Migration
             ["fecha_hora", "Fecha y Hora", "Datetime", false, "", 0, 0, true],
             ["solicitante_id", "Solicitante", "Dropdown", false, "0", 0, 0, false, "@employees"],
             ["reserva_id", "Reservación", "Integer", false, "0", 0, 11, false],
+            ["lugar", "Lugar de Uso", "Address", false, "", 0, 256, false],
         ]);
-
+		
 		/*
 		Row Format:
 		["field_name_db", "Label", "UI Type", "Unique", "Default_Value", "min_length", "max_length", "Required", "Pop_values"]
         Module::generate("Module_Name", "Table_Name", "view_column_name" "Fields_Array");
-
+        
 		Module::generate("Books", 'books', 'name', [
             ["address",     "Address",      "Address",  false, "",          0,  1000,   true],
             ["restricted",  "Restricted",   "Checkbox", false, false,       0,  0,      false],

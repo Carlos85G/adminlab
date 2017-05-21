@@ -24,11 +24,11 @@ use App\Models\Reactivo;
 use App\Models\ReservasReactivo;
 use App\MovimientoReactivo;
 
-class ReservasReactivosController extends Controller
+class PrestamosReactivosController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'reactivo_id';
-	public $listing_cols = ['id', 'reactivo_id', 'cantidad', 'fecha_hora', 'solicitante_id'];
+	public $listing_cols = ['id', 'reactivo_id', 'cantidad', 'fecha_hora', 'solicitante_id', 'lugar'];
 
 	public function __construct() {
 		// Field Access of Listing Columns
@@ -52,7 +52,7 @@ class ReservasReactivosController extends Controller
 		$module = Module::get('ReservasReactivos');
 
 		if(Module::hasAccess($module->id)) {
-			return View('la.reservasreactivos.index', [
+			return View('la.prestamosreactivos.index', [
 				'show_actions' => $this->show_action,
 				'listing_cols' => $this->listing_cols,
 				'module' => $module
@@ -147,7 +147,7 @@ class ReservasReactivosController extends Controller
 
 			Ayudantes::flashMessages($error, 'creado');
 
-			return redirect()->route(config('laraadmin.adminRoute') . '.reservasreactivos.index');
+			return redirect()->route(config('laraadmin.adminRoute') . '.prestamosreactivos.index');
 
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
@@ -169,7 +169,7 @@ class ReservasReactivosController extends Controller
 				$module = Module::get('ReservasReactivos');
 				$module->row = $reservasreactivo;
 
-				return view('la.reservasreactivos.show', [
+				return view('la.prestamosreactivos.show', [
 					'module' => $module,
 					'view_col' => $this->view_col,
 					'no_header' => true,
@@ -178,7 +178,7 @@ class ReservasReactivosController extends Controller
 			} else {
 				return view('errors.404', [
 					'record_id' => $id,
-					'record_name' => ucfirst("reservasreactivo"),
+					'record_name' => ucfirst("prestamosreactivo"),
 				]);
 			}
 		} else {
@@ -201,14 +201,14 @@ class ReservasReactivosController extends Controller
 
 				$module->row = $reservasreactivo;
 
-				return view('la.reservasreactivos.edit', [
+				return view('la.prestamosreactivos.edit', [
 					'module' => $module,
 					'view_col' => $this->view_col,
 				])->with('reservasreactivo', $reservasreactivo);
 			} else {
 				return view('errors.404', [
 					'record_id' => $id,
-					'record_name' => ucfirst("reservasreactivo"),
+					'record_name' => ucfirst("prestamosreactivo"),
 				]);
 			}
 		} else {
@@ -297,7 +297,7 @@ class ReservasReactivosController extends Controller
 
 			$insert_id = Module::updateRow("ReservasReactivos", $request, $id);
 
-			return redirect()->route(config('laraadmin.adminRoute') . '.reservasreactivos.index');
+			return redirect()->route(config('laraadmin.adminRoute') . '.prestamosreactivos.index');
 
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
@@ -356,7 +356,7 @@ class ReservasReactivosController extends Controller
 
 			Ayudantes::flashMessages(null, 'eliminado');
 			// Redirecting to index() method
-			return redirect()->route(config('laraadmin.adminRoute') . '.reservasreactivos.index');
+			return redirect()->route(config('laraadmin.adminRoute') . '.prestamosreactivos.index');
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
 		}
@@ -369,8 +369,8 @@ class ReservasReactivosController extends Controller
 	 */
 	public function dtajax()
 	{
-		/*Como las reservaciones no tienen lugar, sólo mostrar las que tienen lugar como vacío*/
-		$values = DB::table('reservasreactivos')->select($this->listing_cols)->whereNull('deleted_at')->where('lugar', '');
+		/*Como los préstamos tienen lugar, sólo mostrar las que tienen lugar diferente a vacío*/
+		$values = DB::table('reservasreactivos')->select($this->listing_cols)->whereNull('deleted_at')->where('lugar', '!=', '');
 
 		/* Si no es administrador, sólo mostrar las del usuario */
 		if(!(Entrust::hasRole("SUPER_ADMIN") || Entrust::hasRole("LabAdmin"))){
@@ -389,7 +389,7 @@ class ReservasReactivosController extends Controller
 					$data->data[$i][$j] = ModuleFields::getFieldValue($fields_popup[$col], $data->data[$i][$j]);
 				}
 				if($col == $this->view_col) {
-					$data->data[$i][$j] = '<a href="'.url(config('laraadmin.adminRoute') . '/reservasreactivos/'.$data->data[$i][0]).'">'.$data->data[$i][$j].'</a>';
+					$data->data[$i][$j] = '<a href="'.url(config('laraadmin.adminRoute') . '/prestamosreactivos/'.$data->data[$i][0]).'">'.$data->data[$i][$j].'</a>';
 				}
 				// else if($col == "author") {
 				//    $data->data[$i][$j];
@@ -399,11 +399,11 @@ class ReservasReactivosController extends Controller
 			if($this->show_action) {
 				$output = '';
 				if(Module::hasAccess("ReservasReactivos", "edit")) {
-					$output .= '<a href="'.url(config('laraadmin.adminRoute') . '/reservasreactivos/'.$data->data[$i][0].'/edit').'" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>';
+					$output .= '<a href="'.url(config('laraadmin.adminRoute') . '/prestamosreactivos/'.$data->data[$i][0].'/edit').'" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>';
 				}
 
 				if(Module::hasAccess("ReservasReactivos", "delete")) {
-					$output .= Form::open(['route' => [config('laraadmin.adminRoute') . '.reservasreactivos.destroy', $data->data[$i][0]], 'method' => 'delete', 'style'=>'display:inline']);
+					$output .= Form::open(['route' => [config('laraadmin.adminRoute') . '.prestamosreactivos.destroy', $data->data[$i][0]], 'method' => 'delete', 'style'=>'display:inline']);
 					$output .= ' <button class="btn btn-danger btn-xs" type="submit"><i class="fa fa-times"></i></button>';
 					$output .= Form::close();
 				}
