@@ -119,4 +119,8 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	Route::resource(config('laraadmin.adminRoute') . '/prestamosreactivos', 'LA\PrestamosReactivosController');
 	Route::get(config('laraadmin.adminRoute') . '/prestamosreactivo_dt_ajax', 'LA\PrestamosReactivosController@dtajax');
 
+
+	/* ================== Noticias ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/noticias', 'LA\NoticiasController');
+	Route::get(config('laraadmin.adminRoute') . '/noticia_dt_ajax', 'LA\NoticiasController@dtajax');
 });

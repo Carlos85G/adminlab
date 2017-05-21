@@ -77,9 +77,7 @@
                 @if (Auth::guest())
                 <li class="active"><a href="#botonLogin" class="smoothScroll">Accede</a></li>
                 @endif
-                <?php
-                  // <li><a href="#about" class="smoothScroll">Avisos</a></li>
-                ?>
+                <li><a href="#boletin" class="smoothScroll">Bolet&iacute;n de Noticias</a></li>
                 <li><a href="#contact" class="smoothScroll">Cont&aacute;ctanos</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -132,20 +130,21 @@
 </div><!--/ #headerwrap -->
 
 
-<section id="about" name="about"></section>
+<section id="boletin" name="boletin"></section>
 <!-- INTRO WRAP -->
 <div id="intro">
     <div class="container">
       <div class="panel panel-default">
-<div class="panel-heading">Bolet&iacute;n de noticias</div>
-<div class="panel-body">
-  Informaci&oacute;n sobre llave:
-  <br />
-  Tel: 322-800-05-21
-</div>
-</div>
-        <br>
-        <hr>
+        <div class="panel-heading">Bolet&iacute;n de noticias</div>
+        {{--<div class="panel-body"></div>--}}
+        <ul class="list-group">
+          @foreach($noticias as $noticia)
+          <li class="list-group-item">{{ $noticia->contenido }}</li>
+          @endforeach()
+        </ul>
+      </div>
+      <br />
+      <hr />
     </div> <!--/ .container -->
 </div><!--/ #introwrap -->
 

@@ -39,7 +39,8 @@ class HomeController extends Controller
               /* Obtener los labotarorios en el sistema */
 
               $laboratorios = \App\Models\Laboratorio::all();
-      				return view('home')->with('laboratorios', $laboratorios);
+              $noticias = \App\Models\Noticia::orderBy('id', 'desc')->get();
+      				return view('home')->with('laboratorios', $laboratorios)->with('noticias', $noticias);
       			}
     		} else {
       			return view('errors.error', [
