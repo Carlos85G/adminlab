@@ -98,7 +98,7 @@
 				@endif
 				@if (Auth::guest())
 					<li><a href="{{ url('/login') }}">Iniciar sesi&oacute;n</a></li>
-					<li><a href="{{ url('/register') }}">Registrar</a></li>
+					<?php /* <li><a href="{{ url('/register') }}">Registrar</a></li> */ ?>
 				@else
 					<!-- User Account Menu -->
 					<li class="dropdown user user-menu">

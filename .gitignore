@@ -4,4 +4,5 @@
 Homestead.yaml
 Homestead.json
 DATOS DE AUTENTICACIÓN.txt
+/public/.htaccess
 .env

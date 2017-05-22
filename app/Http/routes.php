@@ -33,6 +33,13 @@ Route::get('/api/calendario/laboratorios/{laboratorioId}/eventos/', [
     'uses' => 'ApiController@getFullCalendarLaboratoryReservations'
 ]);
 
+/* Crea un nuevo mensaje para los administradores del sistema */
+Route::post('/mensaje/', [
+    'as' => 'nuevo_mensaje',
+    'uses' => 'HomeController@crearMensaje'
+]);
+
+
 /* ================== Homepage + Admin Routes ================== */
 
 require __DIR__.'/admin_routes.php';

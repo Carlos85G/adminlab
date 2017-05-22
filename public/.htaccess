@@ -4,6 +4,8 @@
     </IfModule>
 
     RewriteEngine On
+    #Quitar la siguiente línea para trabajar sobre un Alias de Apache
+    #RewriteBase /adminlab
 
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d

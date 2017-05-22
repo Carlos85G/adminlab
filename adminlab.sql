@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-05-2017 a las 15:39:59
+-- Tiempo de generación: 21-05-2017 a las 20:41:28
 -- Versión del servidor: 5.7.14
 -- Versión de PHP: 5.6.25
 
@@ -212,7 +212,7 @@ CREATE TABLE IF NOT EXISTS `la_menus` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=39 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=40 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `la_menus`
@@ -227,7 +227,7 @@ INSERT INTO `la_menus` (`id`, `name`, `url`, `icon`, `type`, `parent`, `hierarch
 (11, 'Laboratorios', 'laboratorios', 'fa fa-cube', 'module', 20, 2, '2017-03-07 09:31:27', '2017-04-21 10:59:34'),
 (12, 'Prácticas', 'practicas', 'fa fa-cube', 'module', 20, 1, '2017-03-07 09:41:34', '2017-04-21 10:59:30'),
 (13, 'Materiales', 'materiales', 'fa fa-cube', 'module', 20, 3, '2017-03-07 10:08:11', '2017-04-21 10:59:40'),
-(16, 'Reactivos', 'reactivos', 'fa fa-cube', 'module', 20, 4, '2017-03-07 11:36:24', '2017-04-21 10:59:43'),
+(16, 'Reactivos', 'reactivos', 'fa fa-cube', 'module', 20, 4, '2017-03-07 11:36:24', '2017-05-22 02:27:15'),
 (30, 'Prácticas', 'reservaspracticas', 'fa-cube', 'module', 29, 1, '2017-05-14 23:14:43', '2017-05-14 23:14:55'),
 (20, 'Configuración', '#', 'fa-cube', 'custom', 0, 3, '2017-04-21 10:59:12', '2017-05-22 00:18:13'),
 (21, 'Administración', '#', 'fa-cube', 'custom', 0, 4, '2017-04-21 11:00:00', '2017-05-22 00:18:13'),
@@ -239,7 +239,8 @@ INSERT INTO `la_menus` (`id`, `name`, `url`, `icon`, `type`, `parent`, `hierarch
 (34, 'Roles', 'roles', 'fa-user-plus', 'module', 21, 2, '2017-05-21 23:00:22', '2017-05-21 23:00:33'),
 (35, 'Materiales', 'prestamosmateriales', 'fa-cube', 'custom', 36, 1, '2017-05-21 23:33:23', '2017-05-21 23:33:53'),
 (36, 'Préstamos', '#', 'fa-cube', 'custom', 0, 2, '2017-05-21 23:33:46', '2017-05-21 23:33:51'),
-(38, 'Noticias', 'noticias', 'fa fa-cube', 'module', 20, 5, '2017-05-22 01:18:13', '2017-05-22 01:18:33');
+(38, 'Noticias', 'noticias', 'fa fa-cube', 'module', 20, 5, '2017-05-22 01:18:13', '2017-05-22 02:27:15'),
+(39, 'Mensajes', 'mensajes', 'fa fa-cube', 'module', 21, 3, '2017-05-22 02:26:45', '2017-05-22 02:27:15');
 
 -- --------------------------------------------------------
 
@@ -269,6 +270,24 @@ CREATE TABLE IF NOT EXISTS `materiales` (
 INSERT INTO `materiales` (`id`, `deleted_at`, `created_at`, `updated_at`, `descripcion`, `cantidad`, `marca`, `codigo`, `anaquel`, `estante`) VALUES
 (1, NULL, '2017-04-05 05:22:01', '2017-05-15 08:28:49', 'LABQUEST', 20, 'Vernier Software & Technologi', '9221425', 1, 4),
 (2, NULL, '2017-04-05 05:37:18', '2017-05-15 08:28:49', 'EKG Sensor', 20, 'Vernier Software & Technology', 'EKG-BTA', 1, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `mensajes`
+--
+
+DROP TABLE IF EXISTS `mensajes`;
+CREATE TABLE IF NOT EXISTS `mensajes` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `nombre` varchar(256) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `email` varchar(256) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `mensaje` text COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -338,7 +357,7 @@ CREATE TABLE IF NOT EXISTS `modules` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `modules`
@@ -362,7 +381,8 @@ INSERT INTO `modules` (`id`, `name`, `label`, `name_db`, `view_col`, `model`, `c
 (6, 'Organizations', 'Organizations', 'organizations', 'name', 'Organization', 'OrganizationsController', 'fa-university', 1, '2017-05-14 07:31:32', '2017-05-14 07:31:34'),
 (18, 'ReservasMateriales', 'ReservasMateriales', 'reservasmateriales', 'material_id', 'ReservasMateriale', 'ReservasMaterialesController', 'fa-cube', 1, '2017-05-15 04:37:19', '2017-05-15 09:46:22'),
 (19, 'ReservasReactivos', 'ReservasReactivos', 'reservasreactivos', 'reactivo_id', 'ReservasReactivo', 'ReservasReactivosController', 'fa-cube', 1, '2017-05-21 05:18:16', '2017-05-21 05:24:25'),
-(20, 'Noticias', 'Noticias', 'noticias', 'contenido', 'Noticia', 'NoticiasController', 'fa-cube', 1, '2017-05-22 01:17:12', '2017-05-22 01:18:13');
+(20, 'Noticias', 'Noticias', 'noticias', 'contenido', 'Noticia', 'NoticiasController', 'fa-cube', 1, '2017-05-22 01:17:12', '2017-05-22 01:18:13'),
+(21, 'Mensajes', 'Mensajes', 'mensajes', 'nombre', 'Mensaje', 'MensajesController', 'fa-cube', 1, '2017-05-22 02:23:30', '2017-05-22 02:26:45');
 
 -- --------------------------------------------------------
 
@@ -389,7 +409,7 @@ CREATE TABLE IF NOT EXISTS `module_fields` (
   PRIMARY KEY (`id`),
   KEY `module_fields_module_foreign` (`module`),
   KEY `module_fields_field_type_foreign` (`field_type`)
-) ENGINE=MyISAM AUTO_INCREMENT=121 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=124 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `module_fields`
@@ -496,7 +516,10 @@ INSERT INTO `module_fields` (`id`, `colname`, `label`, `module`, `field_type`, `
 (117, 'reserva_id', 'Reservación', 19, 13, 0, '0', 0, 11, 0, '', 0, '2017-05-21 05:22:35', '2017-05-21 05:22:35'),
 (118, 'lugar', 'Lugar de Uso', 18, 1, 0, '', 0, 256, 1, '', 0, '2017-05-21 23:22:20', '2017-05-22 00:24:52'),
 (119, 'lugar', 'Lugar de Uso', 19, 1, 0, '', 0, 256, 1, '', 0, '2017-05-22 00:16:46', '2017-05-22 00:25:23'),
-(120, 'contenido', 'Contenido', 20, 21, 0, '', 0, 0, 1, '', 0, '2017-05-22 01:17:51', '2017-05-22 01:17:51');
+(120, 'contenido', 'Contenido', 20, 21, 0, '', 0, 0, 1, '', 0, '2017-05-22 01:17:51', '2017-05-22 01:17:51'),
+(121, 'nombre', 'Nombre', 21, 19, 0, '', 0, 256, 1, '', 0, '2017-05-22 02:24:25', '2017-05-22 02:24:25'),
+(122, 'email', 'Correo Electrónico', 21, 8, 0, '', 0, 256, 1, '', 0, '2017-05-22 02:24:57', '2017-05-22 02:24:57'),
+(123, 'mensaje', 'Mensaje', 21, 21, 0, '', 0, 0, 1, '', 0, '2017-05-22 02:25:14', '2017-05-22 02:25:14');
 
 -- --------------------------------------------------------
 
@@ -927,7 +950,7 @@ CREATE TABLE IF NOT EXISTS `role_module` (
   PRIMARY KEY (`id`),
   KEY `role_module_role_id_foreign` (`role_id`),
   KEY `role_module_module_id_foreign` (`module_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=93 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=94 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `role_module`
@@ -1025,7 +1048,8 @@ INSERT INTO `role_module` (`id`, `role_id`, `module_id`, `acc_view`, `acc_create
 (89, 2, 20, 1, 1, 1, 1, '2017-05-22 01:19:11', '2017-05-22 01:19:11'),
 (90, 3, 20, 0, 0, 0, 0, '2017-05-22 01:19:11', '2017-05-22 01:19:11'),
 (91, 4, 20, 0, 0, 0, 0, '2017-05-22 01:19:11', '2017-05-22 01:19:11'),
-(92, 5, 20, 0, 0, 0, 0, '2017-05-22 01:19:11', '2017-05-22 01:19:11');
+(92, 5, 20, 0, 0, 0, 0, '2017-05-22 01:19:11', '2017-05-22 01:19:11'),
+(93, 1, 21, 1, 1, 1, 1, '2017-05-22 02:26:45', '2017-05-22 02:26:45');
 
 -- --------------------------------------------------------
 
@@ -1044,7 +1068,7 @@ CREATE TABLE IF NOT EXISTS `role_module_fields` (
   PRIMARY KEY (`id`),
   KEY `role_module_fields_role_id_foreign` (`role_id`),
   KEY `role_module_fields_field_id_foreign` (`field_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=488 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=491 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `role_module_fields`
@@ -1537,7 +1561,10 @@ INSERT INTO `role_module_fields` (`id`, `role_id`, `field_id`, `access`, `create
 (484, 2, 120, 'write', '2017-05-22 01:19:11', '2017-05-22 01:19:11'),
 (485, 3, 120, 'invisible', '2017-05-22 01:19:11', '2017-05-22 01:19:11'),
 (486, 4, 120, 'invisible', '2017-05-22 01:19:11', '2017-05-22 01:19:11'),
-(487, 5, 120, 'invisible', '2017-05-22 01:19:11', '2017-05-22 01:19:11');
+(487, 5, 120, 'invisible', '2017-05-22 01:19:11', '2017-05-22 01:19:11'),
+(488, 1, 121, 'write', '2017-05-22 02:24:26', '2017-05-22 02:24:26'),
+(489, 1, 122, 'write', '2017-05-22 02:24:58', '2017-05-22 02:24:58'),
+(490, 1, 123, 'write', '2017-05-22 02:25:14', '2017-05-22 02:25:14');
 
 -- --------------------------------------------------------
 
@@ -1626,7 +1653,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `context_id`, `email`, `password`, `type`, `remember_token`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 'Carlos González', 1, 'administrador@adminlab.com', '$2y$10$.EpR/BnPbdzHLIE8Bb1ok.GSvCVr4N/9R8lzQFSYjknlZJ4CFUgOq', 'Administrador Raíz', 'Wo4OGxVRpvN0aBGaVJPRkOisSL9llCrGqmIhoRJdnmSpSEyTAe5H2LwzGEZ6', NULL, '2017-03-07 04:23:44', '2017-05-22 01:38:24'),
+(1, 'Carlos González', 1, 'administrador@adminlab.com', '$2y$10$.EpR/BnPbdzHLIE8Bb1ok.GSvCVr4N/9R8lzQFSYjknlZJ4CFUgOq', 'Administrador Raíz', 'S67UPEIbyPKE5teHe3sMqUxRARdFiG4tNGp3VhFCqsU3UuOaIJ017aNjQ05b', NULL, '2017-03-07 04:23:44', '2017-05-22 05:44:43'),
 (2, 'Rogelio Jiménez Meza', 2, 'rjmultimedia@gmail.com', '$2y$10$xx.ZlqZt21OjLrtBmPQlZOOony131OORDkCNR7.lu9sCTa7JWTfD6', 'Employee', 'QYm8i8vpsuQiYzbFEqJdLVEajLIUIGqwDaVlc1f12hYxRO047TkgGqW88hUx', NULL, '2017-05-14 03:18:16', '2017-05-14 04:16:18'),
 (3, 'Administrador de laboratorio', 3, 'labadmin@adminlab.com', '$2y$10$OKPm.KwtHXGaTkiqv0xRv.T8/yZYsh/TDTcUMKa5DzD6rkPOpNaSy', 'Employee', 'XXIrWWzjuRbihbtJisMC31aChTKG5RJrH589x95rRsQ8WxULDdv8xa6BegEy', NULL, '2017-05-14 04:20:01', '2017-05-14 22:34:14'),
 (4, 'Profesor de Asignatura', 4, 'asignatura@adminlab.com', '$2y$10$jYkMl/X7XhE.dVoSjPxvu.US6OxkrkQ3/AjNyPFICP.tk88WNvQdK', 'Employee', 'PKaHFAKrDgU7r4MLLlQHLJVXgGKoE8my6oI3PtUxf6iO4ZpLmS1s5uMQsjDW', NULL, '2017-05-14 04:21:18', '2017-05-15 10:55:08'),

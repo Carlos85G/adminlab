@@ -202,9 +202,9 @@
                 <br />
                 Centro Universitario de los Valles
             </p>
-			<div class="contact-link"><i class="fa fa-envelope-o"></i> <a href="mailto:rogelio.jimenez@alumno.udg.mx">rogelio.jimenez@alumno.udg.mx</a></div>
       <?php
 			/*
+      <div class="contact-link"><i class="fa fa-envelope-o"></i> <a href="mailto:rogelio.jimenez@alumno.udg.mx">rogelio.jimenez@alumno.udg.mx</a></div>
       <div class="contact-link"><i class="fa fa-cube"></i> <a href="http://laraadmin.com">laraadmin.com</a></div>
 			<div class="contact-link"><i class="fa fa-building"></i> <a href="http://dwijitsolutions.com">dwijitsolutions.com</a></div>
       */
@@ -214,21 +214,30 @@
         <div class="col-lg-7">
             <h3>&iquest;Te gust&oacute; o tienes problemas con este sistema? D&eacute;janos un mensaje</h3>
             <br>
-            <form role="form" action="#" method="post" enctype="plain">
+            <form role="form" action="{{ route('nuevo_mensaje') }}" method="post" enctype="plain">
+              @if ( $errors->count() > 0 )
+                <p>Los siguientes errores han ocurrido:</p>
+                <ul>
+                  @foreach( $errors->all() as $message )
+                    <li>{{ $message }}</li>
+                  @endforeach
+                </ul>
+              @endif
                 <div class="form-group">
                     <label for="name1">Nombre</label>
-                    <input type="name" name="Name" class="form-control" id="name1" placeholder="Tu nombre">
+                    <input type="name" name="nombre" class="form-control" id="name1" placeholder="Tu nombre" value="{{ old('nombre') }}">
                 </div>
                 <div class="form-group">
                     <label for="email1">Correo Electr&oacute;nico</label>
-                    <input type="email" name="Mail" class="form-control" id="email1" placeholder="Escribe tu correo electr&oacute;nico">
+                    <input type="email" name="email" class="form-control" id="email1" placeholder="Escribe tu correo electr&oacute;nico" value="{{ old('email') }}">
                 </div>
                 <div class="form-group">
                     <label>Mensaje</label>
-                    <textarea class="form-control" name="Message" rows="3"></textarea>
+                    <textarea class="form-control" name="mensaje" rows="3"> {{ old('mensaje') }}</textarea>
                 </div>
                 <br>
                 <button type="submit" class="btn btn-large btn-success">Enviar</button>
+                {{ csrf_field() }}
             </form>
         </div>
     </div>

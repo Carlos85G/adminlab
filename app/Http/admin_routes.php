@@ -123,4 +123,8 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== Noticias ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/noticias', 'LA\NoticiasController');
 	Route::get(config('laraadmin.adminRoute') . '/noticia_dt_ajax', 'LA\NoticiasController@dtajax');
+
+	/* ================== Mensajes ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/mensajes', 'LA\MensajesController');
+	Route::get(config('laraadmin.adminRoute') . '/mensaje_dt_ajax', 'LA\MensajesController@dtajax');
 });
