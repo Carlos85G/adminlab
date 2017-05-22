@@ -70,6 +70,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
+            <img src="{{ asset('img/logo_udg-gris.png') }}" alt="Universidad de Guadalajara" class="navbar-brand" />
             <a class="navbar-brand" href="#"><b>{{ LAConfigs::getByKey('sitename') }}</b></a>
         </div>
         <div class="navbar-collapse collapse">

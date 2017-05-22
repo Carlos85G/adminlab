@@ -7,7 +7,9 @@
 		<!-- mini logo for sidebar mini 50x50 pixels -->
 		<span class="logo-mini"><b>{{ LAConfigs::getByKey('sitename_short') }}</b></span>
 		<!-- logo for regular state and mobile devices -->
-		<span class="logo-lg"><b>{{ LAConfigs::getByKey('sitename_part1') }}</b>
+		<span class="logo-lg">
+			<img src="{{ asset('img/logo_udg-blanco.png') }}" alt="Universidad de Guadalajara" />
+			<b>{{ LAConfigs::getByKey('sitename_part1') }}</b>
 		 {{ LAConfigs::getByKey('sitename_part2') }}</span>
 	</a>
 	@endif
@@ -17,6 +19,7 @@
 	@if(LAConfigs::getByKey('layout') == 'layout-top-nav')
 		<div class="container">
 			<div class="navbar-header">
+				<img src="{{ asset('img/logo_udg-gris.png') }}" alt="Universidad de Guadalajara" class="navbar-brand" />
 				<a href="{{ url(config('laraadmin.adminRoute')) }}" class="navbar-brand"><b>{{ LAConfigs::getByKey('sitename_part1') }}</b>{{ LAConfigs::getByKey('sitename_part2') }}</a>
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
 					<i class="fa fa-bars"></i>
