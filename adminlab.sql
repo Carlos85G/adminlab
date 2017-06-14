@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.4
--- https://www.phpmyadmin.net/
+-- version 4.5.4.1deb2ubuntu2
+-- http://www.phpmyadmin.net
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 21-05-2017 a las 20:41:28
--- Versión del servidor: 5.7.14
--- Versión de PHP: 5.6.25
+-- Host: localhost
+-- Generation Time: Jun 14, 2017 at 11:11 AM
+-- Server version: 5.7.17-0ubuntu0.16.04.1
+-- PHP Version: 7.0.8-0ubuntu0.16.04.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,15 +17,15 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `adminlab`
+-- Database: `adminlab`
 --
-CREATE DATABASE IF NOT EXISTS `adminlab` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE IF NOT EXISTS `adminlab` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `adminlab`;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `backups`
+-- Table structure for table `backups`
 --
 
 DROP TABLE IF EXISTS `backups`;
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `backups` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `departments`
+-- Table structure for table `departments`
 --
 
 DROP TABLE IF EXISTS `departments`;
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `departments` (
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Volcado de datos para la tabla `departments`
+-- Dumping data for table `departments`
 --
 
 INSERT INTO `departments` (`id`, `name`, `tags`, `color`, `deleted_at`, `created_at`, `updated_at`) VALUES
@@ -71,7 +71,7 @@ INSERT INTO `departments` (`id`, `name`, `tags`, `color`, `deleted_at`, `created
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `employees`
+-- Table structure for table `employees`
 --
 
 DROP TABLE IF EXISTS `employees`;
@@ -100,21 +100,17 @@ CREATE TABLE IF NOT EXISTS `employees` (
 ) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Volcado de datos para la tabla `employees`
+-- Dumping data for table `employees`
 --
 
 INSERT INTO `employees` (`id`, `name`, `designation`, `gender`, `mobile`, `mobile2`, `email`, `dept`, `city`, `address`, `about`, `date_birth`, `date_hire`, `date_left`, `salary_cur`, `deleted_at`, `created_at`, `updated_at`) VALUES
 (1, 'Carlos González', 'Administrador Raíz', 'Masculino', '3221119200', '', 'administrador@adminlab.com', 1, 'Puerto Vallarta, Jalisco', 'Gaviota C-1, Col. Gastronómicos', '', '1985-06-30', '2017-03-06', '1970-01-01', '10000.000', NULL, '2017-03-07 04:23:44', '2017-05-14 04:18:59'),
-(2, 'Rogelio Jiménez Meza', 'Administrador Adjunto', 'Masculino', '3222921895', '', 'rjmultimedia@gmail.com', 1, 'Puerto Vallarta, Jalisco', 'Arboledas', '', '1990-01-01', '1970-01-01', '1990-01-01', '0.000', NULL, '2017-05-14 03:18:16', '2017-05-14 03:18:16'),
-(3, 'Administrador de laboratorio', 'Administrador de laboratorio', 'Femenino', '88888888888', '', 'labadmin@adminlab.com', 1, '', '', '', '1990-01-01', '1970-01-01', '1990-01-01', '0.000', NULL, '2017-05-14 04:20:01', '2017-05-14 04:20:21'),
-(4, 'Profesor de Asignatura', 'Profesor de Asignatura', 'Femenino', '88888888888', '', 'asignatura@adminlab.com', 1, '', '', '', '1990-01-01', '1970-01-01', '1990-01-01', '0.000', NULL, '2017-05-14 04:21:18', '2017-05-14 04:21:18'),
-(5, 'Profesor de Tiempo Completo', 'Profesor de Tiempo Completo', 'Masculino', '88888888888', '', 'tiempocompleto@adminlab.com', 1, '', '', '', '1990-01-01', '1970-01-01', '1990-01-01', '0.000', NULL, '2017-05-14 04:22:02', '2017-05-14 04:22:02'),
-(6, 'Profesor Investigador', 'Profesor Investigador', 'Femenino', '88888888888', '', 'investigador@adminlab.com', 1, '', '', '', '1990-01-01', '1970-01-01', '1990-01-01', '0.000', NULL, '2017-05-14 04:22:34', '2017-05-14 04:22:34');
+(2, 'Rogelio Jiménez Meza', 'Administrador Adjunto', 'Masculino', '3222921895', '', 'rjmultimedia@gmail.com', 1, 'Puerto Vallarta, Jalisco', 'Arboledas', '', '1990-01-01', '1970-01-01', '1990-01-01', '0.000', NULL, '2017-05-14 03:18:16', '2017-05-14 03:18:16');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `equipos`
+-- Table structure for table `equipos`
 --
 
 DROP TABLE IF EXISTS `equipos`;
@@ -135,7 +131,7 @@ CREATE TABLE IF NOT EXISTS `equipos` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `laboratorios`
+-- Table structure for table `laboratorios`
 --
 
 DROP TABLE IF EXISTS `laboratorios`;
@@ -149,10 +145,10 @@ CREATE TABLE IF NOT EXISTS `laboratorios` (
   `color_frente` varchar(7) COLLATE utf8_unicode_ci NOT NULL,
   `color_fondo` varchar(7) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Volcado de datos para la tabla `laboratorios`
+-- Dumping data for table `laboratorios`
 --
 
 INSERT INTO `laboratorios` (`id`, `deleted_at`, `created_at`, `updated_at`, `nombre`, `gcalendar_cal_id`, `color_frente`, `color_fondo`) VALUES
@@ -161,7 +157,7 @@ INSERT INTO `laboratorios` (`id`, `deleted_at`, `created_at`, `updated_at`, `nom
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `la_configs`
+-- Table structure for table `la_configs`
 --
 
 DROP TABLE IF EXISTS `la_configs`;
@@ -176,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `la_configs` (
 ) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Volcado de datos para la tabla `la_configs`
+-- Dumping data for table `la_configs`
 --
 
 INSERT INTO `la_configs` (`id`, `key`, `section`, `value`, `created_at`, `updated_at`) VALUES
@@ -197,7 +193,7 @@ INSERT INTO `la_configs` (`id`, `key`, `section`, `value`, `created_at`, `update
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `la_menus`
+-- Table structure for table `la_menus`
 --
 
 DROP TABLE IF EXISTS `la_menus`;
@@ -215,7 +211,7 @@ CREATE TABLE IF NOT EXISTS `la_menus` (
 ) ENGINE=MyISAM AUTO_INCREMENT=40 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Volcado de datos para la tabla `la_menus`
+-- Dumping data for table `la_menus`
 --
 
 INSERT INTO `la_menus` (`id`, `name`, `url`, `icon`, `type`, `parent`, `hierarchy`, `created_at`, `updated_at`) VALUES
@@ -245,7 +241,7 @@ INSERT INTO `la_menus` (`id`, `name`, `url`, `icon`, `type`, `parent`, `hierarch
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `materiales`
+-- Table structure for table `materiales`
 --
 
 DROP TABLE IF EXISTS `materiales`;
@@ -261,20 +257,12 @@ CREATE TABLE IF NOT EXISTS `materiales` (
   `anaquel` int(10) UNSIGNED NOT NULL DEFAULT '0',
   `estante` int(10) UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Volcado de datos para la tabla `materiales`
---
-
-INSERT INTO `materiales` (`id`, `deleted_at`, `created_at`, `updated_at`, `descripcion`, `cantidad`, `marca`, `codigo`, `anaquel`, `estante`) VALUES
-(1, NULL, '2017-04-05 05:22:01', '2017-05-15 08:28:49', 'LABQUEST', 20, 'Vernier Software & Technologi', '9221425', 1, 4),
-(2, NULL, '2017-04-05 05:37:18', '2017-05-15 08:28:49', 'EKG Sensor', 20, 'Vernier Software & Technology', 'EKG-BTA', 1, 3);
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `mensajes`
+-- Table structure for table `mensajes`
 --
 
 DROP TABLE IF EXISTS `mensajes`;
@@ -292,7 +280,7 @@ CREATE TABLE IF NOT EXISTS `mensajes` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `migrations`
+-- Table structure for table `migrations`
 --
 
 DROP TABLE IF EXISTS `migrations`;
@@ -302,7 +290,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Volcado de datos para la tabla `migrations`
+-- Dumping data for table `migrations`
 --
 
 INSERT INTO `migrations` (`migration`, `batch`) VALUES
@@ -340,7 +328,7 @@ INSERT INTO `migrations` (`migration`, `batch`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `modules`
+-- Table structure for table `modules`
 --
 
 DROP TABLE IF EXISTS `modules`;
@@ -360,7 +348,7 @@ CREATE TABLE IF NOT EXISTS `modules` (
 ) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Volcado de datos para la tabla `modules`
+-- Dumping data for table `modules`
 --
 
 INSERT INTO `modules` (`id`, `name`, `label`, `name_db`, `view_col`, `model`, `controller`, `fa_icon`, `is_gen`, `created_at`, `updated_at`) VALUES
@@ -387,7 +375,7 @@ INSERT INTO `modules` (`id`, `name`, `label`, `name_db`, `view_col`, `model`, `c
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `module_fields`
+-- Table structure for table `module_fields`
 --
 
 DROP TABLE IF EXISTS `module_fields`;
@@ -412,7 +400,7 @@ CREATE TABLE IF NOT EXISTS `module_fields` (
 ) ENGINE=MyISAM AUTO_INCREMENT=124 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Volcado de datos para la tabla `module_fields`
+-- Dumping data for table `module_fields`
 --
 
 INSERT INTO `module_fields` (`id`, `colname`, `label`, `module`, `field_type`, `unique`, `defaultvalue`, `minlength`, `maxlength`, `required`, `popup_vals`, `sort`, `created_at`, `updated_at`) VALUES
@@ -524,7 +512,7 @@ INSERT INTO `module_fields` (`id`, `colname`, `label`, `module`, `field_type`, `
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `module_field_types`
+-- Table structure for table `module_field_types`
 --
 
 DROP TABLE IF EXISTS `module_field_types`;
@@ -537,7 +525,7 @@ CREATE TABLE IF NOT EXISTS `module_field_types` (
 ) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Volcado de datos para la tabla `module_field_types`
+-- Dumping data for table `module_field_types`
 --
 
 INSERT INTO `module_field_types` (`id`, `name`, `created_at`, `updated_at`) VALUES
@@ -569,7 +557,7 @@ INSERT INTO `module_field_types` (`id`, `name`, `created_at`, `updated_at`) VALU
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `movimientosreactivos`
+-- Table structure for table `movimientosreactivos`
 --
 
 DROP TABLE IF EXISTS `movimientosreactivos`;
@@ -588,7 +576,7 @@ CREATE TABLE IF NOT EXISTS `movimientosreactivos` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `noticias`
+-- Table structure for table `noticias`
 --
 
 DROP TABLE IF EXISTS `noticias`;
@@ -599,20 +587,19 @@ CREATE TABLE IF NOT EXISTS `noticias` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `contenido` text COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Volcado de datos para la tabla `noticias`
+-- Dumping data for table `noticias`
 --
 
 INSERT INTO `noticias` (`id`, `deleted_at`, `created_at`, `updated_at`, `contenido`) VALUES
-(1, NULL, '2017-05-22 01:20:45', '2017-05-22 01:20:45', 'Información sobre la llave: 375-XXX-XXXX'),
-(2, NULL, '2017-05-22 01:27:52', '2017-05-22 01:27:52', 'Noticia más reciente...');
+(1, NULL, '2017-05-22 01:20:45', '2017-05-22 01:20:45', 'Información sobre la llave: 375-XXX-XXXX');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `organizations`
+-- Table structure for table `organizations`
 --
 
 DROP TABLE IF EXISTS `organizations`;
@@ -641,7 +628,7 @@ CREATE TABLE IF NOT EXISTS `organizations` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `password_resets`
+-- Table structure for table `password_resets`
 --
 
 DROP TABLE IF EXISTS `password_resets`;
@@ -656,7 +643,7 @@ CREATE TABLE IF NOT EXISTS `password_resets` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `permissions`
+-- Table structure for table `permissions`
 --
 
 DROP TABLE IF EXISTS `permissions`;
@@ -673,7 +660,7 @@ CREATE TABLE IF NOT EXISTS `permissions` (
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Volcado de datos para la tabla `permissions`
+-- Dumping data for table `permissions`
 --
 
 INSERT INTO `permissions` (`id`, `name`, `display_name`, `description`, `deleted_at`, `created_at`, `updated_at`) VALUES
@@ -682,7 +669,7 @@ INSERT INTO `permissions` (`id`, `name`, `display_name`, `description`, `deleted
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `permission_role`
+-- Table structure for table `permission_role`
 --
 
 DROP TABLE IF EXISTS `permission_role`;
@@ -694,7 +681,7 @@ CREATE TABLE IF NOT EXISTS `permission_role` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Volcado de datos para la tabla `permission_role`
+-- Dumping data for table `permission_role`
 --
 
 INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES
@@ -707,7 +694,7 @@ INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `practicas`
+-- Table structure for table `practicas`
 --
 
 DROP TABLE IF EXISTS `practicas`;
@@ -721,19 +708,12 @@ CREATE TABLE IF NOT EXISTS `practicas` (
   `practica_pdf` int(11) NOT NULL DEFAULT '0',
   `duracion` int(10) UNSIGNED NOT NULL DEFAULT '3600',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Volcado de datos para la tabla `practicas`
---
-
-INSERT INTO `practicas` (`id`, `deleted_at`, `created_at`, `updated_at`, `nombre`, `objetivo`, `practica_pdf`, `duracion`) VALUES
-(3, NULL, '2017-04-05 05:31:02', '2017-05-05 07:47:59', 'Práctica 1. Conocimiento del equipo de interfaz independiente Labquest ', 'Conocerá las partes que conforman el equipo de Labquest marca vernier así como las mediciones que se pueden llevar a cabo con sensores que a él se le pueden integrar. ', 1, 3600);
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `practicasmateriales`
+-- Table structure for table `practicasmateriales`
 --
 
 DROP TABLE IF EXISTS `practicasmateriales`;
@@ -747,20 +727,12 @@ CREATE TABLE IF NOT EXISTS `practicasmateriales` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `practicasmateriales`
---
-
-INSERT INTO `practicasmateriales` (`id`, `practica_id`, `material_id`, `cantidad`, `por_grupo`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 3, 1, 1, 0, NULL, '2017-05-21 09:34:28', '2017-05-21 09:34:28'),
-(2, 3, 2, 1, 0, NULL, '2017-05-21 09:34:28', '2017-05-21 09:34:28');
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `practicasreactivos`
+-- Table structure for table `practicasreactivos`
 --
 
 DROP TABLE IF EXISTS `practicasreactivos`;
@@ -774,19 +746,12 @@ CREATE TABLE IF NOT EXISTS `practicasreactivos` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Volcado de datos para la tabla `practicasreactivos`
---
-
-INSERT INTO `practicasreactivos` (`id`, `practica_id`, `reactivo_id`, `cantidad`, `por_grupo`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 3, 2, '2.00', 0, NULL, '2017-05-21 09:34:28', '2017-05-21 09:34:28');
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `prestamos`
+-- Table structure for table `prestamos`
 --
 
 DROP TABLE IF EXISTS `prestamos`;
@@ -803,7 +768,7 @@ CREATE TABLE IF NOT EXISTS `prestamos` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `reactivos`
+-- Table structure for table `reactivos`
 --
 
 DROP TABLE IF EXISTS `reactivos`;
@@ -816,20 +781,29 @@ CREATE TABLE IF NOT EXISTS `reactivos` (
   `cantidad` int(10) UNSIGNED NOT NULL DEFAULT '0',
   `unidad` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Volcado de datos para la tabla `reactivos`
---
-
-INSERT INTO `reactivos` (`id`, `deleted_at`, `created_at`, `updated_at`, `nombre`, `cantidad`, `unidad`) VALUES
-(1, '2017-05-21 09:31:51', '2017-04-05 05:28:08', '2017-05-21 09:31:51', 'test', 20, 'kg'),
-(2, NULL, '2017-05-05 09:35:43', '2017-05-22 00:20:33', 'Ácido Sulfúrico', 20, 'l');
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `reservas`
+-- Table structure for table `reservaciones`
+--
+
+DROP TABLE IF EXISTS `reservaciones`;
+CREATE TABLE IF NOT EXISTS `reservaciones` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `fecha_inicio` timestamp NOT NULL DEFAULT '1970-01-01 07:01:01',
+  `fecha_fin` timestamp NOT NULL DEFAULT '1970-01-01 07:01:01',
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reservas`
 --
 
 DROP TABLE IF EXISTS `reservas`;
@@ -853,7 +827,7 @@ CREATE TABLE IF NOT EXISTS `reservas` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `reservasmateriales`
+-- Table structure for table `reservasmateriales`
 --
 
 DROP TABLE IF EXISTS `reservasmateriales`;
@@ -875,7 +849,29 @@ CREATE TABLE IF NOT EXISTS `reservasmateriales` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `reservasreactivos`
+-- Table structure for table `reservaspracticas`
+--
+
+DROP TABLE IF EXISTS `reservaspracticas`;
+CREATE TABLE IF NOT EXISTS `reservaspracticas` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `practica` int(10) UNSIGNED NOT NULL,
+  `fecha_hora` timestamp NOT NULL DEFAULT '1970-01-01 07:01:01',
+  `solicitante` int(10) UNSIGNED NOT NULL DEFAULT '1',
+  `laboratorio` int(10) UNSIGNED NOT NULL,
+  `gcalendar_event_id` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
+  `participantes` int(10) UNSIGNED NOT NULL DEFAULT '10',
+  PRIMARY KEY (`id`),
+  KEY `reservaspracticas_solicitante_foreign` (`solicitante`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reservasreactivos`
 --
 
 DROP TABLE IF EXISTS `reservasreactivos`;
@@ -897,7 +893,7 @@ CREATE TABLE IF NOT EXISTS `reservasreactivos` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `roles`
+-- Table structure for table `roles`
 --
 
 DROP TABLE IF EXISTS `roles`;
@@ -920,7 +916,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Volcado de datos para la tabla `roles`
+-- Dumping data for table `roles`
 --
 
 INSERT INTO `roles` (`id`, `name`, `display_name`, `description`, `parent`, `dept`, `deleted_at`, `created_at`, `updated_at`, `dias_max_laboratorio`, `dias_max_material`) VALUES
@@ -933,7 +929,7 @@ INSERT INTO `roles` (`id`, `name`, `display_name`, `description`, `parent`, `dep
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `role_module`
+-- Table structure for table `role_module`
 --
 
 DROP TABLE IF EXISTS `role_module`;
@@ -953,7 +949,7 @@ CREATE TABLE IF NOT EXISTS `role_module` (
 ) ENGINE=MyISAM AUTO_INCREMENT=94 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Volcado de datos para la tabla `role_module`
+-- Dumping data for table `role_module`
 --
 
 INSERT INTO `role_module` (`id`, `role_id`, `module_id`, `acc_view`, `acc_create`, `acc_edit`, `acc_delete`, `created_at`, `updated_at`) VALUES
@@ -1054,7 +1050,7 @@ INSERT INTO `role_module` (`id`, `role_id`, `module_id`, `acc_view`, `acc_create
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `role_module_fields`
+-- Table structure for table `role_module_fields`
 --
 
 DROP TABLE IF EXISTS `role_module_fields`;
@@ -1071,7 +1067,7 @@ CREATE TABLE IF NOT EXISTS `role_module_fields` (
 ) ENGINE=MyISAM AUTO_INCREMENT=491 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Volcado de datos para la tabla `role_module_fields`
+-- Dumping data for table `role_module_fields`
 --
 
 INSERT INTO `role_module_fields` (`id`, `role_id`, `field_id`, `access`, `created_at`, `updated_at`) VALUES
@@ -1569,7 +1565,7 @@ INSERT INTO `role_module_fields` (`id`, `role_id`, `field_id`, `access`, `create
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `role_user`
+-- Table structure for table `role_user`
 --
 
 DROP TABLE IF EXISTS `role_user`;
@@ -1585,21 +1581,17 @@ CREATE TABLE IF NOT EXISTS `role_user` (
 ) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Volcado de datos para la tabla `role_user`
+-- Dumping data for table `role_user`
 --
 
 INSERT INTO `role_user` (`id`, `role_id`, `user_id`, `created_at`, `updated_at`) VALUES
 (10, 1, 1, NULL, NULL),
-(8, 1, 2, NULL, NULL),
-(12, 2, 3, NULL, NULL),
-(13, 3, 4, NULL, NULL),
-(14, 4, 5, NULL, NULL),
-(15, 5, 6, NULL, NULL);
+(8, 1, 2, NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `uploads`
+-- Table structure for table `uploads`
 --
 
 DROP TABLE IF EXISTS `uploads`;
@@ -1617,19 +1609,12 @@ CREATE TABLE IF NOT EXISTS `uploads` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `uploads_user_id_foreign` (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Volcado de datos para la tabla `uploads`
---
-
-INSERT INTO `uploads` (`id`, `name`, `path`, `extension`, `caption`, `user_id`, `hash`, `public`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 'INTRODUCCIÓN de prácticas.pdf', 'C:\\wamp640\\www\\Lab\\new\\adminlab\\storage\\uploads\\2017-04-05-001544-INTRODUCCIÓN de prácticas.pdf', 'pdf', '', 1, '9zlvcvrc408aqhwizir7', 0, NULL, '2017-04-05 05:15:44', '2017-04-05 05:15:44');
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `users`
+-- Table structure for table `users`
 --
 
 DROP TABLE IF EXISTS `users`;
@@ -1649,16 +1634,12 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Volcado de datos para la tabla `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `context_id`, `email`, `password`, `type`, `remember_token`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 'Carlos González', 1, 'administrador@adminlab.com', '$2y$10$.EpR/BnPbdzHLIE8Bb1ok.GSvCVr4N/9R8lzQFSYjknlZJ4CFUgOq', 'Administrador Raíz', 'S67UPEIbyPKE5teHe3sMqUxRARdFiG4tNGp3VhFCqsU3UuOaIJ017aNjQ05b', NULL, '2017-03-07 04:23:44', '2017-05-22 05:44:43'),
-(2, 'Rogelio Jiménez Meza', 2, 'rjmultimedia@gmail.com', '$2y$10$xx.ZlqZt21OjLrtBmPQlZOOony131OORDkCNR7.lu9sCTa7JWTfD6', 'Employee', 'QYm8i8vpsuQiYzbFEqJdLVEajLIUIGqwDaVlc1f12hYxRO047TkgGqW88hUx', NULL, '2017-05-14 03:18:16', '2017-05-14 04:16:18'),
-(3, 'Administrador de laboratorio', 3, 'labadmin@adminlab.com', '$2y$10$OKPm.KwtHXGaTkiqv0xRv.T8/yZYsh/TDTcUMKa5DzD6rkPOpNaSy', 'Employee', 'XXIrWWzjuRbihbtJisMC31aChTKG5RJrH589x95rRsQ8WxULDdv8xa6BegEy', NULL, '2017-05-14 04:20:01', '2017-05-14 22:34:14'),
-(4, 'Profesor de Asignatura', 4, 'asignatura@adminlab.com', '$2y$10$jYkMl/X7XhE.dVoSjPxvu.US6OxkrkQ3/AjNyPFICP.tk88WNvQdK', 'Employee', 'PKaHFAKrDgU7r4MLLlQHLJVXgGKoE8my6oI3PtUxf6iO4ZpLmS1s5uMQsjDW', NULL, '2017-05-14 04:21:18', '2017-05-15 10:55:08'),
-(5, 'Profesor de Tiempo Completo', 5, 'tiempocompleto@adminlab.com', '$2y$10$9osXh3F87nGUbDiE6qvRzOw055BgQHkgZB2OFsob.CZVYKJNmtQpm', 'Employee', NULL, NULL, '2017-05-14 04:22:02', '2017-05-14 04:23:39'),
-(6, 'Profesor Investigador', 6, 'investigador@adminlab.com', '$2y$10$YhVTHIYnP/.kG1/zpt0C2.o3h.cLVQRKoMnpyEwbUZdx31MTPBR82', 'Employee', 'Bfiu5twiJB85yFTutav0l3iuSF1FZlD70XjZ7ET1AqcInWUR8aILZS1iKVvk', NULL, '2017-05-14 04:22:34', '2017-05-14 06:31:34');
+(1, 'Carlos González', 1, 'administrador@adminlab.com', '$2y$10$gLp1k0zlz9KgKz7Vo4wVK.3iB8hMD8XpiAocWgCx0MRVIi1gB0n0S', 'Employee', 'Bk0WLI4HPBNPl9GH8HZPkIL9t72DkcGfwlDlgR6mtJ5FSWCkGkPrvN7w5xDZ', NULL, '2017-03-07 04:23:44', '2017-06-14 20:59:54'),
+(2, 'Rogelio Jiménez Meza', 2, 'rjmultimedia@gmail.com', '$2y$10$xx.ZlqZt21OjLrtBmPQlZOOony131OORDkCNR7.lu9sCTa7JWTfD6', 'Employee', 'QYm8i8vpsuQiYzbFEqJdLVEajLIUIGqwDaVlc1f12hYxRO047TkgGqW88hUx', NULL, '2017-05-14 03:18:16', '2017-05-14 04:16:18');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

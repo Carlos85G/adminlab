@@ -1,8 +1,9 @@
-/vendor
+﻿/vendor
 /node_modules
 /public/storage
 Homestead.yaml
 Homestead.json
 DATOS DE AUTENTICACIÓN.txt
+PRUEBAS - adminlab.sql
 /public/.htaccess
 .env
